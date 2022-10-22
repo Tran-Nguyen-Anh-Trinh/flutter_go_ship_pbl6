@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
+import 'package:flutter_go_ship_pbl6/base/domain/base_state.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:get/route_manager.dart';
 
@@ -204,6 +204,50 @@ Widget commonTextField(
             );
           },
         ),
+      ),
+    ),
+  );
+}
+
+@swidget
+Widget commonButton({
+  required Widget child,
+  double? width,
+  double height = 44,
+  Function()? onPressed,
+  Color fillColor = ColorName.green4c8,
+  Color? borderColor,
+  double borderWidth = 1,
+  BorderRadiusGeometry? borderRadius,
+  BaseState? state,
+  Color indicatorColor = Colors.white,
+}) {
+  return SizedBox(
+    width: width,
+    height: height,
+    child: CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: onPressed,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: ShapeDecoration(
+          color: fillColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: borderRadius ?? BorderRadius.circular(8),
+            side: BorderSide(
+              width: borderWidth,
+              color: borderColor ?? fillColor,
+            ),
+          ),
+        ),
+        child: state != null
+            ? state.widget(
+                onLoading: Center(
+                  child: CupertinoActivityIndicator(color: indicatorColor),
+                ),
+                onEmpty: child,
+              )
+            : child,
       ),
     ),
   );
