@@ -119,7 +119,6 @@ app.*.map.json
 *.g.dart
 *.reflectable.dart
 *.gen.dart
-lib/app/utils/gen/localized
 
 # Coverage
 coverage/
