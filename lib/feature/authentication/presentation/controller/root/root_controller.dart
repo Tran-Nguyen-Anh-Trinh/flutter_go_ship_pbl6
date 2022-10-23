@@ -9,7 +9,7 @@ class RootController extends GetxController {
     super.onInit();
     Future.delayed(const Duration(seconds: 1)).whenComplete(() async {
       FlutterNativeSplash.remove();
-      N.toDemoPage();
+      N.toWelcomePage();
     });
   }
 }
