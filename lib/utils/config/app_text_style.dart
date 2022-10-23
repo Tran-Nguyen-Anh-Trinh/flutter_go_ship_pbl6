@@ -27,4 +27,8 @@ class AppTextStyle {
   static TextStyle w400s13(Color color, {double? height}) {
     return _styleWith(FontWeight.w400, 13, color, height: height);
   }
+
+  static TextStyle w400s15(Color color, {double? height}) {
+    return _styleWith(FontWeight.w400, 15, color, height: height);
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/widgets/input_otp_widget.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,7 @@ class DemoPage extends GetWidget<DemoController> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: FocusManager.instance.primaryFocus?.unfocus,
+      // onTap: FocusManager.instance.primaryFocus?.unfocus,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: BaseAppBar(
@@ -60,7 +61,14 @@ class DemoPage extends GetWidget<DemoController> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  InputOTPWidget(
+                    otpCode: 123456,
+                    callback: () {
+                      print('Thàng công');
+                    },
+                  ),
                   CupertinoButton(
                     onPressed: controller.onTap,
                     child: const Text('Test API'),
