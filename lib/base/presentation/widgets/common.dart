@@ -23,12 +23,13 @@ Widget commonBackButton({void Function()? onPressed}) {
       }
     },
     child: Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Assets.images.backIcon.image(width: 8),
+        Assets.images.backIcon.image(width: 8, color: ColorName.primaryColor),
         const SizedBox(width: 10),
         Text(
-          'Back',
-          style: AppTextStyle.w600s13(ColorName.green4c8),
+          'Quay lại',
+          style: AppTextStyle.w400s13(ColorName.primaryColor),
         ),
       ],
     ),
@@ -215,7 +216,7 @@ Widget commonButton({
   double? width,
   double height = 44,
   Function()? onPressed,
-  Color fillColor = ColorName.green4c8,
+  Color fillColor = ColorName.primaryColor,
   Color? borderColor,
   double borderWidth = 1,
   BorderRadiusGeometry? borderRadius,
@@ -248,6 +249,73 @@ Widget commonButton({
                 onEmpty: child,
               )
             : child,
+      ),
+    ),
+  );
+}
+
+@swidget
+Widget commonBottomError({required String text}) {
+  return text.isEmpty
+      ? const SizedBox.shrink()
+      : Container(
+          padding: const EdgeInsets.all(11),
+          color: ColorName.redFf3,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(
+                Icons.info,
+                color: Colors.white,
+                size: 13,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  text,
+                  style: AppTextStyle.w500s11(ColorName.whiteFff),
+                ),
+              ),
+            ],
+          ),
+        );
+}
+
+@swidget
+Widget commonBottomButton({
+  required String text,
+  Color fillColor = ColorName.green4c8,
+  double pressedOpacity = 0.4,
+  Function()? onPressed,
+  BaseState? state,
+}) {
+  final textWidget = Padding(
+    padding: const EdgeInsets.only(bottom: 14),
+    child: Text(
+      text,
+      style: AppTextStyle.w600s15(ColorName.whiteFff),
+    ),
+  );
+  return SizedBox(
+    height: 80,
+    child: CupertinoButton(
+      padding: EdgeInsets.zero,
+      onPressed: onPressed,
+      pressedOpacity: pressedOpacity,
+      child: Container(
+        alignment: Alignment.center,
+        color: fillColor,
+        child: state != null
+            ? state.widget(
+                onEmpty: textWidget,
+                onLoading: const Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 14.0),
+                    child: CupertinoActivityIndicator(color: Colors.white),
+                  ),
+                ),
+              )
+            : textWidget,
       ),
     ),
   );

@@ -9,4 +9,16 @@ class N {
   static void toWelcomePage({RouteType type = RouteType.offAll}) {
     type.navigate(name: AppRoute.welcome);
   }
+
+  static void toLoginPage({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.login);
+  }
+
+   static void toForgotPasswordPage({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.forgotPassword);
+  }
+
+  static void toForgotPasswordOtpPage({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.forgotPasswordOtp);
+  }
 }

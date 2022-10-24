@@ -71,6 +71,7 @@ dev_dependencies:
   retrofit_generator: ^4.0.3
   flutter_native_splash: ^2.0.42
   functional_widget: ^0.10.0
+  flutter_launcher_icons: ^0.10.0
 
 flutter_native_splash:
   fullscreen: true
@@ -78,10 +79,17 @@ flutter_native_splash:
   image: assets/images/splash_screen_logo.png
 
   android_12:
+    color: "#2F80ED"
     image: assets/images/splash_screen_logo.png
     icon_background_color: "#2F80ED"
 
   web: false
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo_icon.png"
+  min_sdk_android: 21
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
