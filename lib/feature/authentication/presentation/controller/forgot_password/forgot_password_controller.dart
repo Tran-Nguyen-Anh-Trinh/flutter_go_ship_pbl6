@@ -1,38 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:get/get.dart';
 
-import '../../../../../utils/config/app_navigation.dart';
-
-class LoginController extends BaseController {
-  // LoginController(this._loginWithEmailUseCase);
-
-  // final LoginWithEmailUseCase _loginWithEmailUseCase;
-
+class ForgotPasswordController extends BaseController {
   final phoneTextEditingController = TextEditingController();
-  final passwordTextEditingController = TextEditingController();
+
   final formKey = GlobalKey<FormBuilderState>();
-  final loginState = BaseState();
+  final forgotPassState = BaseState();
+
+  final ignoringPointer = false.obs;
+  final isDisableButton = true.obs;
+  final errorMessage = ''.obs;
 
   String get _phone => phoneTextEditingController.text;
-  String get _password => passwordTextEditingController.text;
-
-  final isDisableButton = true.obs;
-  final ignoringPointer = false.obs;
-  final errorMessage = ''.obs;
-  final isShowPassword = true.obs;
 
   @override
   void onClose() {
     phoneTextEditingController.dispose();
-    passwordTextEditingController.dispose();
     super.onClose();
-  }
-
-  void onTapShowPassword() {
-    isShowPassword.value = !isShowPassword.value;
   }
 
   void hideErrorMessage() {
@@ -40,20 +28,19 @@ class LoginController extends BaseController {
   }
 
   void updateLoginButtonState() {
-    isDisableButton.value = _phone.isEmpty || _password.isEmpty;
+    isDisableButton.value = _phone.isEmpty;
   }
 
-  void onTapLogin() {
+  void onTapForgotPassword() {
     try {
       final fbs = formKey.formBuilderState!;
       final phoneField = FormFieldType.phone.field(fbs);
-      final passwordField = FormFieldType.password.field(fbs);
       [
         phoneField,
-        passwordField,
       ].validateFormFields();
 
-      if (loginState.isLoading) return;
+      N.toForgotPasswordOtpPage();
+      // if (forgotPassState.isLoading) return;
 
       //   _loginWithEmailUseCase.execute(
       //     observer: Observer(
@@ -106,13 +93,12 @@ class LoginController extends BaseController {
   }
 
   void _showToastMessage(String message) {
-    loginState.onError(message);
+    forgotPassState.onError(message);
     ignoringPointer.value = false;
     errorMessage.value = message;
   }
 
   void resetDataTextField() {
     hideErrorMessage();
-    passwordTextEditingController.text = '';
   }
 }

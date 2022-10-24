@@ -23,9 +23,8 @@ class AppTextStyle {
     );
   }
 
-  // Font-weight 600
-  static TextStyle w600s13(Color color, {double? height}) {
-    return _styleWith(FontWeight.w600, 13, color, height: height);
+  static TextStyle w400s9(Color color, {double? height}) {
+    return _styleWith(FontWeight.w400, 9, color, height: height);
   }
 
   static TextStyle w400s13(Color color, {double? height}) {
@@ -52,8 +51,11 @@ class AppTextStyle {
     return _styleWith(FontWeight.w400, 17, color, height: height, letterSpacing: letterSpacing);
   }
 
+  static TextStyle w500s11(Color color, {double? height}) {
+    return _styleWith(FontWeight.w500, 11, color, height: height);
+  }
 
-   static TextStyle w500s15(Color color, {double? height, double? letterSpacing}) {
+  static TextStyle w500s15(Color color, {double? height, double? letterSpacing}) {
     return _styleWith(FontWeight.w500, 15, color, height: height, letterSpacing: letterSpacing);
    }
 
@@ -81,4 +83,7 @@ class AppTextStyle {
     return _styleWith(FontWeight.w800, 33, color, height: height, letterSpacing: letterSpacing);
   }
   
+  static TextStyle w600s13(Color color, {double? height}) {
+    return _styleWith(FontWeight.w600, 13, color, height: height);
+  }
 }
