@@ -29,7 +29,7 @@ class BaseAppBar extends AppBar {
           elevation: elevation,
           leading: leading,
           actions: actions,
-          leadingWidth: 80,
+          leadingWidth: 100,
           shadowColor: shadowColor,
         );
 }
