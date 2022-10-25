@@ -23,16 +23,16 @@ class AppTextStyle {
     );
   }
 
-  static TextStyle w400s9(Color color, {double? height}) {
-    return _styleWith(FontWeight.w400, 9, color, height: height);
+  static TextStyle w400s9(Color color, {double? height, double? letterSpacing}) {
+    return _styleWith(FontWeight.w400, 9, color, height: height, letterSpacing: letterSpacing);
   }
 
-  static TextStyle w400s13(Color color, {double? height}) {
-    return _styleWith(FontWeight.w400, 13, color, height: height);
+  static TextStyle w400s13(Color color, {double? height, double? letterSpacing}) {
+    return _styleWith(FontWeight.w400, 13, color, height: height, letterSpacing: letterSpacing);
   }
 
-  static TextStyle w400s15(Color color, {double? height}) {
-    return _styleWith(FontWeight.w400, 15, color, height: height);
+  static TextStyle w400s15(Color color, {double? height, double? letterSpacing}) {
+    return _styleWith(FontWeight.w400, 15, color, height: height, letterSpacing: letterSpacing);
   }
 
   static TextStyle w400s10(Color color, {double? height, double? letterSpacing}) {
@@ -51,13 +51,17 @@ class AppTextStyle {
     return _styleWith(FontWeight.w400, 17, color, height: height, letterSpacing: letterSpacing);
   }
 
-  static TextStyle w500s11(Color color, {double? height}) {
-    return _styleWith(FontWeight.w500, 11, color, height: height);
+  static TextStyle w500s11(Color color, {double? height, double? letterSpacing}) {
+    return _styleWith(FontWeight.w500, 11, color, height: height, letterSpacing: letterSpacing);
+  }
+
+  static TextStyle w500s13(Color color, {double? height, double? letterSpacing}) {
+    return _styleWith(FontWeight.w500, 13, color, height: height, letterSpacing: letterSpacing);
   }
 
   static TextStyle w500s15(Color color, {double? height, double? letterSpacing}) {
     return _styleWith(FontWeight.w500, 15, color, height: height, letterSpacing: letterSpacing);
-   }
+  }
 
   static TextStyle w600s15(Color color, {double? height, double? letterSpacing}) {
     return _styleWith(FontWeight.w600, 15, color, height: height, letterSpacing: letterSpacing);
@@ -82,8 +86,8 @@ class AppTextStyle {
   static TextStyle w800s33(Color color, {double? height, double? letterSpacing}) {
     return _styleWith(FontWeight.w800, 33, color, height: height, letterSpacing: letterSpacing);
   }
-  
-  static TextStyle w600s13(Color color, {double? height}) {
-    return _styleWith(FontWeight.w600, 13, color, height: height);
+
+  static TextStyle w600s13(Color color, {double? height, double? letterSpacing}) {
+    return _styleWith(FontWeight.w600, 13, color, height: height, letterSpacing: letterSpacing);
   }
 }

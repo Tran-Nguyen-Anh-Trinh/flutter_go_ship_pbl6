@@ -3,6 +3,10 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/fo
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/forgot_password/forgot_password_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/login/login_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/login/login_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/register_customer/confirm_register_customer/confirm_register_customer_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/register_customer/confirm_register_customer/confirm_register_customer_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/register_customer/register_customer_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/register_customer/register_customer_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/welcome/welcome_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/welcome/welcome_page.dart';
 import 'package:get/route_manager.dart';
@@ -19,6 +23,8 @@ class AppRoute {
   static String login = '/login';
   static String forgotPassword = '/forgotPassword';
   static String forgotPasswordOtp = '/forgotPasswordOtp';
+  static String registerCustomer = '/register_customer';
+  static String confirmRegisterCustomer = '/confirmRegisterCustomer';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -55,6 +61,17 @@ class AppRoute {
       name: forgotPasswordOtp,
       page: ForgotPasswordOtpPage.new,
       binding: ForgotPasswordBindings(),
+    ),
+    GetPage(
+      name: registerCustomer,
+      page: RegisterCustomerPage.new,
+      binding: RegisterCustomerBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: confirmRegisterCustomer,
+      page: ConfirmRegisterCustomerPage.new,
+      binding: ConfirmRegisterCustomerBindings(),
       transition: Transition.cupertino,
     ),
   ];
