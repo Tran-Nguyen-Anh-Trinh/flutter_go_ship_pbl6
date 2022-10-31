@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_go_ship_pbl6/base/presentation/widgets/input_otp_widget.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:get/get.dart';
@@ -43,12 +42,14 @@ class LoginPage extends GetView<LoginController> {
                           CommonTextField(
                             formKey: controller.formKey,
                             type: FormFieldType.phone,
+                            maxLength: 13,
                             controller: controller.phoneTextEditingController,
                             onTap: controller.hideErrorMessage,
                             onChanged: (_) {
                               controller.updateLoginButtonState();
                             },
                           ),
+                          const SizedBox(height: 2),
                           CommonTextField(
                             formKey: controller.formKey,
                             type: FormFieldType.password,

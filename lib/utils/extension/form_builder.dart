@@ -7,6 +7,7 @@ typedef MyFormFieldState = FormBuilderFieldState<FormBuilderField<dynamic>, dyna
 enum FormFieldType {
   phone,
   password,
+  confirmPassword,
   memo,
 }
 
@@ -17,6 +18,8 @@ extension FormFieldTypeExtension on FormFieldType {
         return 'Số điện thoại';
       case FormFieldType.password:
         return 'Mật khẩu';
+      case FormFieldType.confirmPassword:
+        return 'Xác nhận mật khẩu';
       case FormFieldType.memo:
         return '';
       default:
@@ -27,7 +30,7 @@ extension FormFieldTypeExtension on FormFieldType {
   String get hintText {
     switch (this) {
       case FormFieldType.phone:
-        return '0123456789';
+        return '099-9999-999';
       default:
         return '';
     }
@@ -58,13 +61,26 @@ extension FormFieldTypeExtension on FormFieldType {
       case FormFieldType.phone:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống số điện thoại'),
-          // FormBuilderValidators.integer(errorText: 'Số điện thoại bao gồm các chữ số'),
-          FormBuilderValidators.maxLength(15, errorText: 'Số điện thoại tối đa 12 chữ số'),
+          FormBuilderValidators.integer(errorText: 'Số điện thoại bao gồm các chữ số'),
+          FormBuilderValidators.compose(
+            [
+              (val) {
+                final validNumber = RegExp(r'^[+|0]{1}[0-9]{9,11}$');
+                return validNumber.hasMatch(val.toString().trim()) ? null : "Vui lòng nhập vào số điện thoại của bạn";
+              },
+            ],
+          ),
         ];
         break;
       case FormFieldType.password:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu'),
+          FormBuilderValidators.minLength(8, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
+        ];
+        break;
+      case FormFieldType.confirmPassword:
+        validators = [
+          FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu xác nhận'),
           FormBuilderValidators.minLength(8, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
         ];
         break;

@@ -77,7 +77,7 @@ Widget inputOTPWidget({required double otpCode, required Function() callback}) {
               child: TextField(
                 autofocus: true,
                 focusNode: focusNode,
-                onEditingComplete: null,
+                onEditingComplete: () {},
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   if (!isChecking) {
@@ -93,7 +93,7 @@ Widget inputOTPWidget({required double otpCode, required Function() callback}) {
                         currentIndex.value = currentIndex.value - 1;
                       }
                       changeStatus(value);
-                    } else {
+                    } else if (value.characters.last.toString().isNumericOnly) {
                       if (listNodeOTP[5].value == "") {
                         listNodeOTP[currentIndex.value].value = value.characters.last.toString();
                       }

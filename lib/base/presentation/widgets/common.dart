@@ -29,7 +29,7 @@ Widget commonBackButton({void Function()? onPressed}) {
         const SizedBox(width: 10),
         Text(
           'Quay lại',
-          style: AppTextStyle.w400s13(ColorName.primaryColor),
+          style: AppTextStyle.w500s13(ColorName.primaryColor),
         ),
       ],
     ),
@@ -90,6 +90,7 @@ Widget commonTextField(
   bool obscureText = false,
   bool isEnable = true,
   int? maxLines = 1,
+  int? maxLength,
   String? initialValue,
   TextEditingController? controller,
   TextInputAction? textInputAction = TextInputAction.next,
@@ -117,6 +118,7 @@ Widget commonTextField(
               maxLines: maxLines,
               initialValue: initialValue,
               name: type.name,
+              maxLength: maxLength,
               style: AppTextStyle.w400s13(ColorName.black333),
               keyboardType: type.keyboardType,
               textAlignVertical: TextAlignVertical.center,
@@ -127,6 +129,7 @@ Widget commonTextField(
               controller: ctl,
               enabled: isEnable,
               decoration: InputDecoration(
+                counterText: "",
                 errorMaxLines: 2,
                 isDense: true,
                 labelText: type.labelText,
@@ -136,7 +139,7 @@ Widget commonTextField(
                 fillColor: hasFocus ? ColorName.whiteFff : ColorName.grayF8f,
                 hintText: type.hintText,
                 hintStyle: AppTextStyle.w400s13(ColorName.grayC7c),
-                errorStyle: AppTextStyle.w400s13(ColorName.redFf3, height: 1),
+                errorStyle: AppTextStyle.w400s13(ColorName.redFf3, height: 0.7),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 16),
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: ColorName.gray838, width: 0.5),

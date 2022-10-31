@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
-import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
@@ -47,7 +45,7 @@ class WelcomePage extends GetView<WelcomeController> {
                 ),
                 CommonButton(
                   height: 44,
-                  onPressed: N.toLoginPage,
+                  onPressed: controller.toLoginPage,
                   fillColor: ColorName.primaryColor,
                   child: Text(
                     'Đăng nhập',
@@ -59,7 +57,7 @@ class WelcomePage extends GetView<WelcomeController> {
                 ),
                 CommonButton(
                   height: 44,
-                  onPressed: null,
+                  onPressed: controller.toRegisterCustomer,
                   fillColor: Colors.transparent,
                   borderColor: ColorName.primaryColor,
                   child: Text('Đăng ký', style: AppTextStyle.w400s16(ColorName.primaryColor)),
@@ -83,7 +81,7 @@ class WelcomePage extends GetView<WelcomeController> {
             ),
           ),
         ),
-        bottomNavigationBar: Container( 
+        bottomNavigationBar: Container(
           margin: const EdgeInsets.only(bottom: 30),
           child: Text(
             'BCHQT - 0.0.1 (1)',
