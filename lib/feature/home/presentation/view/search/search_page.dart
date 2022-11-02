@@ -1,16 +1,15 @@
+import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/search/search_controller.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
-class SearchPage extends GetView<SearchController> {
+class SearchPage extends BaseWidget<SearchController> {
   const SearchPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget onBuild(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Obx(

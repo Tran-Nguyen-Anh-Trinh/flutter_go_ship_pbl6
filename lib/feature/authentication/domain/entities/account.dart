@@ -7,5 +7,7 @@ class Account {
 
   String? accessToken;
 
+  String? refreshToken;
+
   int? role;
 }

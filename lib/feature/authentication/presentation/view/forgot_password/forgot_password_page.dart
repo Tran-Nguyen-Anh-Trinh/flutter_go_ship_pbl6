@@ -1,17 +1,16 @@
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import '../../../../../base/presentation/base_app_bar.dart';
 import '../../../../../base/presentation/widgets/common.dart';
 import '../../../../../utils/extension/form_builder.dart';
 import '../../controller/forgot_password/forgot_password_controller.dart';
 
-class ForgotPasswordPage extends GetView<ForgotPasswordController> {
+class ForgotPasswordPage extends BaseWidget<ForgotPasswordController> {
   const ForgotPasswordPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget onBuild(BuildContext context) {
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Scaffold(
@@ -19,8 +18,7 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
         appBar: BaseAppBar(
           title: const Text('Quên mật khẩu'),
         ),
-        body: 
-        Obx(
+        body: Obx(
           () => IgnorePointer(
             ignoring: controller.ignoringPointer.value,
             child: Container(

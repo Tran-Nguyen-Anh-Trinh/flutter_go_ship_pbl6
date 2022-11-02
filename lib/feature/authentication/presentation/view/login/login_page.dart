@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import '../../../../../base/presentation/base_app_bar.dart';
 import '../../../../../base/presentation/widgets/common.dart';
 import '../../../../../utils/config/app_text_style.dart';
@@ -11,11 +10,11 @@ import '../../../../../utils/extension/form_builder.dart';
 import '../../../../../utils/gen/colors.gen.dart';
 import '../../controller/login/login_controller.dart';
 
-class LoginPage extends GetView<LoginController> {
+class LoginPage extends BaseWidget<LoginController> {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget onBuild(BuildContext context) {
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Scaffold(
@@ -53,8 +52,7 @@ class LoginPage extends GetView<LoginController> {
                           CommonTextField(
                             formKey: controller.formKey,
                             type: FormFieldType.password,
-                            controller:
-                                controller.passwordTextEditingController,
+                            controller: controller.passwordTextEditingController,
                             textInputAction: TextInputAction.done,
                             obscureText: controller.isShowPassword.value,
                             suffixIcon: controller.isShowPassword.value
@@ -66,7 +64,7 @@ class LoginPage extends GetView<LoginController> {
                               controller.updateLoginButtonState();
                             },
                             onSubmitted: (_) {
-                              controller.onTapLogin(context);
+                              controller.onTapLogin();
                             },
                           ),
                         ],
@@ -84,18 +82,14 @@ class LoginPage extends GetView<LoginController> {
                   ),
                   const SizedBox(height: 15),
                   Obx(
-                    () =>
-                        CommonBottomError(text: controller.errorMessage.value),
+                    () => CommonBottomError(text: controller.errorMessage.value),
                   ),
                   Obx(
                     () => CommonBottomButton(
                       text: 'Đăng nhập',
-                      onPressed: () => controller.onTapLogin(context),
-                      pressedOpacity:
-                          controller.isDisableButton.value ? 1 : 0.4,
-                      fillColor: controller.isDisableButton.value
-                          ? ColorName.gray838
-                          : ColorName.primaryColor,
+                      onPressed: () => controller.onTapLogin(),
+                      pressedOpacity: controller.isDisableButton.value ? 1 : 0.4,
+                      fillColor: controller.isDisableButton.value ? ColorName.gray838 : ColorName.primaryColor,
                       state: controller.loginState,
                     ),
                   ),

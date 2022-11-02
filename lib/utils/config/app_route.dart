@@ -1,5 +1,13 @@
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_bindings.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/add_address/add_address_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/add_address/add_address_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/confirm_camera/confirm_camera_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/confirm_camera/confirm_camera_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/confirm_shipper_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/confirm_shipper_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/status_confirm/status_confirm_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/status_confirm/status_confirm_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/forgot_password/forgot_password_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/forgot_password/forgot_password_otp_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/forgot_password/forgot_password_page.dart';
@@ -45,6 +53,10 @@ class AppRoute {
   static String chatHome = '/chatHome';
   static String chatDetail = '/chatDetail';
   static String viewMedia = '/viewMedia';
+  static String confirmShipper = '/confirmShipper';
+  static String addAddress = '/addAddress';
+  static String confirmShipperCamera = '/confirmShipperCamera';
+  static String statusConfirm = '/statusConfirm';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -130,6 +142,30 @@ class AppRoute {
       binding: ViewMediaBindings(),
       transitionDuration: const Duration(milliseconds: 200),
       transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: confirmShipper,
+      page: ConfirmShipperPage.new,
+      binding: ConfirmShipperBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: addAddress,
+      page: AddAddressPage.new,
+      binding: AddAddressBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: confirmShipperCamera,
+      page: ConfirmCameraPage.new,
+      binding: ConfirmCameraBindings(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: statusConfirm,
+      page: StatusConfirmPage.new,
+      binding: StatusConfirmBindings(),
+      transition: Transition.cupertino,
     ),
   ];
 }

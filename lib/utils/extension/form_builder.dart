@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 typedef MyFormFieldState = FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>;
 
 enum FormFieldType {
+  name,
   phone,
   password,
   confirmPassword,
@@ -16,12 +17,14 @@ extension FormFieldTypeExtension on FormFieldType {
     switch (this) {
       case FormFieldType.phone:
         return 'Số điện thoại';
+      case FormFieldType.name:
+        return 'Họ và tên';
       case FormFieldType.password:
         return 'Mật khẩu';
       case FormFieldType.confirmPassword:
         return 'Xác nhận mật khẩu';
       case FormFieldType.memo:
-        return '';
+        return 'Mô tả địa chỉ';
       default:
         return '';
     }
@@ -72,6 +75,11 @@ extension FormFieldTypeExtension on FormFieldType {
           ),
         ];
         break;
+      case FormFieldType.name:
+        validators = [
+          FormBuilderValidators.required(errorText: 'Không được để trống họ và tên'),
+        ];
+        break;
       case FormFieldType.password:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu'),
@@ -85,7 +93,10 @@ extension FormFieldTypeExtension on FormFieldType {
         ];
         break;
       case FormFieldType.memo:
-        validators = [FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ')];
+        validators = [
+          FormBuilderValidators.required(errorText: 'Không được để trống mô tả địa chỉ'),
+          FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ'),
+        ];
         break;
       default:
         return null;

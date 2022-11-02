@@ -10,7 +10,7 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/logi
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 
-class RegisterCustomerController extends BaseController {
+class RegisterCustomerController extends BaseController<int> {
   RegisterCustomerController(this._loginUsecase);
 
   final LoginUsecase _loginUsecase;
@@ -115,7 +115,7 @@ class RegisterCustomerController extends BaseController {
                   registerRequest: RegisterRequest(
                     _phone.trim(),
                     _password.trim(),
-                    1,
+                    input,
                     verificationId: verificationId,
                   ),
                 );

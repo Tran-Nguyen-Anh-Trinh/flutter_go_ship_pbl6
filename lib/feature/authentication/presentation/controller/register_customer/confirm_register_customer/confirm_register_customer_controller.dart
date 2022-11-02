@@ -8,7 +8,10 @@ import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/register_usecase.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
+import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -66,43 +69,59 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
     );
   }
 
-  void checkOTP(BuildContext context, String otpCode) async {
+  void checkOTP(String otpCode) async {
     isChecking.value = true;
     hideKeyboard();
     PhoneAuthCredential credential =
         PhoneAuthProvider.credential(verificationId: registerRequest!.verificationId!, smsCode: otpCode);
     var userCredential = await FirebaseAuth.instance.signInWithCredential(credential).catchError((error) {
-      showErrorDialog(context, "Mã xác thực không chính xác");
+      showErrorDialog("Mã xác thực không chính xác");
       isChecking.value = false;
     });
 
     if (userCredential.user != null) {
-      onRegister(context);
+      onRegister();
     }
   }
 
-  void onRegister(BuildContext context) {
+  void onRegister() {
     _registerUserCase.execute(
       observer: Observer(
         onSubscribe: () {},
         onSuccess: (account) {
-          isChecking.value = false;
-          _storageService.setToken(account.toJson().toString());
-          Permission.locationWhenInUse.status.then((value) {
-            if (value.isGranted) {
-              N.toTabBar(account: account);
-            } else {
-              N.toPermissionHandler(account: account);
-            }
-          });
+          AppConfig.accountModel = account;
+          if (registerRequest!.role == 1) {
+            _storageService.setToken(account.toJson().toString());
+            Permission.locationWhenInUse.status.then((value) {
+              if (value.isGranted) {
+                N.toTabBar(account: account);
+              } else {
+                N.toPermissionHandler(account: account);
+              }
+            });
+          } else {
+            isChecking.value = false;
+            showOkCancelDialog(
+              cancelText: "Hủy",
+              okText: "Tiếp tục",
+              message: "Vui lòng xác thực thông tin cá nhân để chính thức trở thành đối tác của Go Ship?",
+              title: "Đăng ký tài khoản thành công",
+            ).then((value) {
+              if (value == OkCancelResult.ok) {
+                _storageService.setToken(account.toJson().toString()).then((value) {
+                  N.toConfirmShipper();
+                });
+              } else {}
+            });
+          }
         },
         onError: (e) {
           isChecking.value = false;
           if (e is DioError) {
             if (e.response != null) {
-              showErrorDialog(context, e.response!.data['detail'].toString());
+              showErrorDialog(e.response!.data['detail'].toString());
             } else {
-              showErrorDialog(context, e.message);
+              showErrorDialog(e.message);
             }
           }
           if (kDebugMode) {
@@ -114,10 +133,9 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
     );
   }
 
-  void showErrorDialog(BuildContext context, String? content) {
+  void showErrorDialog(String? content) {
     hideKeyboard();
-    showOkAlertDialog(
-      context: context,
+    showOkDialog(
       title: "Xác nhận đăng ký thất bại",
       message: content ?? "Vui lòng thực hiện đâng ký lại sau",
     );
