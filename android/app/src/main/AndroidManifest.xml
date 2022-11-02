@@ -1,9 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_go_ship_pbl6">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <application
         android:label="Go Ship"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD46blEqiLXMyG-i9A8nznacxW-AkIlfCg"/>
+        <uses-library android:name="com.google.android.maps" android:required="true" />
         <activity
             android:usesCleartextTraffic="true"
             android:name=".MainActivity"

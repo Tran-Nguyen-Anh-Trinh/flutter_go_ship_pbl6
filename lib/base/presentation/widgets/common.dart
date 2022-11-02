@@ -4,7 +4,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/domain/base_state.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'package:collection/collection.dart';
 
 import '../../../utils/config/app_text_style.dart';
 import '../../../utils/gen/assets.gen.dart';
@@ -319,6 +321,203 @@ Widget commonBottomButton({
                 ),
               )
             : textWidget,
+      ),
+    ),
+  );
+}
+
+@swidget
+Widget commonMenu(
+  List<Map<int, Widget>> items, {
+  int totalNotification = 0,
+  double top = 0,
+  double? bottom,
+  double? right,
+  double? left,
+  double height = 50,
+  double width = 50,
+  int duration = 200,
+  double space = 5,
+  Color color = ColorName.whiteFff,
+  double radius = 0,
+}) {
+  //
+  Rx<bool> startAnimation = false.obs;
+  return Obx(
+    () {
+      return Stack(
+        children: [
+          for (var index = 0; index < items.length; index++)
+            Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: Duration(milliseconds: duration),
+                  top: startAnimation.value ? ((space + height) * (index + 1) + top) : top,
+                  left: left,
+                  bottom: bottom,
+                  right: right,
+                  curve: Curves.easeInCubic,
+                  child: Container(
+                    height: height,
+                    width: width,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(radius),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(0.0, 4.0),
+                          blurRadius: 4,
+                          color: ColorName.black000.withOpacity(0.25),
+                        ),
+                      ],
+                    ),
+                    child: Center(child: items[index].values.first),
+                  ),
+                ),
+                if (items[index].keys.first > 0)
+                  AnimatedPositioned(
+                    duration: Duration(milliseconds: duration),
+                    top: startAnimation.value ? ((space + height) * (index + 1) + top) : top,
+                    left: left,
+                    bottom: bottom,
+                    right: right,
+                    curve: Curves.easeInCubic,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: ColorName.primaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 15,
+                        minHeight: 15,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${items[index].keys.first}',
+                          style: AppTextStyle.w700s8(ColorName.whiteFff),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          Positioned(
+            top: top,
+            left: left,
+            bottom: bottom,
+            right: right,
+            child: GestureDetector(
+              onTap: () {
+                startAnimation.value = !startAnimation.value;
+              },
+              child: Container(
+                height: height,
+                width: width,
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(radius),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      offset: const Offset(0.0, 4.0),
+                      blurRadius: 4,
+                      color: ColorName.black000.withOpacity(0.25),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: startAnimation.value
+                      ? Assets.images.menuIsOpenIcon.image(height: 18, width: 18)
+                      : Assets.images.menuIcon.image(height: 18, width: 18),
+                ),
+              ),
+            ),
+          ),
+          if (totalNotification > 0 && !startAnimation.value)
+            Positioned(
+              top: top,
+              left: left,
+              bottom: bottom,
+              right: right,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: ColorName.primaryColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                constraints: const BoxConstraints(
+                  minWidth: 15,
+                  minHeight: 15,
+                ),
+                child: Center(
+                  child: Text(
+                    '$totalNotification',
+                    style: AppTextStyle.w700s8(ColorName.whiteFff),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+        ],
+      );
+    },
+  );
+}
+
+@swidget
+Widget commonSearchBar({
+  double height = 50,
+  Function()? onPressed,
+  Function()? leadingPressed,
+  Function()? trailingPressed,
+  Widget leading = const SizedBox.shrink(),
+  Widget trailing = const SizedBox.shrink(),
+  Widget title = const SizedBox.shrink(),
+  double? leftPadding = 10,
+  double? rightPadding = 10,
+  double? titlePadding = 10,
+}) {
+  return CupertinoButton(
+    pressedOpacity: 0.6,
+    padding: EdgeInsets.zero,
+    onPressed: onPressed,
+    child: Container(
+      height: height,
+      decoration: BoxDecoration(
+        color: ColorName.whiteFff,
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 4),
+            blurRadius: 4,
+            color: ColorName.black000.withOpacity(0.25),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(width: leftPadding),
+          CupertinoButton(
+            padding: EdgeInsets.zero,
+            onPressed: leadingPressed,
+            child: leading,
+          ),
+          SizedBox(width: titlePadding),
+          Expanded(child: title),
+          SizedBox(width: titlePadding),
+          CupertinoButton(
+            padding: EdgeInsets.zero,
+            onPressed: trailingPressed,
+            child: trailing,
+          ),
+          SizedBox(width: rightPadding),
+        ],
       ),
     ),
   );

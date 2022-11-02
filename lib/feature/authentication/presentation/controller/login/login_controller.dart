@@ -5,8 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../domain/usecases/login_usecase.dart';
 
 class LoginController extends BaseController {
@@ -79,18 +81,22 @@ class LoginController extends BaseController {
             loginState.onSuccess();
             ignoringPointer.value = false;
 
-            _storageService.setToken(account.accessToken ?? '');
-
-            showOkAlertDialog(
-                context: context,
-                message:
-                    'phone: ${account.phoneNumber}, role: ${account.role}');
-
-            // N.toPatientList();
+            _storageService.setToken(account.toJson().toString());
+            Permission.locationWhenInUse.status.then((value) {
+              if (value.isGranted) {
+                N.toTabBar(account: account);
+              } else {
+                N.toPermissionHandler(account: account);
+              }
+            });
           },
           onError: (e) {
             if (e is DioError) {
-              _showToastMessage(e.message);
+              if (e.response != null) {
+                _showToastMessage(e.response!.data['details'].toString());
+              } else {
+                _showToastMessage(e.message);
+              }
             }
             if (kDebugMode) {
               print(e.toString());
