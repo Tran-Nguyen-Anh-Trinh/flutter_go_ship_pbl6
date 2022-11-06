@@ -1,7 +1,7 @@
+import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
-import 'package:get/get.dart';
 
-class WelcomeController extends GetxController {
+class WelcomeController extends BaseController {
   WelcomeController();
 
   void toRegisterCustomer() {
