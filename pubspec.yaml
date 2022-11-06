@@ -55,6 +55,10 @@ dependencies:
 
   # Json serializable & model
   dart_json_mapper: ^2.2.5+1
+  firebase_database: ^10.0.4
+  firebase_storage: ^11.0.4
+  firebase_auth: ^4.1.1
+  firebase_core: ^2.1.1
 
 dev_dependencies:
   flutter_test:
