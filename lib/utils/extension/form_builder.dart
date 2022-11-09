@@ -75,7 +75,7 @@ extension FormFieldTypeExtension on FormFieldType {
       case FormFieldType.password:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu'),
-          FormBuilderValidators.minLength(8, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
+          FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 6 ký tự'),
         ];
         break;
       case FormFieldType.confirmPassword:
