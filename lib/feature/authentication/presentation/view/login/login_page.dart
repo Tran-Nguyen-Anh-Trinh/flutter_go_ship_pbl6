@@ -53,7 +53,8 @@ class LoginPage extends GetView<LoginController> {
                           CommonTextField(
                             formKey: controller.formKey,
                             type: FormFieldType.password,
-                            controller: controller.passwordTextEditingController,
+                            controller:
+                                controller.passwordTextEditingController,
                             textInputAction: TextInputAction.done,
                             obscureText: controller.isShowPassword.value,
                             suffixIcon: controller.isShowPassword.value
@@ -65,7 +66,7 @@ class LoginPage extends GetView<LoginController> {
                               controller.updateLoginButtonState();
                             },
                             onSubmitted: (_) {
-                              controller.onTapLogin();
+                              controller.onTapLogin(context);
                             },
                           ),
                         ],
@@ -83,14 +84,18 @@ class LoginPage extends GetView<LoginController> {
                   ),
                   const SizedBox(height: 15),
                   Obx(
-                    () => CommonBottomError(text: controller.errorMessage.value),
+                    () =>
+                        CommonBottomError(text: controller.errorMessage.value),
                   ),
                   Obx(
                     () => CommonBottomButton(
                       text: 'Đăng nhập',
-                      onPressed: controller.onTapLogin,
-                      pressedOpacity: controller.isDisableButton.value ? 1 : 0.4,
-                      fillColor: controller.isDisableButton.value ? ColorName.gray838 : ColorName.primaryColor,
+                      onPressed: () => controller.onTapLogin(context),
+                      pressedOpacity:
+                          controller.isDisableButton.value ? 1 : 0.4,
+                      fillColor: controller.isDisableButton.value
+                          ? ColorName.gray838
+                          : ColorName.primaryColor,
                       state: controller.loginState,
                     ),
                   ),
@@ -103,70 +108,3 @@ class LoginPage extends GetView<LoginController> {
     );
   }
 }
-
-// class MyWidget extends StatelessWidget {
-//   const MyWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     String res = '';
-//     int curentIndex = 0;
-//     RxList<String> listValue = ['', '', ''].obs;
-//     bool check = false;
-//     final textEditingController = TextEditingController();
-//     return Column(
-//       children: [
-//         TextField(
-//           maxLength: 3,
-//           keyboardType: TextInputType.number,
-//           controller: textEditingController,
-//           onChanged: (value) {
-//             for (int i = 0; i < listValue.length; i++) {
-//               listValue[i] = '';
-//             }
-//             value.runes.toList().asMap().forEach((index, v) {
-//               listValue[index] = String.fromCharCode(v);
-//             });
-//             curentIndex = value.runes.length;
-
-//             check = value == '123';
-//             print('check');
-//             print(check);
-//             // listValue.refresh();
-//           },
-//         ),
-//         SizedBox(
-//           width: Get.width,
-//           height: 200,
-//           child: ListView.builder(
-//             padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-//             scrollDirection: Axis.horizontal,
-//             shrinkWrap: true,
-//             itemCount: 3,
-//             itemBuilder: (context, index) {
-//               return Row(
-//                 children: [
-//                   Obx(
-//                     () => InputOTP(
-//                       value: listValue[index],
-//                       status: curentIndex == 3
-//                           ? check
-//                               ? 1
-//                               : 3
-//                           : (index == curentIndex)
-//                               ? 1
-//                               : listValue[index].isEmpty
-//                                   ? 0
-//                                   : 2,
-//                     ),
-//                   ),
-//                   SizedBox(width: 12)
-//                 ],
-//               );
-//             },
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
