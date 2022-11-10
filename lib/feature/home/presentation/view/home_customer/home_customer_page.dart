@@ -35,17 +35,20 @@ class HomeCustomerPage extends GetView<HomeCustomerController> {
               zoomControlsEnabled: false,
               rotateGesturesEnabled: false,
               minMaxZoomPreference: const MinMaxZoomPreference(14.65, 19),
-              cameraTargetBounds: CameraTargetBounds(controller.latLngBounds.value),
+              cameraTargetBounds:
+                  CameraTargetBounds(controller.latLngBounds.value),
               onMapCreated: (GoogleMapController mapController) {
                 controller.mapController.complete(mapController);
               },
               onTap: (argument) {
                 print(
-                  controller.calculateDistance(16.073885, 108.149829, 16.090669, 108.142748),
+                  controller.calculateDistance(
+                      16.073885, 108.149829, 16.090669, 108.142748),
                 );
 
                 print(
-                  controller.calculateDistance(16.073885, 108.149829, 16.073885 - 0.0065 * 5, 108.149829 + 0.0065 * 5),
+                  controller.calculateDistance(16.073885, 108.149829,
+                      16.073885 - 0.0065 * 5, 108.149829 + 0.0065 * 5),
                 );
               },
             ),
@@ -61,15 +64,17 @@ class HomeCustomerPage extends GetView<HomeCustomerController> {
               {
                 3: CupertinoButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  child: Assets.images.chatMenuIcon.image(height: 18, width: 18),
+                  onPressed: N.toChatHome,
+                  child:
+                      Assets.images.chatMenuIcon.image(height: 18, width: 18),
                 ),
               },
               {
                 5: CupertinoButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {},
-                  child: Assets.images.notificationMenuIcon.image(height: 18, width: 18),
+                  child: Assets.images.notificationMenuIcon
+                      .image(height: 18, width: 18),
                 ),
               },
               // testing
@@ -81,7 +86,8 @@ class HomeCustomerPage extends GetView<HomeCustomerController> {
                       N.toWelcomePage();
                     });
                   },
-                  child: Assets.images.notificationMenuIcon.image(height: 18, width: 18),
+                  child: Assets.images.notificationMenuIcon
+                      .image(height: 18, width: 18),
                 ),
               },
               // testing
@@ -109,7 +115,8 @@ class HomeCustomerPage extends GetView<HomeCustomerController> {
                   ],
                 ),
                 child: Center(
-                  child: Assets.images.myLocationIcon.image(height: 20, width: 20),
+                  child:
+                      Assets.images.myLocationIcon.image(height: 20, width: 20),
                 ),
               ),
             ),
@@ -122,19 +129,27 @@ class HomeCustomerPage extends GetView<HomeCustomerController> {
                       onPressed: controller.toSearch,
                       leftPadding: 10,
                       rightPadding: 5,
-                      leading: Assets.images.logoIcon.image(height: 30, width: 35),
+                      leading:
+                          Assets.images.logoIcon.image(height: 30, width: 35),
                       trailingPressed: controller.goToMyLocation,
                       trailing: Container(
                         padding: const EdgeInsets.all(10),
-                        child: Assets.images.closeIcon.image(height: 30, width: 30, color: ColorName.primaryColor),
+                        child: Assets.images.closeIcon.image(
+                            height: 30,
+                            width: 30,
+                            color: ColorName.primaryColor),
                       ),
-                      title: Text(controller.textSearch, style: AppTextStyle.w400s14(ColorName.black000)),
+                      title: Text(controller.textSearch,
+                          style: AppTextStyle.w400s14(ColorName.black000)),
                     )
                   : CommonSearchBar(
                       onPressed: controller.toSearch,
-                      leading: Assets.images.logoIcon.image(height: 30, width: 35),
-                      trailing: Assets.images.profileMaleIcon.image(height: 35, width: 35),
-                      title: Text("Tìm kiếm ở đây", style: AppTextStyle.w400s14(ColorName.gray828)),
+                      leading:
+                          Assets.images.logoIcon.image(height: 30, width: 35),
+                      trailing: Assets.images.profileMaleIcon
+                          .image(height: 35, width: 35),
+                      title: Text("Tìm kiếm ở đây",
+                          style: AppTextStyle.w400s14(ColorName.gray828)),
                     ),
             ),
           ),
