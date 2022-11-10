@@ -3,8 +3,12 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remot
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/user_api.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/repositories_imp/auth_repo_impl.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/repositoties/auth_repo.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Firebase/cloud_storage.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Firebase/cloud_storage_impl.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service_impl.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Firebase/realtime_database.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Firebase/realtime_database_impl.dart';
 import 'package:get/instance_manager.dart';
 
 import '../../../feature/authentication/data/repositories_imp/user_repo_impl.dart';
@@ -44,5 +48,7 @@ class AppBinding extends Bindings {
 
   void injectService() {
     Get.put<StorageService>(StorageServiceImpl());
+    Get.put<RealtimeDatabase>(RealtimeDatabaseImpl());
+    Get.put<CloudStorage>(CloudStorageImpl());
   }
 }

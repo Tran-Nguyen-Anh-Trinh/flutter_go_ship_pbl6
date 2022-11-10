@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
@@ -79,6 +80,9 @@ class LoginController extends BaseController {
           },
           onSuccess: (account) {
             ignoringPointer.value = false;
+
+            AppConfig.accountModel = account;
+
             _storageService.setToken(account.toJson().toString());
             Permission.locationWhenInUse.status.then((value) {
               if (value.isGranted) {
