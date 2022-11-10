@@ -8,4 +8,14 @@ class StorageServiceImpl implements StorageService {
   Future<void> setToken(String token) async {
     (await _sharedPreferences).setString(AppConfig.keyToken, token);
   }
+
+  @override
+  Future<String> getToken() async {
+    return (await _sharedPreferences).getString(AppConfig.keyToken) ?? "";
+  }
+
+  @override
+  Future<void> removeToken() async {
+    (await _sharedPreferences).remove(AppConfig.keyToken);
+  }
 }

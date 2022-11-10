@@ -44,8 +44,6 @@ dependencies:
 
   # Widget
   cupertino_icons: ^1.0.2
-  flutter_polyline_points: ^1.0.0
-  google_maps_flutter: ^2.2.1
   flutter_form_builder: ^7.5.0
   form_builder_validators: ^8.3.0
 
@@ -62,6 +60,12 @@ dependencies:
 
   # Storage
   shared_preferences: ^2.0.15
+  # Map
+  google_maps_flutter: ^2.2.1
+  location: ^4.4.0
+  flutter_polyline_points: ^1.0.0
+  flutter_compass: ^0.7.0
+  permission_handler: ^10.1.0
 
 dev_dependencies:
   flutter_test:

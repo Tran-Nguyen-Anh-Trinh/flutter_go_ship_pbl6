@@ -18,6 +18,8 @@ class BaseController<T> extends SuperController {
     String? message,
   }) showOkDialog;
 
+
+
   late Future<OkCancelResult> Function({
     String? title,
     String? message,

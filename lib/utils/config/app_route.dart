@@ -1,3 +1,5 @@
+import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_bindings.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/forgot_password/forgot_password_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/forgot_password/forgot_password_otp_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/forgot_password/forgot_password_page.dart';
@@ -9,7 +11,12 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/re
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/register_customer/register_customer_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/welcome/welcome_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/welcome/welcome_page.dart';
-import 'package:get/route_manager.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/permission_handler/permission_handler_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/permission_handler/permission_handler_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/search/search_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/search/search_page.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 import '../../../feature/authentication/presentation/view/demo/demo_bindings.dart';
 import '../../../feature/authentication/presentation/view/demo/demo_page.dart';
@@ -25,6 +32,9 @@ class AppRoute {
   static String forgotPasswordOtp = '/forgotPasswordOtp';
   static String registerCustomer = '/register_customer';
   static String confirmRegisterCustomer = '/confirmRegisterCustomer';
+  static String tabBar = '/tabBar';
+  static String permissionHandler = '/permissionHandler';
+  static String serach = '/search';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -73,6 +83,24 @@ class AppRoute {
       page: ConfirmRegisterCustomerPage.new,
       binding: ConfirmRegisterCustomerBindings(),
       transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: tabBar,
+      page: TabBarPage.new,
+      binding: TabBarBindings(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: permissionHandler,
+      page: PermissionHandlerPage.new,
+      binding: PermissionHandlerBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: serach,
+      page: SearchPage.new,
+      binding: SearchBindings(),
+      transition: Transition.fadeIn,
     ),
   ];
 }

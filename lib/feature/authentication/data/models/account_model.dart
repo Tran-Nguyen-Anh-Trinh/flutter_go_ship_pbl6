@@ -8,4 +8,22 @@ class AccountModel {
   String? accessToken;
 
   int? role;
+
+  AccountModel({this.phoneNumber, this.accessToken, this.role});
+
+  Map<String, dynamic> toJson() {
+    return {
+      '"phoneNumber"': '"$phoneNumber"',
+      '"accessToken"': '"$accessToken"',
+      '"role"': role,
+    };
+  }
+
+  factory AccountModel.fromJson(Map<String, dynamic> json) {
+    return AccountModel(
+      phoneNumber: json['phoneNumber'],
+      accessToken: json['accessToken'],
+      role: json['role'],
+    );
+  }
 }
