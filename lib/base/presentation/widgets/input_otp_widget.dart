@@ -8,7 +8,7 @@ import 'dart:math';
 part 'input_otp_widget.g.dart';
 
 @swidget
-Widget inputOTPWidget({required double otpCode, required Function() callback}) {
+Widget inputOTPWidget({required Function(String otp) callback}) {
   RxList<NodeOTP> listNodeOTP = [
     NodeOTP(status: 1),
     NodeOTP(),
@@ -18,101 +18,73 @@ Widget inputOTPWidget({required double otpCode, required Function() callback}) {
     NodeOTP(),
   ].obs;
 
-  Rx<int> currentIndex = 0.obs;
-
   var focusNode = FocusNode();
-
-  bool isChecking = false;
-
-  int count = 0;
-
-  void checkOTP() {
-    double result = 0;
-    for (var i = 0; i < listNodeOTP.length; i++) {
-      result = result + int.parse(listNodeOTP[i].value) * (100000 / pow(10, i));
-    }
-    if (result == otpCode) {
-      listNodeOTP.forEach((element) {
-        element.status = 1;
-      });
-      callback();
-    } else {
-      listNodeOTP.forEach((element) {
-        element.status = 3;
-      });
-      isChecking = false;
-    }
-    listNodeOTP.refresh();
-  }
+  var textEditingController = TextEditingController();
 
   void changeStatus(String value) {
+    int length = value.length;
     for (var i = 0; i < listNodeOTP.length; i++) {
-      if (i < currentIndex.value) {
+      if (i > length - 1) {
+        listNodeOTP[i].value = "";
+      } else {
+        listNodeOTP[i].value = value.characters.toList()[i];
+      }
+    }
+
+    for (var i = 0; i < listNodeOTP.length; i++) {
+      if (i < length) {
         listNodeOTP[i].status = 2;
-      } else if (i > currentIndex.value) {
+      } else if (i > length - 2) {
         listNodeOTP[i].status = 0;
       }
-      listNodeOTP[currentIndex.value].status = 1;
+      if (length < 6) {
+        listNodeOTP[length].status = 1;
+      }
+
       listNodeOTP.refresh();
     }
-    if (listNodeOTP[listNodeOTP.length - 1].value != "") {
-      isChecking = true;
-      checkOTP();
+    if (length == 6) {
+      callback(value);
     }
   }
 
-  return Padding(
+  return Container(
     padding: const EdgeInsets.symmetric(horizontal: 50),
+    height: 60,
     child: Obx(
       () => GestureDetector(
         onTap: () {
           focusNode.requestFocus();
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Stack(
           children: [
-            SizedBox.shrink(
+            Opacity(
+              opacity: 0,
               child: TextField(
+                controller: textEditingController,
                 autofocus: true,
                 focusNode: focusNode,
                 onEditingComplete: () {},
                 keyboardType: TextInputType.number,
+                maxLength: 6,
                 onChanged: (value) {
-                  if (!isChecking) {
-                    if (value.characters.length < count) {
-                      if (listNodeOTP[5].value != "") {
-                        currentIndex.value = currentIndex.value + 1;
-                      } else {
-                        listNodeOTP[currentIndex.value].value = "";
-                      }
-
-                      if (currentIndex.value != 0) {
-                        listNodeOTP[currentIndex.value - 1].value = "";
-                        currentIndex.value = currentIndex.value - 1;
-                      }
-                      changeStatus(value);
-                    } else if (value.characters.last.toString().isNumericOnly) {
-                      if (listNodeOTP[5].value == "") {
-                        listNodeOTP[currentIndex.value].value = value.characters.last.toString();
-                      }
-                      if (currentIndex.value != 5) {
-                        currentIndex.value = currentIndex.value + 1;
-                      }
-                      changeStatus(value);
-                    }
-                    count = value.characters.length;
-                  }
+                  changeStatus(value);
                 },
               ),
             ),
-            InputOTP(status: listNodeOTP[0].status, value: listNodeOTP[0].value),
-            InputOTP(status: listNodeOTP[1].status, value: listNodeOTP[1].value),
-            InputOTP(status: listNodeOTP[2].status, value: listNodeOTP[2].value),
-            InputOTP(status: listNodeOTP[3].status, value: listNodeOTP[3].value),
-            InputOTP(status: listNodeOTP[4].status, value: listNodeOTP[4].value),
-            InputOTP(status: listNodeOTP[5].status, value: listNodeOTP[5].value),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InputOTP(status: listNodeOTP[0].status, value: listNodeOTP[0].value),
+                InputOTP(status: listNodeOTP[1].status, value: listNodeOTP[1].value),
+                InputOTP(status: listNodeOTP[2].status, value: listNodeOTP[2].value),
+                InputOTP(status: listNodeOTP[3].status, value: listNodeOTP[3].value),
+                InputOTP(status: listNodeOTP[4].status, value: listNodeOTP[4].value),
+                InputOTP(status: listNodeOTP[5].status, value: listNodeOTP[5].value),
+              ],
+            ),
           ],
         ),
       ),
@@ -140,9 +112,7 @@ class InputOTP extends StatelessWidget {
               ? ColorName.blue007
               : status == 0
                   ? ColorName.gray838
-                  : status == 2
-                      ? ColorName.black000
-                      : ColorName.redFf3,
+                  : ColorName.black000,
           width: 1,
         ),
         borderRadius: const BorderRadius.all(Radius.circular(10.0)),

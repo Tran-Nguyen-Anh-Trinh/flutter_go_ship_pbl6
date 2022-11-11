@@ -63,12 +63,11 @@ class DemoPage extends GetWidget<DemoController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  InputOTPWidget(
-                    otpCode: 123456,
-                    callback: () {
-                      print('Thàng công');
-                    },
-                  ),
+                  // InputOTPWidget(
+                  //   callback: (otpCode) {
+                  //     print('Thàng công');
+                  //   },
+                  // ),
                   CupertinoButton(
                     onPressed: controller.onTap,
                     child: const Text('Test API'),

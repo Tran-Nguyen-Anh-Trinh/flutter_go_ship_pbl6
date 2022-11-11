@@ -78,9 +78,7 @@ class LoginController extends BaseController {
             hideErrorMessage();
           },
           onSuccess: (account) {
-            loginState.onSuccess();
             ignoringPointer.value = false;
-
             _storageService.setToken(account.toJson().toString());
             Permission.locationWhenInUse.status.then((value) {
               if (value.isGranted) {
