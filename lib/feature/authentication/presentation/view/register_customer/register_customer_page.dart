@@ -79,7 +79,7 @@ class RegisterCustomerPage extends GetView<RegisterCustomerController> {
                               controller.updateRegisterButtonState();
                             },
                             onSubmitted: (_) {
-                              controller.onTapRegister;
+                              controller.onTapRegister();
                             },
                           ),
                         ],

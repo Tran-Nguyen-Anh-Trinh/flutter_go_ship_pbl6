@@ -54,8 +54,7 @@ class ForgotPasswordOtpPage extends GetView<ForgotPasswordController> {
                 ),
               ),
               InputOTPWidget(
-                otpCode: 123456,
-                callback: () {
+                callback: (otpCode) {
                   print('Thành công');
                 },
               ),

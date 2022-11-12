@@ -1,4 +1,5 @@
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/search/search_controller.dart';
 
 import '../extension/route_type.dart';
@@ -29,8 +30,8 @@ class N {
     type.navigate(name: AppRoute.registerCustomer);
   }
 
-  static void toConfirmRegisterCustomer({RouteType type = RouteType.to}) {
-    type.navigate(name: AppRoute.confirmRegisterCustomer);
+  static void toConfirmRegisterCustomer({RouteType type = RouteType.to, required RegisterRequest registerRequest}) {
+    type.navigate(name: AppRoute.confirmRegisterCustomer, arguments: registerRequest);
   }
 
   static void toTabBar({RouteType type = RouteType.offAll, required AccountModel account}) {

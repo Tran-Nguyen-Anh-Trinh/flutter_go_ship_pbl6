@@ -55,9 +55,9 @@ Widget commonCloseButton({void Function()? onPressed}) {
 }
 
 @swidget
-Widget loadingWidget() {
-  return const Center(
-    child: CupertinoActivityIndicator(color: ColorName.black000),
+Widget loadingWidget({Color? color}) {
+  return Center(
+    child: CupertinoActivityIndicator(color: color ?? ColorName.black000),
   );
 }
 
