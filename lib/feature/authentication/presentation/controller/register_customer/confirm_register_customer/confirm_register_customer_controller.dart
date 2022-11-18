@@ -100,7 +100,7 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
           isChecking.value = false;
           if (e is DioError) {
             if (e.response != null) {
-              showErrorDialog(context, e.response!.data['details'].toString());
+              showErrorDialog(context, e.response!.data['detail'].toString());
             } else {
               showErrorDialog(context, e.message);
             }

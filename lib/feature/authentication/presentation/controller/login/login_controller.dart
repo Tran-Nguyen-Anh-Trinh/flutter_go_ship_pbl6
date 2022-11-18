@@ -34,8 +34,8 @@ class LoginController extends BaseController {
   void onInit() {
     super.onInit();
     if (kDebugMode) {
-      phoneTextEditingController.text = '0123456789';
-      passwordTextEditingController.text = 'string';
+      phoneTextEditingController.text = '0384933379';
+      passwordTextEditingController.text = '123123';
     }
   }
 
@@ -91,7 +91,7 @@ class LoginController extends BaseController {
           onError: (e) {
             if (e is DioError) {
               if (e.response != null) {
-                _showToastMessage(e.response!.data['details'].toString());
+                _showToastMessage(e.response!.data['detail'].toString());
               } else {
                 _showToastMessage(e.message);
               }
