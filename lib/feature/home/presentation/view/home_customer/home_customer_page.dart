@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/home_customer/home_customer_controller.dart';
@@ -88,7 +90,7 @@ class HomeCustomerPage extends GetView<HomeCustomerController> {
             ],
           ),
           Positioned(
-            bottom: kBottomNavigationBarHeight + 10,
+            bottom: kBottomNavigationBarHeight + (Platform.isIOS ? 45 : 10),
             right: 15,
             child: GestureDetector(
               onTap: controller.goToMyLocation,

@@ -139,7 +139,7 @@ class HomeCustomerController extends BaseController {
     }
   }
 
-  void goToPlace(LatLng latLng) {
+  void goToPlace(LatLng latLng, {bool isSetMarker = false}) {
     latLngBounds.value = LatLngBounds(
       northeast: LatLng(latLng.latitude + 0.0065 * 0.5 / 2, latLng.longitude + 0.0065 * 0.5 / 2),
       southwest: LatLng(latLng.latitude - 0.0065 * 0.5 / 2, latLng.longitude - 0.0065 * 0.5 / 2),
@@ -154,6 +154,9 @@ class HomeCustomerController extends BaseController {
         ),
       ),
     );
+    if (isSetMarker) {
+      setMarker(latLng, "search_result");
+    }
   }
 
   void setMarker(LatLng latLng, String name, {BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker}) {

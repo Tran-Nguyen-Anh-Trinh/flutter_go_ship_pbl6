@@ -3,25 +3,31 @@ import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/home_customer/home_customer_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/map/data/models/map_position.dart';
 import 'package:flutter_go_ship_pbl6/feature/map/data/providers/remote/google_map_api.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class SearchController extends BaseController<InputSearch?>{
+class SearchController extends BaseController<InputSearch?> {
+  SearchController(this._storageService);
+
+  final StorageService _storageService;
   TextEditingController searchTextEditingController = TextEditingController();
   RxList<MapPosition> listPosition = List<MapPosition>.empty().obs;
 
   GoogleMapAPI googleMapAPI = GoogleMapAPI();
   // test
-  List<String> historys = ["Bách khoa đà nẵng", "Bách khoa ĐN"];
+  RxList<String> historys = <String>[].obs;
   Rx<bool> isSearching = false.obs;
 
-  bool searchState = false;
+  var searchState = false.obs;
 
   final homeCustomerController = Get.find<HomeCustomerController>();
 
   @override
   void onInit() {
     super.onInit();
+    // test
+    // _storageService.removeSearchHistory();
+    loadHistory();
     if (input != null) {
       listPosition.value = input!.position;
       searchTextEditingController.text = input!.searchText;
@@ -29,8 +35,14 @@ class SearchController extends BaseController<InputSearch?>{
     }
   }
 
+  void loadHistory() {
+    _storageService.getSearchHistory().then((value) {
+      historys.value = value;
+    });
+  }
+
   void goToPlace(int index) {
-    homeCustomerController.goToPlace(listPosition[index].latLng);
+    homeCustomerController.goToPlace(listPosition[index].latLng, isSetMarker: true);
     homeCustomerController.listPosition = listPosition;
     homeCustomerController.textSearch = searchTextEditingController.text;
     homeCustomerController.isSearching.value = true;
@@ -60,17 +72,22 @@ class SearchController extends BaseController<InputSearch?>{
   }
 
   void searchPlace() {
-    if (searchTextEditingController.text.isNotEmpty && !searchState) {
-      searchState = true;
-      // production
+    if (searchTextEditingController.text.isNotEmpty && !searchState.value) {
+      searchState.value = true;
+
       googleMapAPI.searchMapPlace(searchTextEditingController.text).then(
         (value) {
+          if (!historys.contains(searchTextEditingController.text)) {
+            historys.add(searchTextEditingController.text);
+            _storageService.setSearchHistory(historys);
+          }
           listPosition.value = value;
           isSearching.value = true;
           hideKeyboard();
-          searchState = false;
+          searchState.value = false;
         },
       );
+
       // testing
 
       // listPosition.value = [

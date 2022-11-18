@@ -2,8 +2,8 @@ import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/search
 import 'package:get/get.dart';
 
 class SearchBindings implements Bindings {
-    @override
-    void dependencies() {
-        Get.put(SearchController());
-    }
+  @override
+  void dependencies() {
+    Get.put(SearchController(Get.find()));
+  }
 }

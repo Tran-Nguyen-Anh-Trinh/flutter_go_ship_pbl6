@@ -47,8 +47,6 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<key>UIStatusBarHidden</key>
-		<true/>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>Cho phép Go Ship truy cập vào thông tin vị trí của thiết bị này?</string>
 		<key>NSLocationAlwaysUsageDescription</key>
