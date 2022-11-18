@@ -20,6 +20,7 @@ class RootController extends GetxController {
         AccountModel account = AccountModel();
         if (value.isNotEmpty) {
           account = AccountModel.fromJson(jsonDecode(value));
+          print(account.toJson());
           final permissionStatus = await Permission.locationWhenInUse.status;
           if (permissionStatus.isGranted) {
             N.toTabBar(account: account);
