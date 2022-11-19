@@ -1,6 +1,7 @@
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/search/search_controller.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Models/infor_user.dart';
 
 import '../extension/route_type.dart';
 import 'app_route.dart';
@@ -34,15 +35,30 @@ class N {
     type.navigate(name: AppRoute.confirmRegisterCustomer, arguments: registerRequest);
   }
 
-  static void toTabBar({RouteType type = RouteType.offAll, required AccountModel account}) {
+  static void toTabBar(
+      {RouteType type = RouteType.offAll, required AccountModel account}) {
     type.navigate(name: AppRoute.tabBar, arguments: account);
   }
 
-  static void toPermissionHandler({RouteType type = RouteType.offAll, required AccountModel account}) {
+  static void toPermissionHandler(
+      {RouteType type = RouteType.offAll, required AccountModel account}) {
     type.navigate(name: AppRoute.permissionHandler, arguments: account);
   }
 
-  static void toSearch({RouteType type = RouteType.to, InputSearch? inputSearch}) {
+  static void toSearch(
+      {RouteType type = RouteType.to, InputSearch? inputSearch}) {
     type.navigate(name: AppRoute.serach, arguments: inputSearch);
+  }
+
+  static void toChatHome({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.chatHome);
+  }
+
+  static void toChatDetail({RouteType type = RouteType.to, InforUser? input}) {
+    type.navigate(name: AppRoute.chatDetail, arguments: input);
+  }
+
+  static void toViewMedia({RouteType type = RouteType.to, Map<String, dynamic>? input}) {
+    type.navigate(name: AppRoute.viewMedia, arguments: input);
   }
 }

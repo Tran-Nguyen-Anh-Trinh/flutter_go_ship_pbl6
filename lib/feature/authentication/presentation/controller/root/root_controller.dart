@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -14,13 +16,16 @@ class RootController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.delayed(const Duration(seconds: 1)).whenComplete(() async {
+    Future.delayed(const Duration(milliseconds: 200)).whenComplete(() async {
       FlutterNativeSplash.remove();
       _storageService.getToken().then((value) async {
         AccountModel account = AccountModel();
         if (value.isNotEmpty) {
           account = AccountModel.fromJson(jsonDecode(value));
-          print(account.toJson());
+          if (kDebugMode) {
+            print(account.toJson());
+          }
+          AppConfig.accountModel = account;
           final permissionStatus = await Permission.locationWhenInUse.status;
           if (permissionStatus.isGranted) {
             N.toTabBar(account: account);
