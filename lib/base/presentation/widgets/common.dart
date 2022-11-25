@@ -216,6 +216,42 @@ Widget commonTextField(
 }
 
 @swidget
+Widget commonDropDown({
+  required String title,
+  String? value,
+  void Function()? onPressed,
+  double height = 50,
+}) {
+  return CupertinoButton(
+    padding: EdgeInsets.zero,
+    onPressed: onPressed,
+    child: Container(
+      margin: const EdgeInsets.only(bottom: 22),
+      height: height,
+      decoration: BoxDecoration(
+        color: value != null ? ColorName.whiteFff : ColorName.grayF8f,
+        border: Border.all(color: ColorName.gray838, width: 0.5),
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          const SizedBox(width: 13),
+          Text(
+            value ?? title,
+            style: AppTextStyle.w400s11(value != null ? ColorName.black000 : ColorName.gray838),
+          ),
+          const Spacer(),
+          const Icon(Icons.keyboard_arrow_down, color: ColorName.black000),
+          const SizedBox(width: 13),
+        ],
+      ),
+    ),
+  );
+}
+
+@swidget
 Widget commonButton({
   required Widget child,
   double? width,
@@ -289,7 +325,7 @@ Widget commonBottomError({required String text}) {
 @swidget
 Widget commonBottomButton({
   required String text,
-  Color fillColor = ColorName.green4c8,
+  Color fillColor = ColorName.primaryColor,
   double pressedOpacity = 0.4,
   Function()? onPressed,
   BaseState? state,

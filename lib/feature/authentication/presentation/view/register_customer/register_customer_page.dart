@@ -1,20 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_app_bar.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/controller/register_customer/register_customer_controller.dart';
-import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
-class RegisterCustomerPage extends GetView<RegisterCustomerController> {
+class RegisterCustomerPage extends BaseWidget<RegisterCustomerController> {
   const RegisterCustomerPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget onBuild(BuildContext context) {
     return GestureDetector(
       onTap: controller.hideKeyboard,
       child: Scaffold(

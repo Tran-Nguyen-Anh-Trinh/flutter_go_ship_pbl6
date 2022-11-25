@@ -5,6 +5,9 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/repositories_im
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/repositoties/auth_repo.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Firebase/cloud_storage.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Firebase/cloud_storage_impl.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/shipper_api.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/repositories_imp/shipper_repo_impl.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/repositoties/shipper_repo.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service_impl.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Firebase/realtime_database.dart';
@@ -39,11 +42,17 @@ class AppBinding extends Bindings {
       () => AuthAPI(Get.find<DioBuilder>()),
       fenix: true,
     );
+
+    Get.lazyPut(
+      () => ShipperAPI(Get.find<DioBuilder>()),
+      fenix: true,
+    );
   }
 
   void injectRepository() {
     Get.put<UserRepo>(UserRepoImpl());
     Get.put<AuthRepo>(AuthRepoImpl());
+    Get.put<ShipperRepo>(ShipperRepoImpl());
   }
 
   void injectService() {

@@ -1,17 +1,17 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
 import '../../controller/welcome/welcome_controller.dart';
 
-class WelcomePage extends GetView<WelcomeController> {
+class WelcomePage extends BaseWidget<WelcomeController> {
   const WelcomePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget onBuild(BuildContext context) {
     return Scaffold(
         backgroundColor: ColorName.whiteFff,
         resizeToAvoidBottomInset: false,
@@ -65,9 +65,12 @@ class WelcomePage extends GetView<WelcomeController> {
                 const SizedBox(
                   height: 66,
                 ),
-                Text(
-                  'Lái xe cùng Go Ship?',
-                  style: AppTextStyle.w700s14(ColorName.redFf0, letterSpacing: 0.38),
+                CupertinoButton(
+                  onPressed: controller.toRegisterShipper,
+                  child: Text(
+                    'Lái xe cùng Go Ship?',
+                    style: AppTextStyle.w700s14(ColorName.redFf0, letterSpacing: 0.38),
+                  ),
                 ),
                 const SizedBox(
                   height: 3,

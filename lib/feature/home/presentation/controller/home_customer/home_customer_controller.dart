@@ -39,7 +39,7 @@ class HomeCustomerController extends BaseController {
 
   Future<void> doSomeAsyncStuff() async {
     _mapController = await mapController.future;
-    getCurrentLocation();
+    getMyLocation();
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
@@ -60,7 +60,7 @@ class HomeCustomerController extends BaseController {
           borderRadius: const BorderRadius.all(Radius.circular(150)),
           border: Border.all(width: 3, color: ColorName.primaryColor),
         ),
-        child: Assets.images.profileMaleIcon.image(),
+        child: Assets.images.profileIcon.image(),
       ),
     )
         .then(
@@ -85,22 +85,27 @@ class HomeCustomerController extends BaseController {
     );
   }
 
-  void getCurrentLocation() {
+  void getMyLocation() {
     var location = Location();
 
     location.getLocation().then(
       (value) {
         myLocation = value;
 
-        _mapController!.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              bearing: 0,
-              target: LatLng(value.latitude!, value.longitude!),
-              zoom: 17.0,
-            ),
-          ),
-        );
+        try {
+          if (_mapController != null) {
+            _mapController!.animateCamera(
+              CameraUpdate.newCameraPosition(
+                CameraPosition(
+                  bearing: 0,
+                  target: LatLng(value.latitude!, value.longitude!),
+                  zoom: 17.0,
+                ),
+              ),
+            );
+          }
+        } catch (e) {}
+
         latLngBounds.value = LatLngBounds(
           northeast: LatLng(value.latitude! + 0.0065 * 5 / 2, value.longitude! + 0.0065 * 5 / 2),
           southwest: LatLng(value.latitude! - 0.0065 * 5 / 2, value.longitude! - 0.0065 * 5 / 2),
@@ -144,16 +149,21 @@ class HomeCustomerController extends BaseController {
       northeast: LatLng(latLng.latitude + 0.0065 * 0.5 / 2, latLng.longitude + 0.0065 * 0.5 / 2),
       southwest: LatLng(latLng.latitude - 0.0065 * 0.5 / 2, latLng.longitude - 0.0065 * 0.5 / 2),
     );
-    _mapController!.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          bearing: 0,
-          target: latLng,
-          zoom: 17.0,
-          // tilt: 90,
-        ),
-      ),
-    );
+
+    try {
+      if (_mapController != null) {
+        _mapController!.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              bearing: 0,
+              target: latLng,
+              zoom: 17.0,
+              // tilt: 90,
+            ),
+          ),
+        );
+      }
+    } catch (e) {}
     if (isSetMarker) {
       setMarker(latLng, "search_result");
     }

@@ -6,6 +6,7 @@ class StorageServiceImpl implements StorageService {
   final _sharedPreferences = SharedPreferences.getInstance();
 
   final _kSearchHistory = "searchHistory";
+  final _kShipperInfoKey = "shipperInfo";
 
   @override
   Future<void> setToken(String token) async {
@@ -35,5 +36,19 @@ class StorageServiceImpl implements StorageService {
   @override
   Future<void> removeSearchHistory() async {
     (await _sharedPreferences).remove(_kSearchHistory);
+  }
+
+  Future<void> setShipper(String shipper) async {
+    (await _sharedPreferences).setString(_kShipperInfoKey, shipper);
+  }
+
+  @override
+  Future<String> getShipper() async {
+    return (await _sharedPreferences).getString(_kShipperInfoKey) ?? "";
+  }
+
+  @override
+  Future<void> removeShipper() async {
+    (await _sharedPreferences).remove(_kShipperInfoKey);
   }
 }

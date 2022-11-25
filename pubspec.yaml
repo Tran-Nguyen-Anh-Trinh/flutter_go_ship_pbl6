@@ -60,6 +60,8 @@ dependencies:
 
   # Json serializable & model
   dart_json_mapper: ^2.2.5+1
+
+  # Firebase
   firebase_database: ^10.0.4
   firebase_storage: ^11.0.4
   firebase_auth: ^4.1.1
@@ -74,9 +76,15 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   flutter_compass: ^0.7.0
   permission_handler: ^10.1.0
+  # Camera & Keyboard
+  flutter_keyboard_visibility: ^5.4.0
+  camera: ^0.10.0+4
 
   #DateTime
   intl: ^0.17.0
+
+  # Scaner
+  scan: ^1.6.0
 
 dev_dependencies:
   flutter_test:

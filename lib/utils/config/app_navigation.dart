@@ -1,3 +1,4 @@
+import 'package:flutter_go_ship_pbl6/base/presentation/widgets/camera_widget.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/search/search_controller.dart';
@@ -27,26 +28,23 @@ class N {
     type.navigate(name: AppRoute.forgotPasswordOtp);
   }
 
-  static void toRegisterCustomer({RouteType type = RouteType.to}) {
-    type.navigate(name: AppRoute.registerCustomer);
+  static void toRegisterCustomer({RouteType type = RouteType.to, required int role}) {
+    type.navigate(name: AppRoute.registerCustomer, arguments: role);
   }
 
   static void toConfirmRegisterCustomer({RouteType type = RouteType.to, required RegisterRequest registerRequest}) {
     type.navigate(name: AppRoute.confirmRegisterCustomer, arguments: registerRequest);
   }
 
-  static void toTabBar(
-      {RouteType type = RouteType.offAll, required AccountModel account}) {
+  static void toTabBar({RouteType type = RouteType.offAll, required AccountModel account}) {
     type.navigate(name: AppRoute.tabBar, arguments: account);
   }
 
-  static void toPermissionHandler(
-      {RouteType type = RouteType.offAll, required AccountModel account}) {
+  static void toPermissionHandler({RouteType type = RouteType.offAll, required AccountModel account}) {
     type.navigate(name: AppRoute.permissionHandler, arguments: account);
   }
 
-  static void toSearch(
-      {RouteType type = RouteType.to, InputSearch? inputSearch}) {
+  static void toSearch({RouteType type = RouteType.to, InputSearch? inputSearch}) {
     type.navigate(name: AppRoute.serach, arguments: inputSearch);
   }
 
@@ -60,5 +58,21 @@ class N {
 
   static void toViewMedia({RouteType type = RouteType.to, Map<String, dynamic>? input}) {
     type.navigate(name: AppRoute.viewMedia, arguments: input);
+  }
+
+  static void toConfirmShipper({RouteType type = RouteType.offAll}) {
+    type.navigate(name: AppRoute.confirmShipper);
+  }
+
+  static void toAddAddress({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.addAddress);
+  }
+
+  static void toConfirmShipperCamera({RouteType type = RouteType.to, required TypeCamera typeCamera}) {
+    type.navigate(name: AppRoute.confirmShipperCamera, arguments: typeCamera);
+  }
+
+  static void toStatusConfirm({RouteType type = RouteType.offAll, required bool isDeny}) {
+    type.navigate(name: AppRoute.statusConfirm, arguments: isDeny);
   }
 }

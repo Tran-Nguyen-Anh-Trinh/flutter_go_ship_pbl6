@@ -5,6 +5,7 @@ import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/widgets/app_tab_b
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/widgets/centerx_docked_fab_location.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/widgets/circular_notched_and_cornered_shape.dart';
 import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/activate_customer/activate_customer_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/activate_shipper/activate_shipper_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/home_customer/home_customer_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/home_shipper/home_shipper_page.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
@@ -56,10 +57,18 @@ class TabBarPage extends BaseWidget<TabBarController> {
       () => Scaffold(
         resizeToAvoidBottomInset: false,
         extendBody: true,
-        body: IndexedStack(index: controller.currentIndex.value, children: [
-          controller.accountModel!.role == 1 ? HomeCustomerPage() : const HomeShipperPage(),
-          const ActivateCustomerPage(),
-        ]),
+        body: IndexedStack(
+          index: controller.currentIndex.value,
+          children: (controller.accountModel!.role == 1)
+              ? [
+                  HomeCustomerPage(),
+                  const ActivateCustomerPage(),
+                ]
+              : [
+                  const HomeShipperPage(),
+                  const ActivateShipperPage(),
+                ],
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocationExtension.centerXDocked,
         floatingActionButton: CupertinoButton(
           padding: const EdgeInsets.only(bottom: 15),

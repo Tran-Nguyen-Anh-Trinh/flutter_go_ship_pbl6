@@ -7,14 +7,17 @@ class AccountModel {
 
   String? accessToken;
 
+  String? refreshToken;
+
   int? role;
 
-  AccountModel({this.phoneNumber, this.accessToken, this.role});
+  AccountModel({this.phoneNumber, this.accessToken, this.refreshToken, this.role});
 
   Map<String, dynamic> toJson() {
     return {
       '"phoneNumber"': '"$phoneNumber"',
       '"accessToken"': '"$accessToken"',
+      '"refreshToken"': '"$refreshToken"',
       '"role"': role,
     };
   }
@@ -23,6 +26,7 @@ class AccountModel {
     return AccountModel(
       phoneNumber: json['phoneNumber'],
       accessToken: json['accessToken'],
+      refreshToken: json['refreshToken'],
       role: json['role'],
     );
   }

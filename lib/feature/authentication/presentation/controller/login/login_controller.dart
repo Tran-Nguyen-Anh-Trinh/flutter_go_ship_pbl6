@@ -1,11 +1,12 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_shipper_info_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
@@ -13,10 +14,11 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../domain/usecases/login_usecase.dart';
 
 class LoginController extends BaseController {
-  LoginController(this._loginUsecase, this._storageService);
+  LoginController(this._loginUsecase, this._storageService, this._getShipperInfoUsecase);
 
   final LoginUsecase _loginUsecase;
   final StorageService _storageService;
+  final GetShipperInfoUsecase _getShipperInfoUsecase;
 
   final phoneTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();
@@ -59,7 +61,7 @@ class LoginController extends BaseController {
     isDisableButton.value = _phone.isEmpty || _password.isEmpty;
   }
 
-  void onTapLogin(BuildContext context) {
+  void onTapLogin() {
     try {
       final fbs = formKey.formBuilderState!;
       final phoneField = FormFieldType.phone.field(fbs);
@@ -78,19 +80,46 @@ class LoginController extends BaseController {
             ignoringPointer.value = true;
             hideErrorMessage();
           },
-          onSuccess: (account) {
-            ignoringPointer.value = false;
-
+          onSuccess: (account) async {
             AppConfig.accountModel = account;
 
             _storageService.setToken(account.toJson().toString());
-            Permission.locationWhenInUse.status.then((value) {
-              if (value.isGranted) {
-                N.toTabBar(account: account);
-              } else {
-                N.toPermissionHandler(account: account);
-              }
-            });
+            if (account.role == 1) {
+              await checkPermisson(account);
+            } else {
+              _getShipperInfoUsecase.execute(
+                observer: Observer(
+                  onSubscribe: () {},
+                  onSuccess: (shipper) async {
+                    await _storageService.setShipper(shipper.toJson().toString());
+                    if (shipper.confirmed == 0) {
+                      N.toConfirmShipper();
+                    } else if (shipper.confirmed == 1) {
+                      N.toStatusConfirm(isDeny: false);
+                    } else if (shipper.confirmed == 2) {
+                      await checkPermisson(account);
+                    } else {
+                      N.toStatusConfirm(isDeny: true);
+                    }
+                    ignoringPointer.value = false;
+                  },
+                  onError: (e) {
+                    if (e is DioError) {
+                      if (e.response != null) {
+                        _showToastMessage(e.response!.data['detail'].toString());
+                      } else {
+                        _showToastMessage(e.message);
+                      }
+                    }
+                    if (kDebugMode) {
+                      print(e.toString());
+                    }
+                    ignoringPointer.value = false;
+                    loginState.onSuccess();
+                  },
+                ),
+              );
+            }
           },
           onError: (e) {
             if (e is DioError) {
@@ -114,6 +143,15 @@ class LoginController extends BaseController {
       );
     } on Exception catch (e) {
       isDisableButton.value = true;
+    }
+  }
+
+  Future<void> checkPermisson(AccountModel account) async {
+    final permissionStatus = await Permission.locationWhenInUse.status;
+    if (permissionStatus.isGranted) {
+      N.toTabBar(account: account);
+    } else {
+      N.toPermissionHandler(account: account);
     }
   }
 

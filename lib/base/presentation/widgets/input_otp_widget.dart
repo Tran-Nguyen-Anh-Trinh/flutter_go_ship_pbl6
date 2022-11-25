@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:get/get.dart';
-import 'dart:math';
 
 part 'input_otp_widget.g.dart';
 
@@ -48,47 +48,55 @@ Widget inputOTPWidget({required Function(String otp) callback}) {
     }
   }
 
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 50),
-    height: 60,
-    child: Obx(
-      () => GestureDetector(
-        onTap: () {
-          focusNode.requestFocus();
-        },
-        child: Stack(
-          children: [
-            Opacity(
-              opacity: 0,
-              child: TextField(
-                controller: textEditingController,
-                autofocus: true,
-                focusNode: focusNode,
-                onEditingComplete: () {},
-                keyboardType: TextInputType.number,
-                maxLength: 6,
-                onChanged: (value) {
-                  changeStatus(value);
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
+  return KeyboardVisibilityBuilder(
+    builder: (context, isKeyboardVisible) {
+      if (!isKeyboardVisible) {
+        focusNode.unfocus();
+      }
+
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        height: 60,
+        child: Obx(
+          () => GestureDetector(
+            onTap: () {
+              focusNode.requestFocus();
+            },
+            child: Stack(
               children: [
-                InputOTP(status: listNodeOTP[0].status, value: listNodeOTP[0].value),
-                InputOTP(status: listNodeOTP[1].status, value: listNodeOTP[1].value),
-                InputOTP(status: listNodeOTP[2].status, value: listNodeOTP[2].value),
-                InputOTP(status: listNodeOTP[3].status, value: listNodeOTP[3].value),
-                InputOTP(status: listNodeOTP[4].status, value: listNodeOTP[4].value),
-                InputOTP(status: listNodeOTP[5].status, value: listNodeOTP[5].value),
+                Opacity(
+                  opacity: 0,
+                  child: TextField(
+                    controller: textEditingController,
+                    autofocus: true,
+                    focusNode: focusNode,
+                    onEditingComplete: () {},
+                    keyboardType: TextInputType.number,
+                    maxLength: 6,
+                    onChanged: (value) {
+                      changeStatus(value);
+                    },
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InputOTP(status: listNodeOTP[0].status, value: listNodeOTP[0].value),
+                    InputOTP(status: listNodeOTP[1].status, value: listNodeOTP[1].value),
+                    InputOTP(status: listNodeOTP[2].status, value: listNodeOTP[2].value),
+                    InputOTP(status: listNodeOTP[3].status, value: listNodeOTP[3].value),
+                    InputOTP(status: listNodeOTP[4].status, value: listNodeOTP[4].value),
+                    InputOTP(status: listNodeOTP[5].status, value: listNodeOTP[5].value),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
-    ),
+      );
+    },
   );
 }
 

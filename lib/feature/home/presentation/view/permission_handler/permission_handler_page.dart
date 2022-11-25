@@ -1,17 +1,16 @@
+import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/permission_handler/permission_handler_controller.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class PermissionHandlerPage extends GetView<PermissionHandlerController> {
+class PermissionHandlerPage extends BaseWidget<PermissionHandlerController> {
   const PermissionHandlerPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget onBuild(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorName.whiteFff,
       resizeToAvoidBottomInset: false,
