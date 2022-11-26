@@ -75,6 +75,10 @@ class AppTextStyle {
     return _styleWith(FontWeight.w500, 15, color, height: height, letterSpacing: letterSpacing);
   }
 
+  static TextStyle w500s17(Color color, {double? height, double? letterSpacing}) {
+    return _styleWith(FontWeight.w500, 17, color, height: height, letterSpacing: letterSpacing);
+  }
+
   static TextStyle w500s20(Color color, {double? height, double? letterSpacing}) {
     return _styleWith(FontWeight.w500, 20, color, height: height, letterSpacing: letterSpacing);
   }

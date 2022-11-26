@@ -558,3 +558,78 @@ Widget commonSearchBar({
     ),
   );
 }
+
+@swidget
+Widget radioButonGroup(List<String> data, {String? title, Widget? icon, Function(int)? callBack}) {
+  var curentIndex = 0.obs;
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        children: [
+          const SizedBox(width: 5),
+          icon ?? const SizedBox.shrink(),
+          const SizedBox(width: 5),
+          Text(
+            title ?? "",
+            style: AppTextStyle.w500s17(ColorName.black000),
+          ),
+        ],
+      ),
+      const SizedBox(height: 5),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: ColorName.black000.withOpacity(0.3),
+              offset: const Offset(8, 8),
+              blurRadius: 10,
+            ),
+          ],
+          color: ColorName.whiteFff,
+        ),
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
+          scrollDirection: Axis.vertical,
+          itemCount: data.length,
+          itemBuilder: (context, index) {
+            return Obx(
+              () => CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  curentIndex.value = index;
+                  if (callBack != null) {
+                    callBack(index);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
+                    children: [
+                      curentIndex.value == index
+                          ? Assets.images.radioButtonChecked.image(width: 20, color: ColorName.primaryColor)
+                          : Assets.images.radioButtonUncheck.image(width: 20, color: ColorName.primaryColor),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(
+                          data[index],
+                          style: AppTextStyle.w600s15(ColorName.black000),
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    ],
+  );
+}

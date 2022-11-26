@@ -216,7 +216,17 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                                 keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
-                                    onTap: () => controller.goToPlace(controller.listPosition[index].latLng),
+                                    onTap: () {
+                                      controller.setMarker(
+                                        controller.listPosition[index].latLng,
+                                        "Go Ship",
+                                        "Selecting",
+                                        snippet: "Vị trí đã được lựa chọn",
+                                        onTap: () =>
+                                            controller.setLocation(latLng: controller.listPosition[index].latLng),
+                                      );
+                                      controller.goToPlace(controller.listPosition[index].latLng);
+                                    },
                                     child: Container(
                                         decoration: const BoxDecoration(
                                           border: Border(

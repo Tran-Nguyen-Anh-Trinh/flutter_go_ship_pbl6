@@ -75,4 +75,16 @@ class N {
   static void toStatusConfirm({RouteType type = RouteType.offAll, required bool isDeny}) {
     type.navigate(name: AppRoute.statusConfirm, arguments: isDeny);
   }
+
+  static void toCreateOrder({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.createOrder);
+  }
+
+  static void toOrderAddress({RouteType type = RouteType.to, required isStartAddress}) {
+    type.navigate(name: AppRoute.orderAddress, arguments: isStartAddress);
+  }
+
+  static void toSetting({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.setting);
+  }
 }

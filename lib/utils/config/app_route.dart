@@ -22,10 +22,16 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/we
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_detail/chat_detail_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/view_media/view_media_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/view_media/view_media_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/create_order/create_order_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/create_order/create_order_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/order_address/order_address_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/order_address/order_address_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/permission_handler/permission_handler_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/permission_handler/permission_handler_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/search/search_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/search/search_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting/setting_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting/setting_page.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_detail/chat_detail_page.dart';
@@ -57,6 +63,9 @@ class AppRoute {
   static String addAddress = '/addAddress';
   static String confirmShipperCamera = '/confirmShipperCamera';
   static String statusConfirm = '/statusConfirm';
+  static String createOrder = '/createOrder';
+  static String orderAddress = '/orderAddress';
+  static String setting = '/setting';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -165,6 +174,24 @@ class AppRoute {
       name: statusConfirm,
       page: StatusConfirmPage.new,
       binding: StatusConfirmBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: createOrder,
+      page: CreateOrderPage.new,
+      binding: CreateOrderBindings(),
+      transition: Transition.downToUp,
+    ),
+    GetPage(
+      name: orderAddress,
+      page: OrderAddressPage.new,
+      binding: OrderAddressBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: setting,
+      page: SettingPage.new,
+      binding: SettingBindings(),
       transition: Transition.cupertino,
     ),
   ];

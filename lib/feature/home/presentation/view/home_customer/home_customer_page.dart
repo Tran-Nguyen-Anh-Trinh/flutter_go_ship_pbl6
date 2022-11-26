@@ -12,7 +12,7 @@ import 'package:flutter_go_ship_pbl6/utils/services/storage_service_impl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
-  HomeCustomerPage({Key? key}) : super(key: key);
+  const HomeCustomerPage({Key? key}) : super(key: key);
 
   final CameraPosition _initialCameraPosition = const CameraPosition(
     target: LatLng(16.073885, 108.149829),
@@ -35,7 +35,7 @@ class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
               zoomControlsEnabled: false,
               rotateGesturesEnabled: false,
               minMaxZoomPreference: const MinMaxZoomPreference(14.65, 19),
-              cameraTargetBounds: CameraTargetBounds(controller.latLngBounds.value),
+              cameraTargetBounds: controller.latLngBounds.value,
               onMapCreated: (GoogleMapController mapController) {
                 controller.mapController.complete(mapController);
               },
@@ -63,19 +63,6 @@ class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
                   child: Assets.images.notificationMenuIcon.image(height: 18, width: 18),
                 ),
               },
-              // testing
-              {
-                1: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {
-                    StorageServiceImpl().removeToken().then((value) {
-                      N.toWelcomePage();
-                    });
-                  },
-                  child: Assets.images.notificationMenuIcon.image(height: 18, width: 18),
-                ),
-              },
-              // testing
             ],
           ),
           Positioned(
@@ -124,6 +111,9 @@ class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
                   : CommonSearchBar(
                       onPressed: controller.toSearch,
                       leading: Assets.images.logoIcon.image(height: 30, width: 35),
+                      trailingPressed: () {
+                        N.toSetting();
+                      },
                       trailing: Assets.images.profileMaleIcon.image(height: 35, width: 35),
                       title: Text("Tìm kiếm ở đây", style: AppTextStyle.w400s14(ColorName.gray828)),
                     ),
