@@ -10,6 +10,8 @@ enum FormFieldType {
   password,
   confirmPassword,
   memo,
+  detailOrder,
+  noteOrder,
 }
 
 extension FormFieldTypeExtension on FormFieldType {
@@ -25,6 +27,10 @@ extension FormFieldTypeExtension on FormFieldType {
         return 'Xác nhận mật khẩu';
       case FormFieldType.memo:
         return 'Mô tả địa chỉ';
+      case FormFieldType.detailOrder:
+        return 'Chi tiết đơn hàng';
+      case FormFieldType.noteOrder:
+        return 'Lưu ý đến Shipper';
       default:
         return '';
     }
@@ -44,6 +50,10 @@ extension FormFieldTypeExtension on FormFieldType {
       case FormFieldType.phone:
         return TextInputType.phone;
       case FormFieldType.memo:
+        return TextInputType.multiline;
+      case FormFieldType.detailOrder:
+        return TextInputType.multiline;
+      case FormFieldType.noteOrder:
         return TextInputType.multiline;
       default:
         return TextInputType.text;
@@ -95,6 +105,13 @@ extension FormFieldTypeExtension on FormFieldType {
       case FormFieldType.memo:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống mô tả địa chỉ'),
+          FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ'),
+        ];
+        break;
+
+      case FormFieldType.detailOrder:
+        validators = [
+          FormBuilderValidators.required(errorText: 'Không được để trống chi tiết đơn hàng'),
           FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ'),
         ];
         break;

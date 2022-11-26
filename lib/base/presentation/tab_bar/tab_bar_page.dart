@@ -8,6 +8,7 @@ import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/activate
 import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/activate_shipper/activate_shipper_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/home_customer/home_customer_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/home_shipper/home_shipper_page.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 
@@ -73,7 +74,11 @@ class TabBarPage extends BaseWidget<TabBarController> {
         floatingActionButton: CupertinoButton(
           padding: const EdgeInsets.only(bottom: 15),
           child: Assets.images.addIcon.image(width: 75, height: 75),
-          onPressed: () {},
+          onPressed: () {
+            if (controller.accountModel!.role == 1) {
+              N.toCreateOrder();
+            } else {}
+          },
         ),
         bottomNavigationBar: BottomAppBar(
           elevation: 21,

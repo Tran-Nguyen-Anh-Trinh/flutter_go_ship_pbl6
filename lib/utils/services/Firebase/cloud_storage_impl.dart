@@ -38,7 +38,7 @@ class CloudStorageImpl implements CloudStorage {
   }
 
   @override
-  Future<List<String>> putAllxFile(List<XFile> xfiles) async {
+  Future<List<String>> putAllxFile(List<XFile> xfiles, {String folder = "shipper"}) async {
     _reference = _instance.ref();
     List<String> results = [];
     for (final it in xfiles) {
@@ -46,10 +46,10 @@ class CloudStorageImpl implements CloudStorage {
         now = DateTime.now();
         formattedDate = DateFormat('dd-MM-yyyy-kk:mm:ssss').format(now);
         await _reference
-            .child('shipper/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
+            .child('$folder/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
             .putData(await it.readAsBytes());
         results.add(await _reference
-            .child('shipper/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
+            .child('$folder/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
             .getDownloadURL());
       } on Exception catch (e) {
         if (kDebugMode) {

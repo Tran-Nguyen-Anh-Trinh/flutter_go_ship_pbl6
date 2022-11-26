@@ -20,9 +20,11 @@ class HomeCustomerController extends BaseController {
 
   GoogleMapController? _mapController;
   LocationData? myLocation;
-  Rx<LatLngBounds?> latLngBounds = LatLngBounds(
-    northeast: const LatLng(16.073885 + 0.0065 * 2 / 2, 108.149829 + 0.0065 * 2 / 2),
-    southwest: const LatLng(16.073885 - 0.0065 * 2 / 2, 108.149829 - 0.0065 * 2 / 2),
+  Rx<CameraTargetBounds> latLngBounds = CameraTargetBounds(
+    LatLngBounds(
+      northeast: const LatLng(16.073885 + 0.0065 * 2 / 2, 108.149829 + 0.0065 * 2 / 2),
+      southwest: const LatLng(16.073885 - 0.0065 * 2 / 2, 108.149829 - 0.0065 * 2 / 2),
+    ),
   ).obs;
 
   RxMap<MarkerId, Marker> markers = <MarkerId, Marker>{}.obs;
@@ -89,12 +91,12 @@ class HomeCustomerController extends BaseController {
     var location = Location();
 
     location.getLocation().then(
-      (value) {
+      (value) async {
         myLocation = value;
-
+        latLngBounds.value = CameraTargetBounds.unbounded;
         try {
           if (_mapController != null) {
-            _mapController!.animateCamera(
+            await _mapController!.animateCamera(
               CameraUpdate.newCameraPosition(
                 CameraPosition(
                   bearing: 0,
@@ -106,9 +108,11 @@ class HomeCustomerController extends BaseController {
           }
         } catch (e) {}
 
-        latLngBounds.value = LatLngBounds(
-          northeast: LatLng(value.latitude! + 0.0065 * 5 / 2, value.longitude! + 0.0065 * 5 / 2),
-          southwest: LatLng(value.latitude! - 0.0065 * 5 / 2, value.longitude! - 0.0065 * 5 / 2),
+        latLngBounds.value = CameraTargetBounds(
+          LatLngBounds(
+            northeast: LatLng(value.latitude! + 0.0065 * 5 / 2, value.longitude! + 0.0065 * 5 / 2),
+            southwest: LatLng(value.latitude! - 0.0065 * 5 / 2, value.longitude! - 0.0065 * 5 / 2),
+          ),
         );
       },
     );
@@ -131,28 +135,27 @@ class HomeCustomerController extends BaseController {
     });
   }
 
-  void goToMyLocation() {
+  void goToMyLocation() async {
     listPosition = [];
     textSearch = "";
     isSearching.value = false;
     if (myLocation != null) {
-      goToPlace(LatLng(myLocation!.latitude!, myLocation!.longitude!));
-      latLngBounds.value = LatLngBounds(
-        northeast: LatLng(myLocation!.latitude! + 0.0065 * 5 / 2, myLocation!.longitude! + 0.0065 * 5 / 2),
-        southwest: LatLng(myLocation!.latitude! - 0.0065 * 5 / 2, myLocation!.longitude! - 0.0065 * 5 / 2),
+      latLngBounds.value = CameraTargetBounds.unbounded;
+      await goToPlace(LatLng(myLocation!.latitude!, myLocation!.longitude!));
+      latLngBounds.value = CameraTargetBounds(
+        LatLngBounds(
+          northeast: LatLng(myLocation!.latitude! + 0.0065 * 5 / 2, myLocation!.longitude! + 0.0065 * 5 / 2),
+          southwest: LatLng(myLocation!.latitude! - 0.0065 * 5 / 2, myLocation!.longitude! - 0.0065 * 5 / 2),
+        ),
       );
     }
   }
 
-  void goToPlace(LatLng latLng, {bool isSetMarker = false}) {
-    latLngBounds.value = LatLngBounds(
-      northeast: LatLng(latLng.latitude + 0.0065 * 0.5 / 2, latLng.longitude + 0.0065 * 0.5 / 2),
-      southwest: LatLng(latLng.latitude - 0.0065 * 0.5 / 2, latLng.longitude - 0.0065 * 0.5 / 2),
-    );
-
+  Future<void> goToPlace(LatLng latLng, {bool isSetMarker = false}) async {
+    latLngBounds.value = CameraTargetBounds.unbounded;
     try {
       if (_mapController != null) {
-        _mapController!.animateCamera(
+        await _mapController!.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
               bearing: 0,
@@ -164,8 +167,14 @@ class HomeCustomerController extends BaseController {
         );
       }
     } catch (e) {}
+    latLngBounds.value = CameraTargetBounds(
+      LatLngBounds(
+        northeast: LatLng(latLng.latitude + 0.0065 * 0.5 / 2, latLng.longitude + 0.0065 * 0.5 / 2),
+        southwest: LatLng(latLng.latitude - 0.0065 * 0.5 / 2, latLng.longitude - 0.0065 * 0.5 / 2),
+      ),
+    );
     if (isSetMarker) {
-      setMarker(latLng, "search_result");
+      setMarker(latLng, textSearch);
     }
   }
 
