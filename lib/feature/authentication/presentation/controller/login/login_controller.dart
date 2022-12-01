@@ -14,7 +14,8 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../domain/usecases/login_usecase.dart';
 
 class LoginController extends BaseController {
-  LoginController(this._loginUsecase, this._storageService, this._getShipperInfoUsecase);
+  LoginController(
+      this._loginUsecase, this._storageService, this._getShipperInfoUsecase);
 
   final LoginUsecase _loginUsecase;
   final StorageService _storageService;
@@ -82,6 +83,7 @@ class LoginController extends BaseController {
           },
           onSuccess: (account) async {
             AppConfig.accountModel = account;
+            print(account.toJson());
 
             _storageService.setToken(account.toJson().toString());
             if (account.role == 1) {
@@ -91,7 +93,8 @@ class LoginController extends BaseController {
                 observer: Observer(
                   onSubscribe: () {},
                   onSuccess: (shipper) async {
-                    await _storageService.setShipper(shipper.toJson().toString());
+                    await _storageService
+                        .setShipper(shipper.toJson().toString());
                     if (shipper.confirmed == 0) {
                       N.toConfirmShipper();
                     } else if (shipper.confirmed == 1) {
@@ -106,7 +109,8 @@ class LoginController extends BaseController {
                   onError: (e) {
                     if (e is DioError) {
                       if (e.response != null) {
-                        _showToastMessage(e.response!.data['detail'].toString());
+                        _showToastMessage(
+                            e.response!.data['detail'].toString());
                       } else {
                         _showToastMessage(e.message);
                       }

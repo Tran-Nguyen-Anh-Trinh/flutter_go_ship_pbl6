@@ -28,23 +28,30 @@ class N {
     type.navigate(name: AppRoute.forgotPasswordOtp);
   }
 
-  static void toRegisterCustomer({RouteType type = RouteType.to, required int role}) {
+  static void toRegisterCustomer(
+      {RouteType type = RouteType.to, required int role}) {
     type.navigate(name: AppRoute.registerCustomer, arguments: role);
   }
 
-  static void toConfirmRegisterCustomer({RouteType type = RouteType.to, required RegisterRequest registerRequest}) {
-    type.navigate(name: AppRoute.confirmRegisterCustomer, arguments: registerRequest);
+  static void toConfirmRegisterCustomer(
+      {RouteType type = RouteType.to,
+      required RegisterRequest registerRequest}) {
+    type.navigate(
+        name: AppRoute.confirmRegisterCustomer, arguments: registerRequest);
   }
 
-  static void toTabBar({RouteType type = RouteType.offAll, required AccountModel account}) {
+  static void toTabBar(
+      {RouteType type = RouteType.offAll, required AccountModel account}) {
     type.navigate(name: AppRoute.tabBar, arguments: account);
   }
 
-  static void toPermissionHandler({RouteType type = RouteType.offAll, required AccountModel account}) {
+  static void toPermissionHandler(
+      {RouteType type = RouteType.offAll, required AccountModel account}) {
     type.navigate(name: AppRoute.permissionHandler, arguments: account);
   }
 
-  static void toSearch({RouteType type = RouteType.to, InputSearch? inputSearch}) {
+  static void toSearch(
+      {RouteType type = RouteType.to, InputSearch? inputSearch}) {
     type.navigate(name: AppRoute.serach, arguments: inputSearch);
   }
 
@@ -56,7 +63,8 @@ class N {
     type.navigate(name: AppRoute.chatDetail, arguments: input);
   }
 
-  static void toViewMedia({RouteType type = RouteType.to, Map<String, dynamic>? input}) {
+  static void toViewMedia(
+      {RouteType type = RouteType.to, Map<String, dynamic>? input}) {
     type.navigate(name: AppRoute.viewMedia, arguments: input);
   }
 
@@ -68,11 +76,13 @@ class N {
     type.navigate(name: AppRoute.addAddress);
   }
 
-  static void toConfirmShipperCamera({RouteType type = RouteType.to, required TypeCamera typeCamera}) {
+  static void toConfirmShipperCamera(
+      {RouteType type = RouteType.to, required TypeCamera typeCamera}) {
     type.navigate(name: AppRoute.confirmShipperCamera, arguments: typeCamera);
   }
 
-  static void toStatusConfirm({RouteType type = RouteType.offAll, required bool isDeny}) {
+  static void toStatusConfirm(
+      {RouteType type = RouteType.offAll, required bool isDeny}) {
     type.navigate(name: AppRoute.statusConfirm, arguments: isDeny);
   }
 
@@ -80,11 +90,24 @@ class N {
     type.navigate(name: AppRoute.createOrder);
   }
 
-  static void toOrderAddress({RouteType type = RouteType.to, required isStartAddress}) {
+  static void toOrderAddress(
+      {RouteType type = RouteType.to, required isStartAddress}) {
     type.navigate(name: AppRoute.orderAddress, arguments: isStartAddress);
   }
 
   static void toSetting({RouteType type = RouteType.to}) {
     type.navigate(name: AppRoute.setting);
+  }
+
+  static void toProfile({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.profile);
+  }
+
+  static void toChangePassword({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.changePassword);
+  }
+
+  static void toSettingSystem({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.settingSystem);
   }
 }

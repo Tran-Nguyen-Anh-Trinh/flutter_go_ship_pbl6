@@ -13,12 +13,19 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../../utils/config/app_navigation.dart';
+import '../../../../home/domain/usecases/get_customer_info.dart';
 
 class RootController extends BaseController {
-  RootController(this._storageService, this._getShipperInfoUsecase, this._refreshTokenUsecase);
+  RootController(
+    this._storageService,
+    this._getShipperInfoUsecase,
+    this._refreshTokenUsecase,
+    this._getCustomeInfoUsecase,
+  );
   final StorageService _storageService;
   final GetShipperInfoUsecase _getShipperInfoUsecase;
   final RefreshTokenUsecase _refreshTokenUsecase;
+  final GetCustomeInfoUsecase _getCustomeInfoUsecase;
 
   @override
   void onInit() {
@@ -92,7 +99,8 @@ class RootController extends BaseController {
                           }
                         },
                       ),
-                      input: TokenRequest(account.refreshToken, account.accessToken),
+                      input: TokenRequest(
+                          account.refreshToken, account.accessToken),
                     );
                   } else {
                     appStart();
@@ -111,7 +119,14 @@ class RootController extends BaseController {
   Future<void> checkPermisson(AccountModel account) async {
     final permissionStatus = await Permission.locationWhenInUse.status;
     if (permissionStatus.isGranted) {
-      N.toTabBar(account: account);
+      _getCustomeInfoUsecase.execute(
+          observer: Observer(onSuccess: (customerModel) {
+        AppConfig.customerInfo = customerModel;
+        N.toTabBar(account: account);
+      }, onError: (e) {
+        debugPrint(e.toString());
+        N.toWelcomePage();
+      }));
     } else {
       N.toPermissionHandler(account: account);
     }

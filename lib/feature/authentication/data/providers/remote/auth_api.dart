@@ -1,6 +1,7 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/change_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/confirm_shipper_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
@@ -16,12 +17,15 @@ abstract class AuthAPI {
   @POST('/api/token/refresh/')
   Future<TokenRequest> refreshToken(@Body() TokenRequest request);
 
-  @POST('/login/')
+  @POST('/user/login/')
   Future<AccountModel> login(@Body() PhonePasswordRequest request);
 
-  @POST('/register/')
+  @POST('/user/register/')
   Future<AccountModel> register(@Body() RegisterRequest request);
 
   @PUT('/confirm-shipper/')
   Future<void> confirmShipper(@Body() ConfirmShipperRequest request);
+
+  @POST('/user/change-password/')
+  Future<void> changePassword(@Body() ChangePasswordRequest request);
 }

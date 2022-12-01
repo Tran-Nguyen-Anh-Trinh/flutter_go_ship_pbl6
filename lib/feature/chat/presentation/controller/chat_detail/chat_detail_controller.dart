@@ -55,6 +55,8 @@ class ChatDetailController extends BaseController<InforUser> {
 
   bool isFirst = true;
 
+  String defaultMessages = '';
+
   @override
   void onInit() async {
     super.onInit();
@@ -73,10 +75,16 @@ class ChatDetailController extends BaseController<InforUser> {
       }
     });
 
+    final path = 'default_messages/${userReceive.phone}';
+
+    _realtimeDatabase
+        .getDefaultMessages(path)
+        .then((value) => defaultMessages = value);
+
     _stream = await _realtimeDatabase.initGetMessages(pathSent);
     _streamSubscription = _stream.listen((event) async {
-        _realtimeDatabase.setNewMessages('$pathSent/isNew', false);
- 
+      _realtimeDatabase.setNewMessages('$pathSent/isNew', false);
+
       messagesListBackUp.clear();
       maker = true;
       final messagesChildren = event.snapshot.children;
@@ -145,16 +153,36 @@ class ChatDetailController extends BaseController<InforUser> {
 
     imageList.clear();
 
-    await _realtimeDatabase.sentMessages(
-        pathSent,
-        pathReceive,
-        Messages(
-            messages: getText,
-            image: urls.join('##'),
-            dateTime: DateTime.now(),
-            senderPhone: AppConfig.accountModel.phoneNumber ?? ''));
-
-    await _realtimeDatabase.setNewMessages('$pathReceive/isNew', true);
+    if (messagesList.length == 1) {
+      await _realtimeDatabase.sentMessages(
+          pathSent,
+          pathReceive,
+          Messages(
+              messages: getText,
+              image: urls.join('##'),
+              dateTime: DateTime.now(),
+              senderPhone: AppConfig.accountModel.phoneNumber ?? ''));
+      if (defaultMessages.isNotEmpty) {
+        await _realtimeDatabase.sentMessages(
+            pathSent,
+            pathReceive,
+            Messages(
+                messages: defaultMessages,
+                image: '',
+                dateTime: DateTime.now(),
+                senderPhone: userReceive.phone ?? ''));
+      }
+    } else {
+      await _realtimeDatabase.sentMessages(
+          pathSent,
+          pathReceive,
+          Messages(
+              messages: getText,
+              image: urls.join('##'),
+              dateTime: DateTime.now(),
+              senderPhone: AppConfig.accountModel.phoneNumber ?? ''));
+      await _realtimeDatabase.setNewMessages('$pathReceive/isNew', true);
+    }
 
     urls.clear();
   }

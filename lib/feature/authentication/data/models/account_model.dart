@@ -1,7 +1,7 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 
 @jsonSerializable
-@Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false)
+@Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false, name: 'data')
 class AccountModel {
   String? phoneNumber;
 
@@ -11,7 +11,8 @@ class AccountModel {
 
   int? role;
 
-  AccountModel({this.phoneNumber, this.accessToken, this.refreshToken, this.role});
+  AccountModel(
+      {this.phoneNumber, this.accessToken, this.refreshToken, this.role});
 
   Map<String, dynamic> toJson() {
     return {

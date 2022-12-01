@@ -1,6 +1,7 @@
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/auth_api.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/change_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/confirm_shipper_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
@@ -28,5 +29,10 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<void> confirmShipper(ConfirmShipperRequest request) {
     return _authAPI.confirmShipper(request);
+  }
+
+  @override
+  Future<void> changePassword(ChangePasswordRequest request) {
+    return _authAPI.changePassword(request);
   }
 }

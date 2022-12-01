@@ -12,6 +12,7 @@ enum FormFieldType {
   memo,
   detailOrder,
   noteOrder,
+  messagesDefault,
 }
 
 extension FormFieldTypeExtension on FormFieldType {
@@ -31,6 +32,8 @@ extension FormFieldTypeExtension on FormFieldType {
         return 'Chi tiết đơn hàng';
       case FormFieldType.noteOrder:
         return 'Lưu ý đến Shipper';
+      case FormFieldType.messagesDefault:
+        return 'Nhập tin nhắn';
       default:
         return '';
     }
@@ -54,6 +57,8 @@ extension FormFieldTypeExtension on FormFieldType {
       case FormFieldType.detailOrder:
         return TextInputType.multiline;
       case FormFieldType.noteOrder:
+        return TextInputType.multiline;
+      case FormFieldType.messagesDefault:
         return TextInputType.multiline;
       default:
         return TextInputType.text;
@@ -93,13 +98,13 @@ extension FormFieldTypeExtension on FormFieldType {
       case FormFieldType.password:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu'),
-          FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 6 ký tự'),
+          FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
         ];
         break;
       case FormFieldType.confirmPassword:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu xác nhận'),
-          FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 6 ký tự'),
+          FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
         ];
         break;
       case FormFieldType.memo:
@@ -113,6 +118,11 @@ extension FormFieldTypeExtension on FormFieldType {
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống chi tiết đơn hàng'),
           FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ'),
+        ];
+        break;
+      case FormFieldType.messagesDefault:
+          validators = [
+            FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ'),
         ];
         break;
       default:
