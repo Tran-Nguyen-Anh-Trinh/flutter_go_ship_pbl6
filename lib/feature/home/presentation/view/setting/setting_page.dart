@@ -28,7 +28,7 @@ class SettingPage extends BaseWidget<SettingController> {
       appBar: BaseAppBar(
         title: const Text('Cài đặt'),
       ),
-      backgroundColor: const Color.fromARGB(255, 236, 236, 236),
+      backgroundColor: ColorName.grayF4f,
       body: SmartRefresher(
         enablePullDown: true,
         controller: controller.refreshController,
@@ -44,22 +44,19 @@ class SettingPage extends BaseWidget<SettingController> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Container(
-                color: const Color.fromARGB(255, 236, 236, 236),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                color: ColorName.grayF4f,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 child: Row(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(35),
                       child: Obx(
                         () => CachedNetworkImage(
-                          height: 70,
-                          width: 70,
+                          height: 60,
+                          width: 60,
                           fit: BoxFit.cover,
-                          imageUrl:
-                              controller.customerInfo.value.avatarUrl ?? '',
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
+                          imageUrl: controller.customerInfo.value.avatarUrl ?? '',
+                          placeholder: (context, url) => const CircularProgressIndicator(),
                           errorWidget: (context, url, error) => const Icon(
                             Icons.error,
                             color: ColorName.primaryColor,
@@ -95,9 +92,8 @@ class SettingPage extends BaseWidget<SettingController> {
                 onPressed: controller.logout,
               ),
               Container(
-                color: const Color.fromARGB(255, 236, 236, 236),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                color: ColorName.grayF4f,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,9 +133,8 @@ class SettingPage extends BaseWidget<SettingController> {
                 },
               ),
               Container(
-                color: const Color.fromARGB(255, 236, 236, 236),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                color: ColorName.grayF4f,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,9 +182,8 @@ class SettingPage extends BaseWidget<SettingController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    color: const Color.fromARGB(255, 236, 236, 236),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
+                    color: ColorName.grayF4f,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,18 +299,7 @@ class SelectDistance extends StatelessWidget {
                   width: 1,
                 ),
               ),
-              items: [
-                '1 km',
-                '2 km',
-                '3 km',
-                '4 km',
-                '5 km',
-                '6 km',
-                '7 km',
-                '8 km',
-                '9 km',
-                '10 km'
-              ]
+              items: ['1 km', '2 km', '3 km', '4 km', '5 km', '6 km', '7 km', '8 km', '9 km', '10 km']
                   .map((item) => DropdownMenuItem<String>(
                         value: item,
                         child: Text(
@@ -531,9 +514,7 @@ Widget settingItem({
         color: ColorName.whiteFff,
         border: Border(
           bottom: const BorderSide(width: 1, color: ColorName.grayBdb),
-          top: topBorder
-              ? const BorderSide(width: 1, color: ColorName.grayBdb)
-              : BorderSide.none,
+          top: topBorder ? const BorderSide(width: 1, color: ColorName.grayBdb) : BorderSide.none,
         ),
       ),
       child: Row(

@@ -8,6 +8,7 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/toke
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_shipper_info_usecase.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Firebase/push_notification.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -28,11 +29,12 @@ class RootController extends BaseController {
   final GetCustomeInfoUsecase _getCustomeInfoUsecase;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     Future.delayed(const Duration(milliseconds: 200)).whenComplete(() async {
       FlutterNativeSplash.remove();
     });
+    PushNotification().initialize();
     appStart();
   }
 
@@ -47,7 +49,55 @@ class RootController extends BaseController {
         }
         AppConfig.accountModel = account;
         if (account.role == 1) {
-          await checkPermisson(account);
+          _getCustomeInfoUsecase.execute(
+            observer: Observer(
+              onSuccess: (customerModel) async {
+                AppConfig.customerInfo = customerModel;
+                await checkPermisson(account);
+              },
+              onError: (e) async {
+                if (kDebugMode) {
+                  print(e.response!.data['detail'].toString());
+                  print(e);
+                }
+                if (e is DioError) {
+                  if (e.response!.statusCode == 403) {
+                    await _refreshTokenUsecase.execute(
+                      observer: Observer(
+                        onSubscribe: () {},
+                        onSuccess: (token) {
+                          account.accessToken = token.access;
+                          _storageService.setToken(account.toJson().toString());
+                          AppConfig.accountModel = account;
+                          appStart();
+                        },
+                        onError: (err) async {
+                          print(err);
+                          if (err is DioError) {
+                            if (err.response!.statusCode == 401) {
+                              await showOkDialog(
+                                title: "Phiên đăng nhập của bạn đã hết hạng",
+                                message: "Vui lòng thực hiện đăng nhập lại!",
+                              );
+                              _storageService.removeToken();
+                              AppConfig.accountModel = AccountModel();
+                              N.toWelcomePage();
+                              N.toLoginPage();
+                            } else {
+                              appStart();
+                            }
+                          }
+                        },
+                      ),
+                      input: TokenRequest(account.refreshToken, account.accessToken),
+                    );
+                  } else {
+                    appStart();
+                  }
+                }
+              },
+            ),
+          );
         } else {
           _getShipperInfoUsecase.execute(
             observer: Observer(
@@ -55,6 +105,7 @@ class RootController extends BaseController {
               onSuccess: (shipper) async {
                 print(shipper.toJson());
                 await _storageService.setShipper(shipper.toJson().toString());
+                AppConfig.shipperModel = shipper;
                 if (shipper.confirmed == 0) {
                   N.toConfirmShipper();
                 } else if (shipper.confirmed == 1) {
@@ -99,8 +150,7 @@ class RootController extends BaseController {
                           }
                         },
                       ),
-                      input: TokenRequest(
-                          account.refreshToken, account.accessToken),
+                      input: TokenRequest(account.refreshToken, account.accessToken),
                     );
                   } else {
                     appStart();
@@ -119,14 +169,7 @@ class RootController extends BaseController {
   Future<void> checkPermisson(AccountModel account) async {
     final permissionStatus = await Permission.locationWhenInUse.status;
     if (permissionStatus.isGranted) {
-      _getCustomeInfoUsecase.execute(
-          observer: Observer(onSuccess: (customerModel) {
-        AppConfig.customerInfo = customerModel;
-        N.toTabBar(account: account);
-      }, onError: (e) {
-        debugPrint(e.toString());
-        N.toWelcomePage();
-      }));
+      N.toTabBar(account: account);
     } else {
       N.toPermissionHandler(account: account);
     }

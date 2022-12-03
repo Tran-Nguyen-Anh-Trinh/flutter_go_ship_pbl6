@@ -7,6 +7,7 @@ import 'package:functional_widget_annotation/functional_widget_annotation.dart';
 import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:collection/collection.dart';
+import 'package:intl/intl.dart';
 
 import '../../../utils/config/app_text_style.dart';
 import '../../../utils/gen/assets.gen.dart';
@@ -560,8 +561,8 @@ Widget commonSearchBar({
 }
 
 @swidget
-Widget radioButonGroup(List<String> data, {String? title, Widget? icon, Function(int)? callBack}) {
-  var curentIndex = 0.obs;
+Widget radioButonGroup(List<String> data,
+    {String? title, Widget? icon, Function(int)? callBack, int? curentIndex, dynamic money = 0, bool? isLoading}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.start,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -575,6 +576,33 @@ Widget radioButonGroup(List<String> data, {String? title, Widget? icon, Function
             title ?? "",
             style: AppTextStyle.w500s17(ColorName.black000),
           ),
+          const Spacer(),
+          if (isLoading ?? false)
+            const LoadingWidget(
+              color: ColorName.primaryColor,
+            ),
+          if (!(isLoading ?? false))
+            Text(
+              ' + ',
+              textAlign: TextAlign.center,
+              style: AppTextStyle.w700s16(ColorName.primaryColor),
+            ),
+          if (!(isLoading ?? false))
+            Text(
+              NumberFormat('#,##0')
+                  .format(
+                    money ?? 0,
+                  )
+                  .replaceAll(',', '.'),
+              textAlign: TextAlign.center,
+              style: AppTextStyle.w700s16(ColorName.green459),
+            ),
+          if (!(isLoading ?? false))
+            Text(
+              ' đ',
+              textAlign: TextAlign.center,
+              style: AppTextStyle.w600s10(ColorName.redFf0),
+            ),
         ],
       ),
       const SizedBox(height: 5),
@@ -585,7 +613,7 @@ Widget radioButonGroup(List<String> data, {String? title, Widget? icon, Function
           boxShadow: [
             BoxShadow(
               color: ColorName.black000.withOpacity(0.3),
-              offset: const Offset(8, 8),
+              offset: const Offset(5, 5),
               blurRadius: 10,
             ),
           ],
@@ -598,32 +626,30 @@ Widget radioButonGroup(List<String> data, {String? title, Widget? icon, Function
           scrollDirection: Axis.vertical,
           itemCount: data.length,
           itemBuilder: (context, index) {
-            return Obx(
-              () => CupertinoButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  curentIndex.value = index;
-                  if (callBack != null) {
-                    callBack(index);
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: Row(
-                    children: [
-                      curentIndex.value == index
-                          ? Assets.images.radioButtonChecked.image(width: 20, color: ColorName.primaryColor)
-                          : Assets.images.radioButtonUncheck.image(width: 20, color: ColorName.primaryColor),
-                      const SizedBox(width: 5),
-                      Expanded(
-                        child: Text(
-                          data[index],
-                          style: AppTextStyle.w600s15(ColorName.black000),
-                          overflow: TextOverflow.clip,
-                        ),
+            return CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                curentIndex = index;
+                if (callBack != null) {
+                  callBack(index);
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: Row(
+                  children: [
+                    curentIndex == index
+                        ? Assets.images.radioButtonChecked.image(width: 20, color: ColorName.primaryColor)
+                        : Assets.images.radioButtonUncheck.image(width: 20, color: ColorName.primaryColor),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Text(
+                        data[index],
+                        style: AppTextStyle.w600s15(ColorName.black000),
+                        overflow: TextOverflow.clip,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
@@ -631,5 +657,90 @@ Widget radioButonGroup(List<String> data, {String? title, Widget? icon, Function
         ),
       ),
     ],
+  );
+}
+
+@swidget
+Widget statusOrderWidget(int status) {
+  return Container(
+    height: 100,
+    decoration: BoxDecoration(
+      border: Border.all(width: 0.5, color: ColorName.grayC7c),
+      color: ColorName.grayF8f,
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Assets.images.orderStatus.image(
+          width: 25,
+          color: status == 4 ? ColorName.redEb5 : ColorName.green5d9,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Text(
+            "------",
+            style: AppTextStyle.w600s20(
+              status == 4
+                  ? ColorName.redEb5
+                  : status > 1
+                      ? ColorName.green5d9
+                      : ColorName.black000,
+            ),
+          ),
+        ),
+        Assets.images.deliveryStatus.image(
+          width: 25,
+          color: status == 4
+              ? ColorName.redEb5
+              : status > 1
+                  ? ColorName.green5d9
+                  : ColorName.black000,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Text(
+            "------",
+            style: AppTextStyle.w600s20(
+              status == 4
+                  ? ColorName.redEb5
+                  : status > 2
+                      ? ColorName.green5d9
+                      : ColorName.black000,
+            ),
+          ),
+        ),
+        Assets.images.shippingStatus.image(
+          width: 25,
+          color: status == 4
+              ? ColorName.redEb5
+              : status > 2
+                  ? ColorName.green5d9
+                  : ColorName.black000,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Text(
+            "------",
+            style: AppTextStyle.w600s20(
+              status == 4
+                  ? ColorName.redEb5
+                  : status > 3
+                      ? ColorName.green5d9
+                      : ColorName.black000,
+            ),
+          ),
+        ),
+        Assets.images.checkedStatus.image(
+          width: 25,
+          color: status == 4
+              ? ColorName.redEb5
+              : status > 3
+                  ? ColorName.green5d9
+                  : ColorName.black000,
+        ),
+      ],
+    ),
   );
 }

@@ -6,6 +6,7 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remot
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/token_request%20.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/update_token_device_request.dart';
 import 'package:retrofit/http.dart';
 
 part 'auth_api.g.dart';
@@ -23,9 +24,12 @@ abstract class AuthAPI {
   @POST('/user/register/')
   Future<AccountModel> register(@Body() RegisterRequest request);
 
-  @PUT('/confirm-shipper/')
+  @PATCH('/shipper/confirm-shipper/')
   Future<void> confirmShipper(@Body() ConfirmShipperRequest request);
 
   @POST('/user/change-password/')
   Future<void> changePassword(@Body() ChangePasswordRequest request);
+  
+  @PATCH('/user/update-device-token/')
+  Future<void> updateTokenDevice(@Body() UpdateTokenDeviceRequest request);
 }

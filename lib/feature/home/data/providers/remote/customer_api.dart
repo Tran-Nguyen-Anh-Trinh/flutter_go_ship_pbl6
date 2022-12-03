@@ -1,8 +1,10 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_go_ship_pbl6/feature/home/data/models/category_model.dart';
-import 'package:flutter_go_ship_pbl6/feature/home/data/models/payment_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_category_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_payment_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/price_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/create_order_request.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/get_price_request.dart';
 import 'package:retrofit/http.dart';
 
 import '../../models/customer_info_model.dart';
@@ -14,10 +16,10 @@ abstract class CustomerAPI {
   factory CustomerAPI(Dio dioBuilder) = _CustomerAPI;
 
   @GET('/category/')
-  Future<List<CategoryModel>> getCategory();
+  Future<ListCategoryModel> getCategory();
 
   @GET('/payment/')
-  Future<List<PaymentModel>> getPayment();
+  Future<ListPaymentModel> getPayment();
 
   @POST('/order/')
   Future<void> createOrder(@Body() CreateOrderRequest request);
@@ -27,4 +29,7 @@ abstract class CustomerAPI {
 
   @PUT('/customer/detail/')
   Future<void> updateCustomerInfo(@Body() CustomerModel request);
+
+  @POST('/distance/get_price/')
+  Future<PriceModel> getPrice(@Body() GetPriceRequest request);
 }

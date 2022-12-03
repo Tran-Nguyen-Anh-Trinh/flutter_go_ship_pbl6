@@ -4,8 +4,8 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remot
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/token_request%20.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/update_token_device_request.dart';
 
-import '../../data/models/list_user_model.dart';
 
 abstract class AuthRepo {
   Future<TokenRequest> refreshToken(TokenRequest request);
@@ -13,4 +13,5 @@ abstract class AuthRepo {
   Future<AccountModel> register(RegisterRequest request);
   Future<void> confirmShipper(ConfirmShipperRequest request);
   Future<void> changePassword(ChangePasswordRequest request);
+  Future<void> updateTokenDevice(UpdateTokenDeviceRequest request);
 }

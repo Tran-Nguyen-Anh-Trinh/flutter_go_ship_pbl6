@@ -6,6 +6,7 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remot
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/token_request%20.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/update_token_device_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/repositoties/auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
@@ -34,5 +35,10 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<void> changePassword(ChangePasswordRequest request) {
     return _authAPI.changePassword(request);
+  }
+
+  @override
+  Future<void> updateTokenDevice(UpdateTokenDeviceRequest request) {
+    return _authAPI.updateTokenDevice(request);
   }
 }

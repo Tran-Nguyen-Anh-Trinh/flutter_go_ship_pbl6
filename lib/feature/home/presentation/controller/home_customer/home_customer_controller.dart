@@ -25,19 +25,15 @@ class HomeCustomerController extends BaseController {
   LocationData? myLocation;
   Rx<CameraTargetBounds> latLngBounds = CameraTargetBounds(
     LatLngBounds(
-      northeast:
-          const LatLng(16.073885 + 0.0065 * 2 / 2, 108.149829 + 0.0065 * 2 / 2),
-      southwest:
-          const LatLng(16.073885 - 0.0065 * 2 / 2, 108.149829 - 0.0065 * 2 / 2),
+      northeast: const LatLng(16.073885 + 0.0065 * 2 / 2, 108.149829 + 0.0065 * 2 / 2),
+      southwest: const LatLng(16.073885 - 0.0065 * 2 / 2, 108.149829 - 0.0065 * 2 / 2),
     ),
   ).obs;
 
   RxMap<MarkerId, Marker> markers = <MarkerId, Marker>{}.obs;
 
-  BitmapDescriptor myMarkerIcon =
-      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-  BitmapDescriptor shipperMakerIcon =
-      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+  BitmapDescriptor myMarkerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+  BitmapDescriptor shipperMakerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
 
   @override
   void onInit() {
@@ -54,9 +50,7 @@ class HomeCustomerController extends BaseController {
   double calculateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
     var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    var a = 0.5 - c((lat2 - lat1) * p) / 2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
   }
 
@@ -123,10 +117,8 @@ class HomeCustomerController extends BaseController {
 
         latLngBounds.value = CameraTargetBounds(
           LatLngBounds(
-            northeast: LatLng(value.latitude! + 0.0065 * 5 / 2,
-                value.longitude! + 0.0065 * 5 / 2),
-            southwest: LatLng(value.latitude! - 0.0065 * 5 / 2,
-                value.longitude! - 0.0065 * 5 / 2),
+            northeast: LatLng(value.latitude! + 0.0065 * 5 / 2, value.longitude! + 0.0065 * 5 / 2),
+            southwest: LatLng(value.latitude! - 0.0065 * 5 / 2, value.longitude! - 0.0065 * 5 / 2),
           ),
         );
       },
@@ -136,19 +128,16 @@ class HomeCustomerController extends BaseController {
 
     location.onLocationChanged.listen((event) {
       setMarker(
-        LatLng(event.latitude! + Random().nextDouble() / 1000,
-            event.longitude! + Random().nextDouble() / -1000),
+        LatLng(event.latitude! + Random().nextDouble() / 1000, event.longitude! + Random().nextDouble() / -1000),
         'shipper1',
         markerIcon: shipperMakerIcon,
       );
       setMarker(
-        LatLng(event.latitude! + Random().nextDouble() / -1000,
-            event.longitude! + Random().nextDouble() / 1000),
+        LatLng(event.latitude! + Random().nextDouble() / -1000, event.longitude! + Random().nextDouble() / 1000),
         'shipper2',
         markerIcon: shipperMakerIcon,
       );
-      setMarker(LatLng(event.latitude!, event.longitude!), 'quylt',
-          markerIcon: myMarkerIcon);
+      setMarker(LatLng(event.latitude!, event.longitude!), AppConfig.customerInfo.name ?? "", markerIcon: myMarkerIcon);
       myLocation = event;
     });
   }
@@ -162,10 +151,8 @@ class HomeCustomerController extends BaseController {
       await goToPlace(LatLng(myLocation!.latitude!, myLocation!.longitude!));
       latLngBounds.value = CameraTargetBounds(
         LatLngBounds(
-          northeast: LatLng(myLocation!.latitude! + 0.0065 * 5 / 2,
-              myLocation!.longitude! + 0.0065 * 5 / 2),
-          southwest: LatLng(myLocation!.latitude! - 0.0065 * 5 / 2,
-              myLocation!.longitude! - 0.0065 * 5 / 2),
+          northeast: LatLng(myLocation!.latitude! + 0.0065 * 5 / 2, myLocation!.longitude! + 0.0065 * 5 / 2),
+          southwest: LatLng(myLocation!.latitude! - 0.0065 * 5 / 2, myLocation!.longitude! - 0.0065 * 5 / 2),
         ),
       );
     }
@@ -189,10 +176,8 @@ class HomeCustomerController extends BaseController {
     } catch (e) {}
     latLngBounds.value = CameraTargetBounds(
       LatLngBounds(
-        northeast: LatLng(latLng.latitude + 0.0065 * 0.5 / 2,
-            latLng.longitude + 0.0065 * 0.5 / 2),
-        southwest: LatLng(latLng.latitude - 0.0065 * 0.5 / 2,
-            latLng.longitude - 0.0065 * 0.5 / 2),
+        northeast: LatLng(latLng.latitude + 0.0065 * 0.5 / 2, latLng.longitude + 0.0065 * 0.5 / 2),
+        southwest: LatLng(latLng.latitude - 0.0065 * 0.5 / 2, latLng.longitude - 0.0065 * 0.5 / 2),
       ),
     );
     if (isSetMarker) {
@@ -200,8 +185,7 @@ class HomeCustomerController extends BaseController {
     }
   }
 
-  void setMarker(LatLng latLng, String name,
-      {BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker}) {
+  void setMarker(LatLng latLng, String name, {BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker}) {
     // test
     setMarkerIcon();
     //
@@ -221,7 +205,6 @@ class HomeCustomerController extends BaseController {
   }
 
   void toSearch() {
-    N.toSearch(
-        inputSearch: InputSearch(listPosition, textSearch, isSearching.value));
+    N.toSearch(inputSearch: InputSearch(listPosition, textSearch, isSearching.value));
   }
 }

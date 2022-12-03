@@ -12,4 +12,20 @@ class CategoryModel {
     this.name,
     this.isProtected,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'is_protected': isProtected,
+    };
+  }
+
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    return CategoryModel(
+      id: json['id'],
+      name: json['name'],
+      isProtected: json['is_protected'],
+    );
+  }
 }

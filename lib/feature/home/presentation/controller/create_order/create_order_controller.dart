@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -10,17 +11,22 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remot
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/token_refresh_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/category_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/payment_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/price_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/create_order_request.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/get_price_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/create_order_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_all_category_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_all_payment_usecase.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_price_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
+import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Firebase/cloud_storage.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateOrderController extends BaseController {
@@ -31,6 +37,7 @@ class CreateOrderController extends BaseController {
     this._storageService,
     this._createOrderUsecase,
     this._cloudStorage,
+    this._getPriceUsecase,
   );
 
   final GetCategoryUsecase _categoryUsecase;
@@ -39,6 +46,7 @@ class CreateOrderController extends BaseController {
   final RefreshTokenUsecase _refreshTokenUsecase;
   final CreateOrderUsecase _createOrderUsecase;
   final CloudStorage _cloudStorage;
+  final GetPriceUsecase _getPriceUsecase;
 
   final _picker = ImagePicker();
 
@@ -52,8 +60,8 @@ class CreateOrderController extends BaseController {
 
   var backgroundColor = ColorName.primaryColor.obs;
 
-  var indexCategory = 0;
-  var indexPayment = 0;
+  var indexCategory = 0.obs;
+  var indexPayment = 0.obs;
 
   final detailOrderTextEditingController = TextEditingController();
   final noteOrderTextEditingController = TextEditingController();
@@ -69,7 +77,7 @@ class CreateOrderController extends BaseController {
       if (scrollController.position.pixels > 10) {
         backgroundColor.value = ColorName.backgroundColor;
       } else {
-        backgroundColor.value = ColorName.primaryColor;
+        backgroundColor.value = ColorName.primaryColor0b3.withOpacity(0.7);
       }
     });
   }
@@ -121,7 +129,8 @@ class CreateOrderController extends BaseController {
   }
 
   void chooseCategory(int index) {
-    indexCategory = index;
+    indexCategory.value = index;
+    getPrice();
   }
 
   Rx<XFile> imageOrder = XFile('').obs;
@@ -194,44 +203,38 @@ class CreateOrderController extends BaseController {
     );
   }
 
-  var distance = 0.0;
+  var distance = 0.0.obs;
+  var price = PriceModel().obs;
   var createState = false.obs;
+  var isShowPrice = false.obs;
+  var isGetedPrice = false.obs;
 
-  void createOrder() async {
-    if (startAddress.value.addressNotes == null || endAddress.value.addressNotes == null) {
-      await showOkDialog(
-        message: "Vui lòng chọn vị trí xuất phát và vị trí đến của đơn hàng!",
-        title: "Tạo mới đơn hàng thất bại",
-      );
-      scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
-      return;
-    }
-    if (detailOrderTextEditingController.text.trim().isEmpty) {
-      await showOkDialog(
-        message: "Vui lòng điền thông tin chi tiết đơn hàng!",
-        title: "Tạo mới đơn hàng thất bại",
-      );
-      scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
-      return;
-    }
+  void getPrice() async {
     try {
       double lat1 = double.parse(startAddress.value.latitude ?? "0");
       double lon1 = double.parse(startAddress.value.longitude ?? "0");
       double lat2 = double.parse(endAddress.value.latitude ?? "0");
       double lon2 = double.parse(endAddress.value.longitude ?? "0");
-      distance = calculateDistance(lat1, lon1, lat2, lon2);
+      if (lat1 == 0 || lon1 == 0 || lat2 == 0 || lon2 == 0) {
+        return;
+      }
+      distance.value = calculateDistance(lat1, lon1, lat2, lon2);
       if (distance < 0.5) {
-        await showOkDialog(
-          message: "Không thể tạo đơn hàng với hai vị trí ở quá gần nhau!",
-          title: "Tạo mới đơn hàng thất bại",
+        Get.closeAllSnackbars();
+        Get.snackbar(
+          "Chọn một vị trí khác để tạo đơn",
+          "Không thể tạo đơn hàng với hai vị trí ở quá gần nhau!",
+          margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+          duration: const Duration(seconds: 4),
+          backgroundColor: ColorName.whiteFaf,
+          animationDuration: const Duration(milliseconds: 300),
+          boxShadows: [
+            const BoxShadow(
+              offset: Offset(-8, -8),
+              blurRadius: 10,
+              color: ColorName.gray838,
+            ),
+          ],
         );
         scrollController.animateTo(
           0,
@@ -248,6 +251,105 @@ class CreateOrderController extends BaseController {
       back();
       return;
     }
+    isShowPrice.value = true;
+    isGetedPrice.value = false;
+    _getPriceUsecase.execute(
+      observer: Observer(
+          onSubscribe: () {},
+          onSuccess: (priceModel) {
+            isGetedPrice.value = true;
+            price.value = priceModel;
+          },
+          onError: (error) async {
+            if (kDebugMode) {
+              print(error);
+            }
+            await showOkDialog(
+              message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
+              title: "Cảnh báo",
+            );
+            back();
+            return;
+          }),
+      input: GetPriceRequest(
+        distance.value,
+        listCategory[indexCategory.value].isProtected ?? false ? 1 : 0,
+      ),
+    );
+  }
+
+  void createOrder() async {
+    if (startAddress.value.addressNotes == null || endAddress.value.addressNotes == null) {
+      Get.closeAllSnackbars();
+      Get.snackbar(
+        "Tạo mới đơn hàng thất bại",
+        "Vui lòng chọn vị trí xuất phát và vị trí đến của đơn hàng!",
+        margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+        duration: const Duration(seconds: 4),
+        backgroundColor: ColorName.whiteFaf,
+        animationDuration: const Duration(milliseconds: 300),
+        boxShadows: [
+          const BoxShadow(
+            offset: Offset(-8, -8),
+            blurRadius: 10,
+            color: ColorName.gray838,
+          ),
+        ],
+      );
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+      return;
+    }
+    if (detailOrderTextEditingController.text.trim().isEmpty) {
+      Get.closeAllSnackbars();
+      Get.snackbar(
+        "Tạo mới đơn hàng thất bại",
+        "Vui lòng điền thông tin chi tiết đơn hàng!",
+        margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+        duration: const Duration(seconds: 4),
+        backgroundColor: ColorName.whiteFaf,
+        animationDuration: const Duration(milliseconds: 300),
+        boxShadows: [
+          const BoxShadow(
+            offset: Offset(-8, -8),
+            blurRadius: 10,
+            color: ColorName.gray838,
+          ),
+        ],
+      );
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+      return;
+    }
+    if (distance < 0.5) {
+      Get.snackbar(
+        "Chọn một vị trí khác để tạo đơn",
+        "Không thể tạo đơn hàng với hai vị trí ở quá gần nhau!",
+        margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
+        duration: const Duration(seconds: 4),
+        backgroundColor: ColorName.whiteFaf,
+        animationDuration: const Duration(milliseconds: 300),
+        boxShadows: [
+          const BoxShadow(
+            offset: Offset(-8, -8),
+            blurRadius: 10,
+            color: ColorName.gray838,
+          ),
+        ],
+      );
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+      return;
+    }
 
     createState.value = true;
     String? url;
@@ -259,11 +361,40 @@ class CreateOrderController extends BaseController {
       observer: Observer(
         onSubscribe: () {},
         onSuccess: (_) async {
-          await showOkDialog(
-            message: "Vui lòng chờ trong giây lát shipper sẽ liên hệ ngay cho bạn!",
-            title: "Tạo mới đơn hàng thành công",
-          );
+          Get.closeAllSnackbars();
           back();
+          AudioPlayer player = AudioPlayer();
+          String audioasset = "sound/notification.mp3";
+          await player.play(AssetSource(audioasset), volume: 1);
+          Get.snackbar(
+            "Tạo mới đơn hàng thành công",
+            "Vui lòng chờ trong giây lát shipper sẽ liên hệ ngay cho bạn!",
+            margin: const EdgeInsets.symmetric(vertical: 90, horizontal: 25),
+            duration: const Duration(seconds: 4),
+            animationDuration: const Duration(milliseconds: 600),
+            icon: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Assets.images.logoIcon.image(width: 25),
+            ),
+            backgroundGradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.1, 0.9],
+              colors: [ColorName.whiteFff, ColorName.primaryColor],
+            ),
+            backgroundColor: ColorName.whiteFff,
+            overlayBlur: 0,
+            barBlur: 1,
+            boxShadows: [
+              const BoxShadow(
+                offset: Offset(8, 8),
+                blurRadius: 10,
+                color: ColorName.gray838,
+              ),
+            ],
+            snackStyle: SnackStyle.FLOATING,
+            dismissDirection: DismissDirection.up,
+          );
         },
         onError: (e) async {
           if (e is DioError) {
@@ -283,7 +414,9 @@ class CreateOrderController extends BaseController {
                     createOrder();
                   },
                   onError: (err) async {
-                    print('================${err}==================');
+                    if (kDebugMode) {
+                      print('================${err}==================');
+                    }
                     if (err is DioError) {
                       if (err.response!.statusCode == 401) {
                         await showOkDialog(
@@ -312,11 +445,11 @@ class CreateOrderController extends BaseController {
         startAddress.value,
         endAddress.value,
         detailOrderTextEditingController.text.trim(),
-        distance,
+        distance.value,
         noteOrderTextEditingController.text.trim().isNotEmpty ? noteOrderTextEditingController.text.trim() : null,
         url,
-        listPayment[indexPayment].id,
-        listCategory[indexCategory].id,
+        listPayment[indexPayment.value].id,
+        listCategory[indexCategory.value].id,
       ),
     );
   }
