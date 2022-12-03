@@ -22,16 +22,22 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/we
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_detail/chat_detail_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/view_media/view_media_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/view_media/view_media_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/change_password/change_password_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/change_password/change_password_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/create_order/create_order_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/create_order/create_order_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/order_address/order_address_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/order_address/order_address_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/permission_handler/permission_handler_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/permission_handler/permission_handler_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/profile/profile_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/profile/profile_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/search/search_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/search/search_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting/setting_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting/setting_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting_system/setting_system_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting_system/setting_system_page.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_detail/chat_detail_page.dart';
@@ -66,6 +72,9 @@ class AppRoute {
   static String createOrder = '/createOrder';
   static String orderAddress = '/orderAddress';
   static String setting = '/setting';
+  static String profile = '/profile';
+  static String changePassword = '/changePassword';
+  static String settingSystem = '/settingSystem';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -192,6 +201,24 @@ class AppRoute {
       name: setting,
       page: SettingPage.new,
       binding: SettingBindings(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: profile,
+      page: ProfilePage.new,
+      binding: ProfileBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: changePassword,
+      page: ChangePasswordPage.new,
+      binding: ChangePasswordBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: settingSystem,
+      page: SettingSystemPage.new,
+      binding: SettingSystemBindings(),
       transition: Transition.cupertino,
     ),
   ];

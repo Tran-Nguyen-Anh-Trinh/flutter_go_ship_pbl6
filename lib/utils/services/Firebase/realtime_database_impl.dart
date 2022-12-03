@@ -130,4 +130,16 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
     }
     return messagesList;
   }
+
+  @override
+  Future<void> setDefaultMessages(String path, String val) async {
+    _reference = _instance.ref(path);
+    _reference.set(val);
+  }
+
+  @override
+  Future<String> getDefaultMessages(String path) async {
+    _reference = _instance.ref(path);
+    return (await _reference.get()).value.toString();
+  }
 }

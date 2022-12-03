@@ -16,4 +16,6 @@ abstract class RealtimeDatabase {
   Future<Stream<DatabaseEvent>> initGetMessages(String pathSent);
   Future<List<Messages>> loadMoreMessages(
       String pathSent, String key, Function(String saveKey) onChangeKey);
+  Future<void> setDefaultMessages(String path, String val);
+  Future<String> getDefaultMessages(String path);
 }

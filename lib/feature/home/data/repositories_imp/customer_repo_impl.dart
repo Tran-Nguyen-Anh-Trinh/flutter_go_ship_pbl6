@@ -1,5 +1,6 @@
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/category_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/customer_info_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/payment_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/customer_api.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/create_order_request.dart';
@@ -21,5 +22,15 @@ class CustomerRepoImpl implements CustomerRepo {
   @override
   Future<void> createOrder(CreateOrderRequest request) {
     return _customerAPI.createOrder(request);
+  }
+
+  @override
+  Future<CustomerModel> getCustomerInfo() {
+    return _customerAPI.getCustomerInfo();
+  }
+
+  @override
+  Future<void> updateCustomerInfo(CustomerModel request) {
+    return _customerAPI.updateCustomerInfo(request);
   }
 }
