@@ -28,7 +28,7 @@ class SettingPage extends BaseWidget<SettingController> {
       appBar: BaseAppBar(
         title: const Text('Cài đặt'),
       ),
-      backgroundColor: const Color.fromARGB(255, 236, 236, 236),
+      backgroundColor: ColorName.grayF4f,
       body: SmartRefresher(
         enablePullDown: true,
         controller: controller.refreshController,
@@ -44,17 +44,17 @@ class SettingPage extends BaseWidget<SettingController> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Container(
-                color: const Color.fromARGB(255, 236, 236, 236),
+                color: ColorName.grayF4f,
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 child: Row(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(35),
                       child: Obx(
                         () => CachedNetworkImage(
-                          height: 70,
-                          width: 70,
+                          height: 60,
+                          width: 60,
                           fit: BoxFit.cover,
                           imageUrl:
                               controller.customerInfo.value.avatarUrl ?? '',
@@ -95,7 +95,7 @@ class SettingPage extends BaseWidget<SettingController> {
                 onPressed: controller.logout,
               ),
               Container(
-                color: const Color.fromARGB(255, 236, 236, 236),
+                color: ColorName.grayF4f,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Column(
@@ -127,17 +127,20 @@ class SettingPage extends BaseWidget<SettingController> {
                 onPressed: () {
                   showDialog(
                     context: context,
-                    builder: (context) => SelectDistance(
-                      value: controller.dropdownValue,
-                      callBack: (value) {
-                        controller.onSaveDistanceView(value);
-                      },
+                    builder: (context) => Obx(
+                      () => SelectDistance(
+                        value:
+                            '${controller.customerInfo.value.distanceView ?? 10} km',
+                        callBack: (value) {
+                          controller.onSaveDistanceView(value);
+                        },
+                      ),
                     ),
                   );
                 },
               ),
               Container(
-                color: const Color.fromARGB(255, 236, 236, 236),
+                color: ColorName.grayF4f,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 child: Column(
@@ -187,7 +190,7 @@ class SettingPage extends BaseWidget<SettingController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    color: const Color.fromARGB(255, 236, 236, 236),
+                    color: ColorName.grayF4f,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 10),
                     child: Column(

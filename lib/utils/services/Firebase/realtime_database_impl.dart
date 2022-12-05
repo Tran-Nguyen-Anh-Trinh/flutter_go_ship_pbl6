@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/domain/entities/messages.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Firebase/realtime_database.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../Models/infor_user.dart';
 
@@ -28,8 +29,7 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
   }
 
   @override
-  Future<void> sentMessages(
-      String pathSent, String pathReceive, Messages messages) async {
+  Future<void> sentMessages(String pathSent, String pathReceive, Messages messages) async {
     _reference = _instance.ref();
     await _reference.child(pathSent).push().set(messages.toJson());
     await _reference.child(pathReceive).push().set(messages.toJson());
@@ -43,8 +43,7 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
 
   @override
   Future<Stream<DatabaseEvent>> getPhoneUsedToMessagesRealtime() async {
-    _reference =
-        _instance.ref().child('messages/${AppConfig.accountModel.phoneNumber}');
+    _reference = _instance.ref().child('messages/${AppConfig.accountModel.phoneNumber}');
     return _reference.onValue;
   }
 
@@ -52,8 +51,7 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
   Future<InforUser?> getUserByPhone(String phone) async {
     _reference = _instance.ref();
     try {
-      final user = JsonMapper.deserialize<InforUser>(
-          (await _reference.get()).child('users/$phone').value)!;
+      final user = JsonMapper.deserialize<InforUser>((await _reference.get()).child('users/$phone').value)!;
       return user;
     } catch (e) {
       if (kDebugMode) {
@@ -72,8 +70,7 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
         .limitToLast(2)
         .get());
     try {
-      final messages =
-          Messages.fromJson(snap.children.first.value as Map<dynamic, dynamic>);
+      final messages = Messages.fromJson(snap.children.first.value as Map<dynamic, dynamic>);
       return messages;
     } catch (e) {
       if (kDebugMode) {
@@ -107,11 +104,9 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
   }
 
   @override
-  Future<List<Messages>> loadMoreMessages(
-      String pathSent, String key, Function(String) onChangeKey) async {
+  Future<List<Messages>> loadMoreMessages(String pathSent, String key, Function(String) onChangeKey) async {
     _reference = _instance.ref(pathSent);
-    final dataSnapshot =
-        await _reference.orderByKey().endBefore(key).limitToLast(10).get();
+    final dataSnapshot = await _reference.orderByKey().endBefore(key).limitToLast(10).get();
     messagesList.clear();
     maker = true;
     for (final it in dataSnapshot.children) {
@@ -141,5 +136,12 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
   Future<String> getDefaultMessages(String path) async {
     _reference = _instance.ref(path);
     return (await _reference.get()).value.toString();
+  }
+
+  @override
+  Future<void> updateLoaction(String phoneNumber, LatLng latLng) async {
+    _reference = _instance.ref();
+    await _reference.child("location").child(phoneNumber).child("latitude").set(latLng.latitude);
+    await _reference.child("location").child(phoneNumber).child("longitude").set(latLng.longitude);
   }
 }

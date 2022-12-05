@@ -1,15 +1,13 @@
-import 'dart:convert';
-
 import 'package:dart_json_mapper/dart_json_mapper.dart';
 
 @jsonSerializable
-@Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false)
+@Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false, name: "data")
 class ShipperModel {
   String? shipperId;
   String? name;
   int? gender;
-  String? latitude;
-  String? longitude;
+  String? avatarUrl;
+  DateTime? birthDate;
   String? urlIdentificationTop;
   String? urlIdentificationBack;
   String? identificationInfo;
@@ -22,8 +20,8 @@ class ShipperModel {
     this.shipperId,
     this.name,
     this.gender,
-    this.latitude,
-    this.longitude,
+    this.avatarUrl,
+    this.birthDate,
     this.urlIdentificationTop,
     this.urlIdentificationBack,
     this.identificationInfo,
@@ -38,8 +36,8 @@ class ShipperModel {
       '"shipperId"': '"$shipperId"',
       '"name"': '"$name"',
       '"gender"': gender,
-      '"latitude"': '"${latitude ?? ''}"',
-      '"longitude"': '"${longitude ?? ''}"',
+      '"avatarUrl"': '"${avatarUrl ?? ''}"',
+      '"birthDate"': '"${birthDate ?? DateTime(2022)}"',
       '"urlIdentificationTop"': '"${urlIdentificationTop ?? ''}"',
       '"urlIdentificationBack"': '"${urlIdentificationBack ?? ''}"',
       '"identificationInfo"': '"${identificationInfo ?? ''}"',
@@ -55,8 +53,8 @@ class ShipperModel {
       shipperId: json['shipperId'],
       name: json['name'],
       gender: json['gender'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
+      avatarUrl: json['avatarUrl'],
+      birthDate: DateTime.parse(json['birthDate']),
       urlIdentificationTop: json['urlIdentificationTop'],
       urlIdentificationBack: json['urlIdentificationBack'],
       identificationInfo: json['identificationInfo'],

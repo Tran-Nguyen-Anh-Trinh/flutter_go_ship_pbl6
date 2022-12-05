@@ -229,11 +229,11 @@ class OrderAddressController extends BaseController<bool> {
         message: "Xác nhận vị trí hiện tại với Go Ship",
         title: "Bạn muốn sử dụng vị trí này?",
       ).then((value) {
-        if (noteTextEditingController.text.trim().isEmpty) {
-          showOkDialog(title: "Thêm vị trí thất bại", message: "Vui lòng điền thông tin mô tả đỉa chỉ này");
-          return;
-        }
         if (value == OkCancelResult.ok) {
+          if (noteTextEditingController.text.trim().isEmpty) {
+            showOkDialog(title: "Thêm vị trí thất bại", message: "Vui lòng điền thông tin mô tả đỉa chỉ này");
+            return;
+          }
           var createOrderController = Get.find<CreateOrderController>();
           var select = latLng;
           if (isStartAddress.value) {
@@ -247,8 +247,8 @@ class OrderAddressController extends BaseController<bool> {
             createOrderController.endAddress.value.addressNotes = noteTextEditingController.text.trim();
             createOrderController.endAddress.refresh();
           }
-
           back();
+          createOrderController.getPrice();
         }
       });
     } else {
@@ -275,6 +275,7 @@ class OrderAddressController extends BaseController<bool> {
             createOrderController.endAddress.refresh();
           }
           back();
+          createOrderController.getPrice();
         }
       });
     }

@@ -1,5 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -69,6 +71,7 @@ class SettingController extends BaseController {
     ).then((value) async {
       if (value == OkCancelResult.ok) {
         await _storageService.removeToken();
+        AppConfig.accountModel = AccountModel();
         N.toWelcomePage();
       }
     });

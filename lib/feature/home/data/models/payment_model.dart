@@ -12,4 +12,20 @@ class PaymentModel {
     this.type,
     this.description,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'type': type,
+      'description': description,
+    };
+  }
+
+  factory PaymentModel.fromJson(Map<String, dynamic> json) {
+    return PaymentModel(
+      id: json['id'],
+      type: json['type'],
+      description: json['description'],
+    );
+  }
 }

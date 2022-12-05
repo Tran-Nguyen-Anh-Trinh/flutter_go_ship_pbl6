@@ -1,5 +1,7 @@
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_bindings.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail_shipper/order_detail_shipper_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail_shipper/order_detail_shipper_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/add_address/add_address_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/add_address/add_address_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/confirm_camera/confirm_camera_bindings.dart';
@@ -75,6 +77,7 @@ class AppRoute {
   static String profile = '/profile';
   static String changePassword = '/changePassword';
   static String settingSystem = '/settingSystem';
+  static String orderDetailShipper = '/orderDetailShipper';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -219,6 +222,12 @@ class AppRoute {
       name: settingSystem,
       page: SettingSystemPage.new,
       binding: SettingSystemBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: orderDetailShipper,
+      page: OrderDetailShipperPage.new,
+      binding: OrderDetailShipperBindings(),
       transition: Transition.cupertino,
     ),
   ];

@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class HomeShipperBindings implements Bindings {
     @override
     void dependencies() {
-        Get.put(HomeShipperController());
+        Get.put(HomeShipperController(Get.find()));
     }
 }
