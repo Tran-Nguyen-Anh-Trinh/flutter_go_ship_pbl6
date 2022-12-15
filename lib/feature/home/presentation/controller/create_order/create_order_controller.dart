@@ -66,7 +66,7 @@ class CreateOrderController extends BaseController {
   final detailOrderTextEditingController = TextEditingController();
   final noteOrderTextEditingController = TextEditingController();
 
-  var accessToken = AppConfig.accountModel.accessToken;
+  var accessToken = AppConfig.accountInfo.accessToken;
   var loadState = false.obs;
 
   @override
@@ -88,7 +88,7 @@ class CreateOrderController extends BaseController {
       listCategory.value = AppConfig.listCategory;
       return;
     }
-    AppConfig.accountModel.accessToken = null;
+    AppConfig.accountInfo.accessToken = null;
     loadState.value = true;
     await _categoryUsecase.execute(
       observer: Observer(
@@ -102,7 +102,7 @@ class CreateOrderController extends BaseController {
               onSuccess: (payments) {
                 listPayment.value = payments;
                 AppConfig.listPayment = payments;
-                AppConfig.accountModel.accessToken = accessToken;
+                AppConfig.accountInfo.accessToken = accessToken;
                 loadState.value = false;
               },
               onError: (e) async {
@@ -403,14 +403,14 @@ class CreateOrderController extends BaseController {
               print('===${e.response!.data["detail"].toString()}====');
             }
             if (e.response!.statusCode == 403) {
-              var account = AppConfig.accountModel;
+              var account = AppConfig.accountInfo;
               await _refreshTokenUsecase.execute(
                 observer: Observer(
                   onSubscribe: () {},
                   onSuccess: (token) {
                     account.accessToken = token.access;
                     _storageService.setToken(account.toJson().toString());
-                    AppConfig.accountModel = account;
+                    AppConfig.accountInfo = account;
                     createOrder();
                   },
                   onError: (err) async {
@@ -424,7 +424,7 @@ class CreateOrderController extends BaseController {
                           message: "Vui lòng thực hiện đăng nhập lại!",
                         );
                         _storageService.removeToken();
-                        AppConfig.accountModel = AccountModel();
+                        AppConfig.accountInfo = AccountModel();
                         N.toWelcomePage();
                         N.toLoginPage();
                       } else {

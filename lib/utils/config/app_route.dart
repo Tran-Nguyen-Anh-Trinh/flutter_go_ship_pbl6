@@ -28,6 +28,8 @@ import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/change_passw
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/change_password/change_password_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/create_order/create_order_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/create_order/create_order_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/notification/notification_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/notification/notification_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/order_address/order_address_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/order_address/order_address_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/permission_handler/permission_handler_bindings.dart';
@@ -78,6 +80,7 @@ class AppRoute {
   static String changePassword = '/changePassword';
   static String settingSystem = '/settingSystem';
   static String orderDetailShipper = '/orderDetailShipper';
+  static String notification = '/notification';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -149,7 +152,7 @@ class AppRoute {
       name: chatHome,
       page: ChatHomePage.new,
       binding: ChatHomeBindings(),
-      transition: Transition.fade,
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: chatDetail,
@@ -228,6 +231,12 @@ class AppRoute {
       name: orderDetailShipper,
       page: OrderDetailShipperPage.new,
       binding: OrderDetailShipperBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: notification,
+      page: NotificationPage.new,
+      binding: NotificationBindings(),
       transition: Transition.cupertino,
     ),
   ];

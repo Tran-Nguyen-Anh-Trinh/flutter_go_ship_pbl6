@@ -1,30 +1,5 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
-import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
-
-@jsonSerializable
-@Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false)
-class AddressModel {
-  int? id;
-  String? addressNotes;
-  String? latitude;
-  String? longitude;
-
-  AddressModel({
-    this.id,
-    this.addressNotes,
-    this.latitude,
-    this.longitude,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'address_notes': addressNotes,
-      'latitude': latitude,
-      'longitude': longitude,
-    };
-  }
-}
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
 
 @jsonSerializable
 @Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false, name: 'data')
@@ -33,7 +8,7 @@ class CustomerModel {
   AddressModel? address;
   int? gender;
   String? avatarUrl;
-  String? birthDate;
+  DateTime? birthDate;
   int? distanceView;
 
   CustomerModel({
@@ -51,7 +26,7 @@ class CustomerModel {
       'address': address?.toJson(),
       'avatar_url': avatarUrl,
       'gender': gender,
-      'birth_date': birthDate,
+      '"birth_date"': '"${birthDate ?? DateTime(2022)}"',
       'distance_view': distanceView,
     };
   }

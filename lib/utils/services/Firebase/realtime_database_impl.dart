@@ -22,7 +22,7 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
 
   @override
   Future<Stream<DatabaseEvent>> loadRealtimeUser() async {
-    final pathSent = 'messages/${AppConfig.accountModel.phoneNumber}';
+    final pathSent = 'messages/${AppConfig.accountInfo.phoneNumber}';
     _reference = _instance.ref(pathSent);
     final stream = _reference.onValue;
     return stream;
@@ -43,7 +43,7 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
 
   @override
   Future<Stream<DatabaseEvent>> getPhoneUsedToMessagesRealtime() async {
-    _reference = _instance.ref().child('messages/${AppConfig.accountModel.phoneNumber}');
+    _reference = _instance.ref().child('messages/${AppConfig.accountInfo.phoneNumber}');
     return _reference.onValue;
   }
 
@@ -65,7 +65,7 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
   Future<Messages?> getLastMessages(String phone) async {
     _reference = _instance.ref();
     final snap = await (_reference
-        .child('messages/${AppConfig.accountModel.phoneNumber}/$phone')
+        .child('messages/${AppConfig.accountInfo.phoneNumber}/$phone')
         .orderByKey()
         .limitToLast(2)
         .get());
@@ -143,5 +143,23 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
     _reference = _instance.ref();
     await _reference.child("location").child(phoneNumber).child("latitude").set(latLng.latitude);
     await _reference.child("location").child(phoneNumber).child("longitude").set(latLng.longitude);
+  }
+
+  @override
+  Future<Stream<DatabaseEvent>> listenNotification(String phoneNumber) async {
+    _reference = _instance.ref();
+    return _reference.child("notification").child(phoneNumber).onValue;
+  }
+
+  @override
+  Future<void> seemNotification(String phoneNumber, String notificationID) async {
+    _reference = _instance.ref();
+    await _reference.child("notification").child(phoneNumber).child(notificationID).child('seen').set(true);
+  }
+  
+  @override
+  Future<Stream<DatabaseEvent>> listenShipperLocation() async {
+     _reference = _instance.ref();
+    return _reference.child("location").onValue;
   }
 }

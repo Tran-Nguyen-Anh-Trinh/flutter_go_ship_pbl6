@@ -15,13 +15,12 @@ class SettingSystemController extends BaseController {
   final StorageService _storageService;
 
   String defaultMessages = '';
-  final path = 'default_messages/${AppConfig.accountModel.phoneNumber}';
+  final path = 'default_messages/${AppConfig.accountInfo.phoneNumber}';
 
   @override
   void onInit() {
     super.onInit();
-    (_realtimeDatabase.getDefaultMessages(path))
-        .then((value) => defaultMessages = value);
+    (_realtimeDatabase.getDefaultMessages(path)).then((value) => defaultMessages = value);
   }
 
   void backWelcomePage() async {
@@ -31,7 +30,6 @@ class SettingSystemController extends BaseController {
 
   void setDefaultMessages(String val) async {
     await _realtimeDatabase.setDefaultMessages(path, val);
-    await (_realtimeDatabase.getDefaultMessages(path))
-        .then((value) => defaultMessages = value);
+    await (_realtimeDatabase.getDefaultMessages(path)).then((value) => defaultMessages = value);
   }
 }

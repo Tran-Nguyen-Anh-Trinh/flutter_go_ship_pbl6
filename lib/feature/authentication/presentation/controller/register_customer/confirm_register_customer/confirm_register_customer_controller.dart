@@ -5,13 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
-import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/register_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
-import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
-import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -89,12 +86,12 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
       observer: Observer(
         onSubscribe: () {},
         onSuccess: (account) {
-          AppConfig.accountModel = account;
+          AppConfig.accountInfo = account;
           if (registerRequest!.role == 1) {
             _storageService.setToken(account.toJson().toString());
             Permission.locationWhenInUse.status.then((value) {
               if (value.isGranted) {
-                N.toTabBar(account: account);
+                N.toTabBar();
               } else {
                 N.toPermissionHandler(account: account);
               }

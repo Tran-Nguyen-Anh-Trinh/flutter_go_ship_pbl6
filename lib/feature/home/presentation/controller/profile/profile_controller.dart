@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/customer_info_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/update_customer_info_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:get/get.dart';
@@ -32,13 +35,26 @@ class ProfileController extends BaseController {
   final _picker = ImagePicker();
   final imagePath = ''.obs;
 
+  CustomerModel customerInfo = CustomerModel();
+  ShipperModel shipperInfo = ShipperModel();
+  AccountModel accountInfo = AccountModel();
+
   @override
   void onInit() {
     super.onInit();
-    phoneTextEditingController.text = AppConfig.accountModel.phoneNumber ?? '';
-    nameTextEditingController.text = AppConfig.customerInfo.name ?? '';
-    final gender = AppConfig.customerInfo.gender ?? 0;
-    dropdownValue = items[gender];
+    customerInfo = AppConfig.customerInfo;
+    shipperInfo = AppConfig.shipperInfo;
+    accountInfo = AppConfig.accountInfo;
+    if (accountInfo.role == 1) {
+      nameTextEditingController.text = customerInfo.name ?? '';
+      final gender = customerInfo.gender ?? 0;
+      dropdownValue = items[gender];
+    } else {
+      nameTextEditingController.text = shipperInfo.name ?? '';
+      final gender = shipperInfo.gender ?? 0;
+      dropdownValue = items[gender];
+    }
+    phoneTextEditingController.text = accountInfo.phoneNumber ?? '';
   }
 
   void onTapSave() async {
@@ -54,30 +70,38 @@ class ProfileController extends BaseController {
       if (imagePath.value.isNotEmpty) {
         imageLink = await _cloudStorage.putAllFile([File(imagePath.value)]);
       }
-
-      _updateCustomerInfoUsecase.execute(
-        observer: Observer(
-          onSuccess: (account) {
-            isLoading.value = false;
-            showOkDialog(message: "Cập nhật thông tin thành công");
-          },
-          onError: (e) async {
-            debugPrint(e.toString());
-            isLoading.value = false;
-            showOkDialog(message: "Opps! Có lỗi đã xảy ra");
-          },
-        ),
-        input: CustomerModel(
-          name: nameTextEditingController.text.trim(),
-          address: AppConfig.customerInfo.address,
-          avatarUrl: imageLink.isNotEmpty
-              ? imageLink.first
-              : AppConfig.customerInfo.avatarUrl,
-          birthDate: AppConfig.customerInfo.birthDate,
-          distanceView: AppConfig.customerInfo.distanceView,
-          gender: items.indexOf(dropdownValue),
-        ),
-      );
+      if (accountInfo.role == 1) {
+        _updateCustomerInfoUsecase.execute(
+          observer: Observer(
+            onSuccess: (account) {
+              isLoading.value = false;
+              showOkDialog(message: "Cập nhật thông tin thành công");
+            },
+            onError: (e) async {
+              if (e is DioError) {
+                if (e.response != null) {
+                  // print(e.response!.data['detail'].toString());
+                } else {
+                  print(e.message);
+                }
+              }
+              debugPrint(e.toString());
+              isLoading.value = false;
+              showOkDialog(message: "Opps! Có lỗi đã xảy ra");
+            },
+          ),
+          input: CustomerModel(
+            name: nameTextEditingController.text.trim(),
+            address: customerInfo.address,
+            avatarUrl: imageLink.isNotEmpty ? imageLink.first : customerInfo.avatarUrl,
+            birthDate: customerInfo.birthDate,
+            distanceView: customerInfo.distanceView,
+            gender: items.indexOf(dropdownValue),
+          ),
+        );
+      } else {
+        // update shipper
+      }
     } on Exception catch (e) {
       isLoading.value = false;
       showOkDialog(message: "Opps! Có lỗi đã xảy ra");

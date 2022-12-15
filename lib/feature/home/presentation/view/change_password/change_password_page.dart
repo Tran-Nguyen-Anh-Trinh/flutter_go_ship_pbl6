@@ -7,7 +7,7 @@ import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 
-import '../../change_password/change_password_controller.dart';
+import '../../controller/change_password/change_password_controller.dart';
 
 class ChangePasswordPage extends BaseWidget<ChangePasswordController> {
   const ChangePasswordPage({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class ChangePasswordPage extends BaseWidget<ChangePasswordController> {
                           const SizedBox(height: 20),
                           CommonTextField(
                             formKey: controller.formKey,
-                            type: FormFieldType.password,
+                            type: FormFieldType.oldPassword,
                             controller:
                                 controller.oldPasswordTextEditingController,
                             obscureText: controller.isShowPassword.value,
@@ -55,7 +55,7 @@ class ChangePasswordPage extends BaseWidget<ChangePasswordController> {
                           const SizedBox(height: 2),
                           CommonTextField(
                             formKey: controller.formKey,
-                            type: FormFieldType.password,
+                            type: FormFieldType.newPassword,
                             controller:
                                 controller.passwordTextEditingController,
                             obscureText: controller.isShowPassword.value,

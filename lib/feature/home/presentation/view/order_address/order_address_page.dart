@@ -32,6 +32,11 @@ class OrderAddressPage extends BaseWidget<OrderAddressController> {
                   maxLines: 10,
                   type: FormFieldType.memo,
                   textInputAction: TextInputAction.done,
+                  onSubmitted: (_) {
+                    if (controller.currentlatLng != null) {
+                      controller.setLocation(latLng: controller.currentlatLng);
+                    }
+                  },
                 ),
               ),
               Expanded(

@@ -37,18 +37,4 @@ class StorageServiceImpl implements StorageService {
   Future<void> removeSearchHistory() async {
     (await _sharedPreferences).remove(_kSearchHistory);
   }
-
-  Future<void> setShipper(String shipper) async {
-    (await _sharedPreferences).setString(_kShipperInfoKey, shipper);
-  }
-
-  @override
-  Future<String> getShipper() async {
-    return (await _sharedPreferences).getString(_kShipperInfoKey) ?? "";
-  }
-
-  @override
-  Future<void> removeShipper() async {
-    (await _sharedPreferences).remove(_kShipperInfoKey);
-  }
 }

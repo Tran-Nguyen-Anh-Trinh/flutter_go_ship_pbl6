@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
@@ -5,24 +6,35 @@ import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'dart:async';
 
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_controller.dart';
+import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_page.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widget_to_image.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail_shipper/order_detail_shipper_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/order_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/receive_order_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_order_detail_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/receive_order_usecase.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/home_shipper/home_shipper_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/map/data/providers/remote/google_map_api.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_route.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Firebase/realtime_database.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class OrderDetailShipperController extends BaseController<String> {
-  OrderDetailShipperController(this._getOrderDetailUsecase, this._receiveOrderUsecase);
+class OrderDetailShipperController extends BaseController<OrderDetailShipperInput> {
+  OrderDetailShipperController(
+    this._getOrderDetailUsecase,
+    this._receiveOrderUsecase,
+    this._realtimeDatabase,
+  );
 
   final GetOrderDetailUsecase _getOrderDetailUsecase;
+  final RealtimeDatabase _realtimeDatabase;
   final ReceiveOrderUsecase _receiveOrderUsecase;
   final Completer<GoogleMapController> mapController = Completer();
   GoogleMapAPI googleMapAPI = GoogleMapAPI();
@@ -63,6 +75,10 @@ class OrderDetailShipperController extends BaseController<String> {
         onSuccess: ((order) {
           print(order.toJson());
           orderModel.value = order;
+          _realtimeDatabase.seemNotification(
+            AppConfig.accountInfo.phoneNumber ?? "-1",
+            input.notificationID,
+          );
         }),
         onError: (error) async {
           if (error is DioError) {
@@ -82,7 +98,7 @@ class OrderDetailShipperController extends BaseController<String> {
           back();
         },
       ),
-      input: int.parse(input),
+      input: int.parse(input.orderID),
     );
     _mapController = await mapController.future;
     goToPlace(
@@ -197,15 +213,16 @@ class OrderDetailShipperController extends BaseController<String> {
   void setMarkerIcon() {
     WidgetToImage()
         .captureFromWidget(
-      Container(
-        height: 40,
-        width: 40,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(150)),
-          border: Border.all(width: 3, color: ColorName.primaryColor),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: CachedNetworkImage(
+          height: 40,
+          width: 40,
+          fit: BoxFit.cover,
+          imageUrl: AppConfig.shipperInfo.avatarUrl ?? '',
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
         ),
-        child: Assets.images.profileIcon.image(),
       ),
     )
         .then(
@@ -257,7 +274,7 @@ class OrderDetailShipperController extends BaseController<String> {
     location.onLocationChanged.listen((event) {
       setMarker(
         LatLng(event.latitude!, event.longitude!),
-        AppConfig.shipperModel.name ?? "",
+        AppConfig.shipperInfo.name ?? "",
         markerIcon: myMarkerIcon,
       );
       myLocation = event;
@@ -341,7 +358,21 @@ class OrderDetailShipperController extends BaseController<String> {
             await launchUrl(
               Uri.parse('tel:${orderModel.value.customer?.account?.phoneNumber ?? "0384933379"}'),
             );
-            // open tracking map
+            Get.find<HomeShipperController>().mapDirectionsModel(
+              orderModel.value.id,
+              orderModel.value.customer?.account?.phoneNumber,
+              LatLng(
+                double.parse(orderModel.value.addressStart?.latitude ?? "0"),
+                double.parse(orderModel.value.addressStart?.longitude ?? "0"),
+              ),
+              LatLng(
+                double.parse(orderModel.value.addressEnd?.latitude ?? "0"),
+                double.parse(orderModel.value.addressEnd?.longitude ?? "0"),
+              ),
+            );
+            if (!input.isRealtimeNotification) {
+              back();
+            }
             back();
             loadState.value = false;
           },
@@ -359,7 +390,7 @@ class OrderDetailShipperController extends BaseController<String> {
             showErrorReceiveOrder();
           },
         ),
-        input: ReceiveOrderRequest(int.parse(input)),
+        input: StatusOrderRequest(int.parse(input.orderID)),
       );
     } catch (e) {
       showErrorReceiveOrder();

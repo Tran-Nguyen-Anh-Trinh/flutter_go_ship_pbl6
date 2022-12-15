@@ -18,7 +18,7 @@ class StatusConfirmController extends BaseController<bool> {
 
   void toLandingPage() {
     _storageService.removeToken().then((value) {
-      AppConfig.accountModel = AccountModel();
+      AppConfig.accountInfo = AccountModel();
       N.toWelcomePage();
     });
   }

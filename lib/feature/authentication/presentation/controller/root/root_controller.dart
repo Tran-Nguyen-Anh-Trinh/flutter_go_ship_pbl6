@@ -47,7 +47,7 @@ class RootController extends BaseController {
         if (kDebugMode) {
           print(account.toJson());
         }
-        AppConfig.accountModel = account;
+        AppConfig.accountInfo = account;
         if (account.role == 1) {
           _getCustomeInfoUsecase.execute(
             observer: Observer(
@@ -68,7 +68,7 @@ class RootController extends BaseController {
                         onSuccess: (token) {
                           account.accessToken = token.access;
                           _storageService.setToken(account.toJson().toString());
-                          AppConfig.accountModel = account;
+                          AppConfig.accountInfo = account;
                           appStart();
                         },
                         onError: (err) async {
@@ -80,7 +80,7 @@ class RootController extends BaseController {
                                 message: "Vui lòng thực hiện đăng nhập lại!",
                               );
                               _storageService.removeToken();
-                              AppConfig.accountModel = AccountModel();
+                              AppConfig.accountInfo = AccountModel();
                               N.toWelcomePage();
                               N.toLoginPage();
                             } else {
@@ -104,8 +104,7 @@ class RootController extends BaseController {
               onSubscribe: () {},
               onSuccess: (shipper) async {
                 print(shipper.toJson());
-                await _storageService.setShipper(shipper.toJson().toString());
-                AppConfig.shipperModel = shipper;
+                AppConfig.shipperInfo = shipper;
                 if (shipper.confirmed == 0) {
                   N.toConfirmShipper();
                 } else if (shipper.confirmed == 1) {
@@ -129,7 +128,7 @@ class RootController extends BaseController {
                         onSuccess: (token) {
                           account.accessToken = token.access;
                           _storageService.setToken(account.toJson().toString());
-                          AppConfig.accountModel = account;
+                          AppConfig.accountInfo = account;
                           appStart();
                         },
                         onError: (err) async {
@@ -141,7 +140,7 @@ class RootController extends BaseController {
                                 message: "Vui lòng thực hiện đăng nhập lại!",
                               );
                               _storageService.removeToken();
-                              AppConfig.accountModel = AccountModel();
+                              AppConfig.accountInfo = AccountModel();
                               N.toWelcomePage();
                               N.toLoginPage();
                             } else {
@@ -169,7 +168,7 @@ class RootController extends BaseController {
   Future<void> checkPermisson(AccountModel account) async {
     final permissionStatus = await Permission.locationWhenInUse.status;
     if (permissionStatus.isGranted) {
-      N.toTabBar(account: account);
+      N.toTabBar();
     } else {
       N.toPermissionHandler(account: account);
     }

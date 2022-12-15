@@ -8,6 +8,13 @@ class OrderDetailShipperBindings implements Bindings {
   void dependencies() {
     Get.lazyPut(() => GetOrderDetailUsecase(Get.find()));
     Get.lazyPut(() => ReceiveOrderUsecase(Get.find()));
-    Get.put(OrderDetailShipperController(Get.find(), Get.find()));
+    Get.put(OrderDetailShipperController(Get.find(), Get.find(), Get.find()));
   }
+}
+
+class OrderDetailShipperInput {
+  String orderID;
+  String notificationID;
+  bool isRealtimeNotification;
+  OrderDetailShipperInput(this.orderID, this.notificationID, {required this.isRealtimeNotification});
 }

@@ -3,12 +3,12 @@ import 'package:flutter_go_ship_pbl6/feature/home/domain/repositoties/shipper_re
 
 import '../../../../base/domain/base_usecase.dart';
 
-class ReceiveOrderUsecase extends UseCaseIO<ReceiveOrderRequest, void> {
+class ReceiveOrderUsecase extends UseCaseIO<StatusOrderRequest, void> {
   ReceiveOrderUsecase(this._shipperRepo);
   final ShipperRepo _shipperRepo;
 
   @override
-  Future<void> build(ReceiveOrderRequest input) {
+  Future<void> build(StatusOrderRequest input) {
     return _shipperRepo.receiveOrder(input);
   }
 }

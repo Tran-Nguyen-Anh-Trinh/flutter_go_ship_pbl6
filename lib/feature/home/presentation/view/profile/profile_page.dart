@@ -7,9 +7,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import '../../../../../base/presentation/base_app_bar.dart';
-import '../../../../../base/presentation/base_controller.dart';
 import '../../../../../base/presentation/base_widget.dart';
 import '../../../../../base/presentation/widgets/common.dart';
 import '../../../../../utils/config/app_config.dart';
@@ -104,15 +101,10 @@ class ProfilePage extends BaseWidget<ProfileController> {
                                     height: 70,
                                     width: 70,
                                     fit: BoxFit.cover,
-                                    imageUrl:
-                                        AppConfig.customerInfo.avatarUrl ?? '',
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
+                                    imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) =>
-                                        const Icon(
-                                      Icons.error,
-                                      color: ColorName.primaryColor,
-                                    ),
+                                        Assets.images.profileIcon.image(height: 70, width: 70),
                                   ),
                                 ),
                         ),
@@ -128,8 +120,7 @@ class ProfilePage extends BaseWidget<ProfileController> {
                 child: Column(
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 4, left: 16, right: 16),
+                      padding: const EdgeInsets.only(top: 4, left: 16, right: 16),
                       child: FormBuilder(
                         key: controller.formKey,
                         child: Column(
@@ -220,32 +211,33 @@ class ProfilePage extends BaseWidget<ProfileController> {
                         ),
                       ),
                     ),
-                    Container(
-                      color: const Color.fromARGB(255, 236, 236, 236),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 15,
-                            width: Get.width,
-                          ),
-                          Text(
-                            "Hồ sơ",
-                            style: AppTextStyle.w600s15(ColorName.black000),
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
+                    if (controller.accountInfo.role == 1)
+                      Container(
+                        color: const Color.fromARGB(255, 236, 236, 236),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 15,
+                              width: Get.width,
+                            ),
+                            Text(
+                              "Hồ sơ",
+                              style: AppTextStyle.w600s15(ColorName.black000),
+                              textAlign: TextAlign.start,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    settingItem(
-                      title: "Hồ sơ doanh nghiệp",
-                      topBorder: true,
-                      leading: Assets.images.applicationIcon.image(scale: 3),
-                      onPressed: () {},
-                    ),
+                    if (controller.accountInfo.role == 1)
+                      settingItem(
+                        title: "Hồ sơ doanh nghiệp",
+                        topBorder: true,
+                        leading: Assets.images.applicationIcon.image(scale: 3),
+                        onPressed: () {},
+                      ),
                   ],
                 ),
               ),

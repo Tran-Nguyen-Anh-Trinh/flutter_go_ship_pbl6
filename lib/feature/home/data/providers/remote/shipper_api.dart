@@ -18,5 +18,11 @@ abstract class ShipperAPI {
   Future<OrderModel> getOrderById(@Path("id") int id);
 
   @POST('/order/order-receive/')
-  Future<void> receiveOrder(@Body() ReceiveOrderRequest request);
+  Future<void> receiveOrder(@Body() StatusOrderRequest request);
+
+  @POST('/order/order-delivery/')
+  Future<void> deliveryOrder(@Body() StatusOrderRequest request);
+
+  @POST('/order/request-confirm-done/')
+  Future<void> confirmDoneOrder(@Body() StatusOrderRequest request);
 }
