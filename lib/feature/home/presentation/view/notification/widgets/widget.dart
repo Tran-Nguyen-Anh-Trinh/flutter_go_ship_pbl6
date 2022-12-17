@@ -18,88 +18,111 @@ Widget notificationWidget({
     padding: EdgeInsets.zero,
     onPressed: onPressed,
     child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
-        color: notification.isSeen ?? false ? ColorName.whiteFff : ColorName.grayE0e.withOpacity(0.8),
+        color: notification.isSeen ?? false
+            ? ColorName.whiteFff
+            : ColorName.grayC7c.withOpacity(0.8),
         border: const Border(
           bottom: BorderSide(width: 0.5, color: ColorName.gray828),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (notification.data?.type == 1)
-                Container(
-                  decoration: BoxDecoration(
-                    color: ColorName.primaryColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Text(
-                      'Đơn hàng',
-                      style: AppTextStyle.w500s12(ColorName.whiteFff),
+              Row(
+                children: [
+                  if (notification.data?.type == 1)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: ColorName.primaryColor,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Text(
+                          'Đơn hàng',
+                          style: AppTextStyle.w400s10(ColorName.whiteFff),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              if (notification.data?.type == 2)
-                Container(
-                  decoration: BoxDecoration(
-                    color: ColorName.green459,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Text(
-                      'Nhận đơn',
-                      style: AppTextStyle.w500s12(ColorName.whiteFff),
+                  if (notification.data?.type == 2)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: ColorName.green459,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Text(
+                          'Nhận đơn',
+                          style: AppTextStyle.w400s10(ColorName.whiteFff),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              if (notification.data?.type == 3)
-                Container(
-                  decoration: BoxDecoration(
-                    color: ColorName.primaryColor0b3,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Text(
-                      'Vận chuyển',
-                      style: AppTextStyle.w500s12(ColorName.whiteFff),
+                  if (notification.data?.type == 3)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: ColorName.primaryColor0b3,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Text(
+                          'Vận chuyển',
+                          style: AppTextStyle.w400s10(ColorName.whiteFff),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              if (notification.data?.type == 5)
-                Container(
-                  decoration: BoxDecoration(
-                    color: ColorName.orangeFa9,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Text(
-                      'Xác nhận đơn hàng',
-                      style: AppTextStyle.w500s12(ColorName.whiteFff),
+                  if (notification.data?.type == 5)
+                    Container(
+                      decoration: BoxDecoration(
+                        color: ColorName.orangeFa9,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: Colors.transparent,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Text(
+                          'Xác nhận đơn hàng',
+                          style: AppTextStyle.w400s10(ColorName.whiteFff),
+                        ),
+                      ),
                     ),
+                  const SizedBox(width: 10),
+                  Text(
+                    notification.title ?? "",
+                    style: AppTextStyle.w600s13(ColorName.black000),
                   ),
-                ),
-              const Spacer(),
-              timeNotification(time: notification.data?.time ?? "0"),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Text(
+                notification.body ?? "",
+                style: AppTextStyle.w400s13(ColorName.gray828),
+              ),
             ],
           ),
-          const SizedBox(height: 10),
-          Text(
-            notification.title ?? "",
-            style: AppTextStyle.w700s17(ColorName.black000),
-          ),
-          Text(
-            notification.body ?? "",
-            style: AppTextStyle.w500s15(ColorName.gray828),
-          ),
+          const Spacer(),
+          timeNotification(time: notification.data?.time ?? "0"),
         ],
       ),
     ),
@@ -146,17 +169,17 @@ Widget timeNotification({required String time}) {
     children: [
       Text(
         textTime,
-        style: AppTextStyle.w500s13(ColorName.black222),
+        style: AppTextStyle.w400s10(ColorName.black222),
       ),
-      const SizedBox(width: 5),
+      const SizedBox(width: 3),
       Text(
         "-",
-        style: AppTextStyle.w600s15(ColorName.black222),
+        style: AppTextStyle.w400s10(ColorName.black222),
       ),
-      const SizedBox(width: 5),
+      const SizedBox(width: 3),
       Text(
         textDay,
-        style: AppTextStyle.w500s13(ColorName.black222),
+        style: AppTextStyle.w400s10(ColorName.black222),
       ),
     ],
   );
