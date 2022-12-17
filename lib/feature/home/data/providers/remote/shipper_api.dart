@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/order_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/receive_order_request.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/shipper_request.dart';
 import 'package:retrofit/http.dart';
 
 part 'shipper_api.g.dart';
@@ -25,4 +26,7 @@ abstract class ShipperAPI {
 
   @POST('/order/request-confirm-done/')
   Future<void> confirmDoneOrder(@Body() StatusOrderRequest request);
+
+  @PUT('/shipper/update/')
+  Future<ShipperModel?> updateShipperInfo(@Body() ShipperRequest request);
 }

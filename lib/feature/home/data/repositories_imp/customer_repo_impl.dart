@@ -9,6 +9,8 @@ import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/receive_order_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/repositoties/customer_repo.dart';
 
+import '../providers/remote/request/customer_request.dart';
+
 class CustomerRepoImpl implements CustomerRepo {
   final _customerAPI = Get.find<CustomerAPI>();
 
@@ -35,7 +37,7 @@ class CustomerRepoImpl implements CustomerRepo {
   }
 
   @override
-  Future<void> updateCustomerInfo(CustomerModel request) {
+  Future<CustomerModel?> updateCustomerInfo(CustomerRequest request) {
     return _customerAPI.updateCustomerInfo(request);
   }
 

@@ -44,7 +44,8 @@ class ShipperModel {
       '"urlFaceVideo"': '"${urlFaceVideo ?? ''}"',
       '"confirmed"': confirmed,
       '"distanceReceive"': distanceReceive,
-      '"address"': address != null ? address!.toJson() : AddressModel().toJson(),
+      '"address"':
+          address != null ? address!.toJson() : AddressModel().toJson(),
     };
   }
 
@@ -101,7 +102,7 @@ class AddressModel {
   factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
       id: json['id'],
-      addressNotes: json['addressNotes'],
+      addressNotes: json['address_notes'],
       latitude: json['latitude'],
       longitude: json['longitude'],
     );
