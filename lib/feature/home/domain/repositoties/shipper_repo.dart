@@ -5,5 +5,7 @@ import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/
 abstract class ShipperRepo {
   Future<ShipperModel> getShipperInfo();
   Future<OrderModel> getOrderById(int id);
-  Future<void> receiveOrder(ReceiveOrderRequest request);
+  Future<void> receiveOrder(StatusOrderRequest request);
+  Future<void> deliveryOrder(StatusOrderRequest request);
+  Future<void> confirmDoneOrder(StatusOrderRequest request);
 }

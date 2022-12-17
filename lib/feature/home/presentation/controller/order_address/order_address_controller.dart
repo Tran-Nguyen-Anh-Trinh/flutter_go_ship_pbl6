@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'dart:async';
@@ -9,6 +10,7 @@ import 'package:flutter_go_ship_pbl6/base/presentation/widget_to_image.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/create_order/create_order_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/map/data/models/map_position.dart';
 import 'package:flutter_go_ship_pbl6/feature/map/data/providers/remote/google_map_api.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -67,6 +69,7 @@ class OrderAddressController extends BaseController<bool> {
     }
 
     if (initialLatLng != const LatLng(16.073885, 108.149829)) {
+      currentlatLng = initialLatLng;
       setMarker(
         initialLatLng,
         "Go Ship",
@@ -88,15 +91,16 @@ class OrderAddressController extends BaseController<bool> {
   void setMarkerIcon() {
     WidgetToImage()
         .captureFromWidget(
-      Container(
-        height: 40,
-        width: 40,
-        padding: EdgeInsets.zero,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(150)),
-          border: Border.all(width: 3, color: ColorName.primaryColor),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: CachedNetworkImage(
+          height: 40,
+          width: 40,
+          fit: BoxFit.cover,
+          imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
+          placeholder: (context, url) => const CircularProgressIndicator(),
+          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
         ),
-        child: Assets.images.profileIcon.image(),
       ),
     )
         .then(
@@ -220,9 +224,11 @@ class OrderAddressController extends BaseController<bool> {
   }
 
   final noteTextEditingController = TextEditingController();
+  LatLng? currentlatLng;
 
   void setLocation({LatLng? latLng}) {
     if (latLng != null) {
+      currentlatLng = latLng;
       showOkCancelDialog(
         cancelText: "Hủy",
         okText: "Xác nhận",

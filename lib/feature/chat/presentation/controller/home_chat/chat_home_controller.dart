@@ -34,11 +34,10 @@ class ChatHomeController extends BaseController {
       userListBackUp.clear();
       for (final phone in event.snapshot.children) {
         final user = (await _realtimeDatabase.getUserByPhone(phone.key ?? ''));
-        final messages =
-            (await _realtimeDatabase.getLastMessages(phone.key ?? ''));
+        final messages = (await _realtimeDatabase.getLastMessages(phone.key ?? ''));
 
-        isNew = await _realtimeDatabase.getStatusMessages(
-            'messages/${AppConfig.accountModel.phoneNumber}/${phone.key}/isNew');
+        isNew = await _realtimeDatabase
+            .getStatusMessages('messages/${AppConfig.accountInfo.phoneNumber}/${phone.key}/isNew');
 
         try {
           userListBackUp.removeWhere((it) => it.inforUser.phone == user?.phone);

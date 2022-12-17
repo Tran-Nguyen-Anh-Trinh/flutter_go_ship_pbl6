@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class HomeCustomerBindings implements Bindings {
     @override
     void dependencies() {
-        Get.put(HomeCustomerController());
+        Get.put(HomeCustomerController(Get.find()));
     }
 }

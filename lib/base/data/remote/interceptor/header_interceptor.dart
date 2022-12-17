@@ -5,11 +5,10 @@ import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 
 class HeaderInterceptor extends InterceptorsWrapper {
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     options.headers['Content-Type'] = 'application/json';
 
-    AccountModel account = AppConfig.accountModel;
+    AccountModel account = AppConfig.accountInfo;
     if (account.accessToken != null) {
       options.headers["Authorization"] = "Bearer ${account.accessToken}";
     }

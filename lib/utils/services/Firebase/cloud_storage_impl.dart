@@ -23,10 +23,10 @@ class CloudStorageImpl implements CloudStorage {
         now = DateTime.now();
         formattedDate = DateFormat('dd-MM-yyyy-kk:mm:ssss').format(now);
         await _reference
-            .child('messages/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
+            .child('messages/${AppConfig.accountInfo.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
             .putFile(it);
         urls.add(await _reference
-            .child('messages/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
+            .child('messages/${AppConfig.accountInfo.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
             .getDownloadURL());
       } on Exception catch (e) {
         if (kDebugMode) {
@@ -46,10 +46,10 @@ class CloudStorageImpl implements CloudStorage {
         now = DateTime.now();
         formattedDate = DateFormat('dd-MM-yyyy-kk:mm:ssss').format(now);
         await _reference
-            .child('$folder/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
+            .child('$folder/${AppConfig.accountInfo.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
             .putData(await it.readAsBytes());
         results.add(await _reference
-            .child('$folder/${AppConfig.accountModel.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
+            .child('$folder/${AppConfig.accountInfo.phoneNumber}/$formattedDate.${isImages(it.path) ? 'jpg' : 'mp4'}')
             .getDownloadURL());
       } on Exception catch (e) {
         if (kDebugMode) {

@@ -18,4 +18,7 @@ abstract class RealtimeDatabase {
   Future<void> setDefaultMessages(String path, String val);
   Future<String> getDefaultMessages(String path);
   Future<void> updateLoaction(String phoneNumber, LatLng latLng);
+  Future<Stream<DatabaseEvent>> listenNotification(String phoneNumber);
+  Future<Stream<DatabaseEvent>> listenShipperLocation();
+  Future<void> seemNotification(String phoneNumber, String notificationID);
 }

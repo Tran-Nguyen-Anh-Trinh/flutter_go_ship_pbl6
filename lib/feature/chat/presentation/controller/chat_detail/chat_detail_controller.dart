@@ -62,10 +62,8 @@ class ChatDetailController extends BaseController<InforUser> {
     super.onInit();
     userReceive = input;
 
-    pathSent =
-        'messages/${AppConfig.accountModel.phoneNumber}/${userReceive.phone}';
-    pathReceive =
-        'messages/${userReceive.phone}/${AppConfig.accountModel.phoneNumber}';
+    pathSent = 'messages/${AppConfig.accountInfo.phoneNumber}/${userReceive.phone}';
+    pathReceive = 'messages/${userReceive.phone}/${AppConfig.accountInfo.phoneNumber}';
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
@@ -77,9 +75,7 @@ class ChatDetailController extends BaseController<InforUser> {
 
     final path = 'default_messages/${userReceive.phone}';
 
-    _realtimeDatabase
-        .getDefaultMessages(path)
-        .then((value) => defaultMessages = value);
+    _realtimeDatabase.getDefaultMessages(path).then((value) => defaultMessages = value);
 
     _stream = await _realtimeDatabase.initGetMessages(pathSent);
     _streamSubscription = _stream.listen((event) async {
@@ -90,8 +86,7 @@ class ChatDetailController extends BaseController<InforUser> {
       final messagesChildren = event.snapshot.children;
       for (final it in messagesChildren) {
         try {
-          messagesListBackUp
-              .add(Messages.fromJson(it.value as Map<dynamic, dynamic>));
+          messagesListBackUp.add(Messages.fromJson(it.value as Map<dynamic, dynamic>));
           if (maker) {
             key = it.key!;
           }
@@ -144,11 +139,10 @@ class ChatDetailController extends BaseController<InforUser> {
         messages: getText,
         image: imageList.map((element) => 'jpg@@').toList().join('##'),
         dateTime: DateTime.now(),
-        senderPhone: AppConfig.accountModel.phoneNumber ?? ''));
+        senderPhone: AppConfig.accountInfo.phoneNumber ?? ''));
 
     if (imageList.isNotEmpty) {
-      urls.addAll(await _cloudStorage
-          .putAllFile(imageList.map((element) => File(element)).toList()));
+      urls.addAll(await _cloudStorage.putAllFile(imageList.map((element) => File(element)).toList()));
     }
 
     imageList.clear();
@@ -161,16 +155,13 @@ class ChatDetailController extends BaseController<InforUser> {
               messages: getText,
               image: urls.join('##'),
               dateTime: DateTime.now(),
-              senderPhone: AppConfig.accountModel.phoneNumber ?? ''));
+              senderPhone: AppConfig.accountInfo.phoneNumber ?? ''));
       if (defaultMessages.isNotEmpty) {
         await _realtimeDatabase.sentMessages(
             pathSent,
             pathReceive,
             Messages(
-                messages: defaultMessages,
-                image: '',
-                dateTime: DateTime.now(),
-                senderPhone: userReceive.phone ?? ''));
+                messages: defaultMessages, image: '', dateTime: DateTime.now(), senderPhone: userReceive.phone ?? ''));
       }
     } else {
       await _realtimeDatabase.sentMessages(
@@ -180,7 +171,7 @@ class ChatDetailController extends BaseController<InforUser> {
               messages: getText,
               image: urls.join('##'),
               dateTime: DateTime.now(),
-              senderPhone: AppConfig.accountModel.phoneNumber ?? ''));
+              senderPhone: AppConfig.accountInfo.phoneNumber ?? ''));
       await _realtimeDatabase.setNewMessages('$pathReceive/isNew', true);
     }
 
@@ -207,8 +198,7 @@ class ChatDetailController extends BaseController<InforUser> {
   void getPhoto() async {
     back();
     try {
-      final images =
-          await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
+      final images = await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
       imageList.add(images!.path);
       if (imageList.isNotEmpty) {
         isHide.value = false;

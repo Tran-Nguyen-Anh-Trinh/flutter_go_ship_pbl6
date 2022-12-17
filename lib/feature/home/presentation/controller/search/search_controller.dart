@@ -87,51 +87,6 @@ class SearchController extends BaseController<InputSearch?> {
           searchState.value = false;
         },
       );
-
-      // testing
-
-      // listPosition.value = [
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      //   MapPosition("Bách khoa đà nẵng", const LatLng(16.073885, 108.149829)),
-      // ];
-      // isSearching.value = true;
-      // searchState = false;
-
-      //
     }
   }
 }

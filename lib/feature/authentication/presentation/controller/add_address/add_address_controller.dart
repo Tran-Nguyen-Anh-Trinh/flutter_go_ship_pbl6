@@ -5,8 +5,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/controller/confirm_shipper/confirm_shipper_controller.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/setting/setting_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/map/data/providers/remote/google_map_api.dart';
+import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widget_to_image.dart';
@@ -62,9 +64,8 @@ class AddAddressController extends BaseController {
   void onInit() {
     super.onInit();
     if (Get.isRegistered<ConfirmShipperController>()) {
-      var confirmShipperController = Get.find<ConfirmShipperController>();
-      var latitude = confirmShipperController.shipper.value.address!.latitude!;
-      var longitude = confirmShipperController.shipper.value.address!.longitude!;
+      var latitude = AppConfig.shipperInfo.address!.latitude!;
+      var longitude = AppConfig.shipperInfo.address!.longitude!;
       initialLatLng = LatLng(
         double.parse(latitude.isEmpty ? "16.073885" : latitude),
         double.parse(longitude.isEmpty ? "108.149829" : longitude),
@@ -117,10 +118,7 @@ class AddAddressController extends BaseController {
           fit: BoxFit.cover,
           imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
           placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(
-            Icons.error,
-            color: ColorName.primaryColor,
-          ),
+          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
         ),
       ),
     )

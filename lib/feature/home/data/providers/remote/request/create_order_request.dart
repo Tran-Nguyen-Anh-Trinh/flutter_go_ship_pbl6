@@ -34,6 +34,7 @@ class CreateOrderRequest {
       'img_order': imgOrder,
       'payment': payment,
       'category': category,
+      "status": 1,
     };
   }
 }

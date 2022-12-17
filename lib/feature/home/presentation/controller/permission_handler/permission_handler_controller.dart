@@ -17,7 +17,7 @@ class PermissionHandlerController extends BaseController<AccountModel> {
     Permission.locationWhenInUse.status.then(
       (status) {
         if (status == PermissionStatus.granted) {
-          N.toTabBar(account: input);
+          N.toTabBar();
         }
       },
     );

@@ -44,31 +44,33 @@ class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
               },
             ),
           ),
-          CommonMenu(
-            top: 50,
-            height: 50,
-            width: 50,
-            right: 15,
-            radius: 60,
-            totalNotification: 8,
-            [
-              {
-                3: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: N.toChatHome,
-                  child:
-                      Assets.images.chatMenuIcon.image(height: 18, width: 18),
-                ),
-              },
-              {
-                5: CupertinoButton(
-                  padding: EdgeInsets.zero,
-                  onPressed: () {},
-                  child: Assets.images.notificationMenuIcon
-                      .image(height: 18, width: 18),
-                ),
-              },
-            ],
+          Obx(
+            () => CommonMenu(
+              top: 50,
+              height: 50,
+              width: 50,
+              right: 15,
+              radius: 60,
+              totalNotification: AppConfig.badge.value + 0,
+              [
+                {
+                  0: CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: N.toChatHome,
+                    child: Assets.images.chatMenuIcon.image(height: 18, width: 18),
+                  ),
+                },
+                {
+                  AppConfig.badge.value: CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      N.toNotification();
+                    },
+                    child: Assets.images.notificationMenuIcon.image(height: 18, width: 18),
+                  ),
+                },
+              ],
+            ),
           ),
           Positioned(
             bottom: kBottomNavigationBarHeight + (Platform.isIOS ? 45 : 10),
@@ -92,8 +94,7 @@ class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
                   ],
                 ),
                 child: Center(
-                  child:
-                      Assets.images.myLocationIcon.image(height: 20, width: 20),
+                  child: Assets.images.myLocationIcon.image(height: 20, width: 20),
                 ),
               ),
             ),
@@ -106,23 +107,17 @@ class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
                       onPressed: controller.toSearch,
                       leftPadding: 10,
                       rightPadding: 5,
-                      leading:
-                          Assets.images.logoIcon.image(height: 30, width: 35),
+                      leading: Assets.images.logoIcon.image(height: 30, width: 35),
                       trailingPressed: controller.goToMyLocation,
                       trailing: Container(
                         padding: const EdgeInsets.all(10),
-                        child: Assets.images.closeIcon.image(
-                            height: 30,
-                            width: 30,
-                            color: ColorName.primaryColor),
+                        child: Assets.images.closeIcon.image(height: 30, width: 30, color: ColorName.primaryColor),
                       ),
-                      title: Text(controller.textSearch,
-                          style: AppTextStyle.w400s14(ColorName.black000)),
+                      title: Text(controller.textSearch, style: AppTextStyle.w400s14(ColorName.black000)),
                     )
                   : CommonSearchBar(
                       onPressed: controller.toSearch,
-                      leading:
-                          Assets.images.logoIcon.image(height: 30, width: 35),
+                      leading: Assets.images.logoIcon.image(height: 30, width: 35),
                       trailingPressed: () {
                         N.toSetting();
                       },
@@ -133,12 +128,8 @@ class HomeCustomerPage extends BaseWidget<HomeCustomerController> {
                           width: 35,
                           fit: BoxFit.cover,
                           imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => const Icon(
-                            Icons.error,
-                            color: ColorName.primaryColor,
-                          ),
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
                         ),
                       ),
                       title: Text(

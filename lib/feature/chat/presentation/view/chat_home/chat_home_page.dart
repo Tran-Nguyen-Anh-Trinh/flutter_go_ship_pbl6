@@ -50,7 +50,7 @@ class ChatHomePage extends GetView<ChatHomeController> {
                           isNew: controller.userList[index].isNew,
                           onPressed: () {
                             controller.setNewMessages(
-                                'messages/${AppConfig.accountModel.phoneNumber}/${controller.userList[index].inforUser.phone}/isNew');
+                                'messages/${AppConfig.accountInfo.phoneNumber}/${controller.userList[index].inforUser.phone}/isNew');
                             N.toChatDetail(
                               input: controller.userList[index].inforUser,
                             );

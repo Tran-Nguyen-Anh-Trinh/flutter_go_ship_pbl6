@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_customer_info.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_shipper_info_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
@@ -15,11 +16,16 @@ import '../../../domain/usecases/login_usecase.dart';
 
 class LoginController extends BaseController {
   LoginController(
-      this._loginUsecase, this._storageService, this._getShipperInfoUsecase);
+    this._loginUsecase,
+    this._storageService,
+    this._getShipperInfoUsecase,
+    this._getCustomeInfoUsecase,
+  );
 
   final LoginUsecase _loginUsecase;
   final StorageService _storageService;
   final GetShipperInfoUsecase _getShipperInfoUsecase;
+  final GetCustomeInfoUsecase _getCustomeInfoUsecase;
 
   final phoneTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();
@@ -82,19 +88,45 @@ class LoginController extends BaseController {
             hideErrorMessage();
           },
           onSuccess: (account) async {
-            AppConfig.accountModel = account;
+            AppConfig.accountInfo = account;
             print(account.toJson());
 
             _storageService.setToken(account.toJson().toString());
             if (account.role == 1) {
-              await checkPermisson(account);
+              _getCustomeInfoUsecase.execute(
+                observer: Observer(
+                  onSuccess: (customerModel) async {
+                    print(customerModel.toJson());
+                    AppConfig.customerInfo = customerModel;
+                    await checkPermisson(account);
+                  },
+                  onError: (e) async {
+                    if (kDebugMode) {
+                      print(e.response!.data['detail'].toString());
+                      print(e);
+                    }
+                    if (e is DioError) {
+                      if (e.response != null) {
+                        _showToastMessage(e.response!.data['detail'].toString());
+                      } else {
+                        _showToastMessage(e.message);
+                      }
+                    }
+                    if (kDebugMode) {
+                      print(e.toString());
+                    }
+                    ignoringPointer.value = false;
+                    loginState.onSuccess();
+                  },
+                ),
+              );
             } else {
               _getShipperInfoUsecase.execute(
                 observer: Observer(
                   onSubscribe: () {},
                   onSuccess: (shipper) async {
-                    await _storageService
-                        .setShipper(shipper.toJson().toString());
+                    print(shipper.toJson());
+                    AppConfig.shipperInfo = shipper;
                     if (shipper.confirmed == 0) {
                       N.toConfirmShipper();
                     } else if (shipper.confirmed == 1) {
@@ -109,8 +141,7 @@ class LoginController extends BaseController {
                   onError: (e) {
                     if (e is DioError) {
                       if (e.response != null) {
-                        _showToastMessage(
-                            e.response!.data['detail'].toString());
+                        _showToastMessage(e.response!.data['detail'].toString());
                       } else {
                         _showToastMessage(e.message);
                       }
@@ -153,7 +184,7 @@ class LoginController extends BaseController {
   Future<void> checkPermisson(AccountModel account) async {
     final permissionStatus = await Permission.locationWhenInUse.status;
     if (permissionStatus.isGranted) {
-      N.toTabBar(account: account);
+      N.toTabBar();
     } else {
       N.toPermissionHandler(account: account);
     }

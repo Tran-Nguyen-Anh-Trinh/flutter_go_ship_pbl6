@@ -9,6 +9,8 @@ enum FormFieldType {
   phone,
   password,
   confirmPassword,
+  newPassword,
+  oldPassword,
   memo,
   detailOrder,
   noteOrder,
@@ -26,6 +28,10 @@ extension FormFieldTypeExtension on FormFieldType {
         return 'Mật khẩu';
       case FormFieldType.confirmPassword:
         return 'Xác nhận mật khẩu';
+      case FormFieldType.newPassword:
+        return 'Mật khẩu mới';
+      case FormFieldType.oldPassword:
+        return 'Mật khẩu hiện tại';
       case FormFieldType.memo:
         return 'Mô tả địa chỉ';
       case FormFieldType.detailOrder:
@@ -101,6 +107,18 @@ extension FormFieldTypeExtension on FormFieldType {
           FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
         ];
         break;
+      case FormFieldType.newPassword:
+        validators = [
+          FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu mới'),
+          FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
+        ];
+        break;
+      case FormFieldType.oldPassword:
+        validators = [
+          FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu hiện tại'),
+          FormBuilderValidators.minLength(6, errorText: 'Mật khẩu tối thiểu 8 ký tự'),
+        ];
+        break;
       case FormFieldType.confirmPassword:
         validators = [
           FormBuilderValidators.required(errorText: 'Không được để trống mật khẩu xác nhận'),
@@ -121,8 +139,8 @@ extension FormFieldTypeExtension on FormFieldType {
         ];
         break;
       case FormFieldType.messagesDefault:
-          validators = [
-            FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ'),
+        validators = [
+          FormBuilderValidators.maxLength(1000, errorText: 'Vượt quá giói hạn số từ'),
         ];
         break;
       default:

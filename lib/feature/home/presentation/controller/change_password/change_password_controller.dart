@@ -6,9 +6,9 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remot
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 
-import '../../../../base/presentation/base_widget.dart';
-import '../../../authentication/data/providers/remote/request/phone_password_request.dart';
-import '../../../authentication/domain/usecases/change_password_usecase.dart';
+import '../../../../../base/presentation/base_widget.dart';
+import '../../../../authentication/data/providers/remote/request/phone_password_request.dart';
+import '../../../../authentication/domain/usecases/change_password_usecase.dart';
 
 class ChangePasswordController extends BaseController {
   ChangePasswordController(this._changePasswordUsecase);
@@ -33,11 +33,6 @@ class ChangePasswordController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    if (kDebugMode) {
-      oldPasswordTextEditingController.text = '123123';
-      passwordTextEditingController.text = '123123';
-      confirmPasswordTextEditingController.text = "123123";
-    }
   }
 
   @override
@@ -61,15 +56,14 @@ class ChangePasswordController extends BaseController {
   }
 
   void updateRegisterButtonState() {
-    isDisableButton.value =
-        _oldPassword.isEmpty || _password.isEmpty || _confirmPassword.isEmpty;
+    isDisableButton.value = _oldPassword.isEmpty || _password.isEmpty || _confirmPassword.isEmpty;
   }
 
   Future<void> onTapChangePassword() async {
     try {
       final fbs = formKey.formBuilderState!;
-      final oldPassword = FormFieldType.password.field(fbs);
-      final passwordField = FormFieldType.password.field(fbs);
+      final oldPassword = FormFieldType.oldPassword.field(fbs);
+      final passwordField = FormFieldType.newPassword.field(fbs);
       final confirmPassword = FormFieldType.confirmPassword.field(fbs);
       [
         oldPassword,
@@ -103,7 +97,7 @@ class ChangePasswordController extends BaseController {
             debugPrint(e.toString());
             registerState.onSuccess();
             ignoringPointer.value = false;
-            debugPrint(AppConfig.accountModel.accessToken);
+            debugPrint(AppConfig.accountInfo.accessToken);
           },
         ),
         input: ChangePasswordRequest(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
+import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Models/infor_user.dart';
 import 'package:functional_widget_annotation/functional_widget_annotation.dart';
@@ -43,10 +44,7 @@ Widget userItem({
                   imageUrl: inforUser.avatar ?? '',
                   placeholder: (context, url) =>
                       const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(
-                    Icons.error,
-                    color: ColorName.primaryColor,
-                  ),
+                  errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 60, width: 60),
                 ),
               ),
               const SizedBox(width: 10),

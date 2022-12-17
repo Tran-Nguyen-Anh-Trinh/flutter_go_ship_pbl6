@@ -29,170 +29,76 @@ class SettingPage extends BaseWidget<SettingController> {
         title: const Text('Cài đặt'),
       ),
       backgroundColor: ColorName.grayF4f,
-      body: SmartRefresher(
-        enablePullDown: true,
-        controller: controller.refreshController,
-        onRefresh: controller.onRefresh,
-        onLoading: controller.onLoading,
-        header: const WaterDropMaterialHeader(
-          backgroundColor: ColorName.blue007,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                color: ColorName.grayF4f,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(35),
-                      child: Obx(
-                        () => CachedNetworkImage(
-                          height: 60,
-                          width: 60,
-                          fit: BoxFit.cover,
-                          imageUrl:
-                              controller.customerInfo.value.avatarUrl ?? '',
-                          placeholder: (context, url) =>
-                              const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => const Icon(
-                            Icons.error,
-                            color: ColorName.primaryColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Obx(
-                        () => Text(
-                          controller.customerInfo.value.name ?? '',
-                          style: AppTextStyle.w600s16(ColorName.black000),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              settingItem(
-                title: AppConfig.accountModel.phoneNumber,
-                leading: Assets.images.phoneIcon1.image(scale: 3),
-                onPressed: N.toProfile,
-              ),
-              settingItem(
-                title: "Đổi mật khẩu",
-                leading: Assets.images.keyIcon.image(scale: 3),
-                onPressed: N.toChangePassword,
-              ),
-              settingItem(
-                title: "Đăng xuất",
-                leading: Assets.images.logOutIcon.image(scale: 3),
-                onPressed: controller.logout,
-              ),
-              Container(
-                color: ColorName.grayF4f,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 15,
-                      width: Get.width,
-                    ),
-                    Text(
-                      "Tài khoản của tôi",
-                      style: AppTextStyle.w600s15(ColorName.black000),
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                ),
-              ),
-              settingItem(
-                title: "Địa chỉ đã lưu",
-                leading: Assets.images.addressIcon.image(scale: 3),
-                onPressed: () {
-                  N.toAddAddress();
-                },
-              ),
-              settingItem(
-                title: "Khoảng cách hiển thị",
-                leading: Assets.images.distanceIcon.image(scale: 3),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => Obx(
-                      () => SelectDistance(
-                        value:
-                            '${controller.customerInfo.value.distanceView ?? 10} km',
-                        callBack: (value) {
-                          controller.onSaveDistanceView(value);
-                        },
-                      ),
-                    ),
-                  );
-                },
-              ),
-              Container(
-                color: ColorName.grayF4f,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 15,
-                      width: Get.width,
-                    ),
-                    Text(
-                      "Tổng quát",
-                      style: AppTextStyle.w600s15(ColorName.black000),
-                      textAlign: TextAlign.start,
-                    ),
-                  ],
-                ),
-              ),
-              settingItem(
-                title: "Trung tâm trợ giúp",
-                leading: Assets.images.supportIcon.image(scale: 3),
-                onPressed: () {
-                  N.toChatDetail(
-                    input: InforUser(phone: '0343440209', name: 'Admin'),
-                  );
-                },
-              ),
-              settingItem(
-                title: "Giới thiệu",
-                leading: Assets.images.introIcon.image(scale: 3),
-                onPressed: () {
-                  launchUrlString(
-                    'https://www.facebook.com/tt0209',
-                    mode: LaunchMode.externalApplication,
-                  );
-                },
-              ),
-              settingItem(
-                title: "Cài đặt",
-                leading: Assets.images.settingIcon.image(scale: 3),
-                onPressed: () {
-                  N.toSettingSystem();
-                },
-              ),
-              Column(
-                mainAxisSize: MainAxisSize.max,
+      body: Obx(
+        () => IgnorePointer(
+          ignoring: controller.isLoading.value,
+          child: SmartRefresher(
+            enablePullDown: true,
+            controller: controller.refreshController,
+            onRefresh: controller.onRefresh,
+            onLoading: controller.onLoading,
+            header: const WaterDropMaterialHeader(
+              backgroundColor: ColorName.blue007,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                     color: ColorName.grayF4f,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(35),
+                          child: Obx(
+                            () => CachedNetworkImage(
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.cover,
+                              imageUrl: (controller.accountInfo.value.role == 1)
+                                  ? controller.customerInfo.value.avatarUrl ?? ''
+                                  : controller.shipperInfo.value.avatarUrl ?? '',
+                              placeholder: (context, url) => const CircularProgressIndicator(),
+                              errorWidget: (context, url, error) =>
+                                  Assets.images.profileIcon.image(height: 60, width: 60),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Obx(
+                            () => Text(
+                              (controller.accountInfo.value.role == 1)
+                                  ? controller.customerInfo.value.name ?? ''
+                                  : controller.shipperInfo.value.name ?? '',
+                              style: AppTextStyle.w600s16(ColorName.black000),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  settingItem(
+                    title: AppConfig.accountInfo.phoneNumber,
+                    leading: Assets.images.phoneIcon1.image(scale: 3),
+                    onPressed: N.toProfile,
+                  ),
+                  settingItem(
+                    title: "Đổi mật khẩu",
+                    leading: Assets.images.keyIcon.image(scale: 3),
+                    onPressed: N.toChangePassword,
+                  ),
+                  settingItem(
+                    title: "Đăng xuất",
+                    leading: Assets.images.logOutIcon.image(scale: 3),
+                    onPressed: controller.logout,
+                  ),
+                  Container(
+                    color: ColorName.grayF4f,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +108,7 @@ class SettingPage extends BaseWidget<SettingController> {
                           width: Get.width,
                         ),
                         Text(
-                          "Trở thành đối tác của Go Ship",
+                          "Tài khoản của tôi",
                           style: AppTextStyle.w600s15(ColorName.black000),
                           textAlign: TextAlign.start,
                         ),
@@ -210,14 +116,109 @@ class SettingPage extends BaseWidget<SettingController> {
                     ),
                   ),
                   settingItem(
-                    title: "Lái xe cùng Go Ship",
-                    leading: Assets.images.bikeIcon.image(scale: 3),
-                    onPressed: () {},
+                    title: "Địa chỉ đã lưu",
+                    leading: Assets.images.addressIcon.image(scale: 3),
+                    onPressed: () {
+                      N.toAddAddress();
+                    },
                   ),
+                  settingItem(
+                    title: "Khoảng cách hiển thị",
+                    leading: Assets.images.distanceIcon.image(scale: 3),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Obx(
+                          () => SelectDistance(
+                            value: '${controller.customerInfo.value.distanceView ?? 10} km',
+                            callBack: (value) {
+                              controller.onSaveDistanceView(value);
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  Container(
+                    color: ColorName.grayF4f,
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 15,
+                          width: Get.width,
+                        ),
+                        Text(
+                          "Tổng quát",
+                          style: AppTextStyle.w600s15(ColorName.black000),
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
+                    ),
+                  ),
+                  settingItem(
+                    title: "Trung tâm trợ giúp",
+                    leading: Assets.images.supportIcon.image(scale: 3),
+                    onPressed: () {
+                      N.toChatDetail(
+                        input: InforUser(phone: '0343440209', name: 'Admin'),
+                      );
+                    },
+                  ),
+                  settingItem(
+                    title: "Giới thiệu",
+                    leading: Assets.images.introIcon.image(scale: 3),
+                    onPressed: () {
+                      launchUrlString(
+                        'http://167.71.197.115:8000/admin/login/?next=/admin/',
+                        mode: LaunchMode.externalApplication,
+                      );
+                    },
+                  ),
+                  settingItem(
+                    title: "Cài đặt",
+                    leading: Assets.images.settingIcon.image(scale: 3),
+                    onPressed: () {
+                      N.toSettingSystem();
+                    },
+                  ),
+                  if (controller.accountInfo.value.role == 1)
+                    Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          color: ColorName.grayF4f,
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 15,
+                                width: Get.width,
+                              ),
+                              Text(
+                                "Trở thành đối tác của Go Ship",
+                                style: AppTextStyle.w600s15(ColorName.black000),
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                        ),
+                        settingItem(
+                          title: "Lái xe cùng Go Ship",
+                          leading: Assets.images.bikeIcon.image(scale: 3),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  const SizedBox(height: 20),
                 ],
               ),
-              const SizedBox(height: 20),
-            ],
+            ),
           ),
         ),
       ),
@@ -308,18 +309,7 @@ class SelectDistance extends StatelessWidget {
                   width: 1,
                 ),
               ),
-              items: [
-                '1 km',
-                '2 km',
-                '3 km',
-                '4 km',
-                '5 km',
-                '6 km',
-                '7 km',
-                '8 km',
-                '9 km',
-                '10 km'
-              ]
+              items: ['1 km', '2 km', '3 km', '4 km', '5 km', '6 km', '7 km', '8 km', '9 km', '10 km']
                   .map((item) => DropdownMenuItem<String>(
                         value: item,
                         child: Text(
@@ -332,7 +322,7 @@ class SelectDistance extends StatelessWidget {
                   .toList(),
               validator: (value) {
                 if (value == null) {
-                  return 'Please select gender.';
+                  return 'Vui lòng chọn giới tính.';
                 }
               },
               onChanged: (value) {
@@ -534,9 +524,7 @@ Widget settingItem({
         color: ColorName.whiteFff,
         border: Border(
           bottom: const BorderSide(width: 1, color: ColorName.grayBdb),
-          top: topBorder
-              ? const BorderSide(width: 1, color: ColorName.grayBdb)
-              : BorderSide.none,
+          top: topBorder ? const BorderSide(width: 1, color: ColorName.grayBdb) : BorderSide.none,
         ),
       ),
       child: Row(

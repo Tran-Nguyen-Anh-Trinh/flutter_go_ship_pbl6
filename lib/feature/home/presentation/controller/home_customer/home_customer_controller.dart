@@ -2,21 +2,28 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widget_to_image.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/search/search_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/map/data/models/map_position.dart';
+import 'package:flutter_go_ship_pbl6/feature/map/data/models/shipper_location.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Firebase/realtime_database.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 import '../../../../../utils/config/app_config.dart';
 
 class HomeCustomerController extends BaseController {
+  HomeCustomerController(this._realtimeDatabase);
   final Completer<GoogleMapController> mapController = Completer();
+  final RealtimeDatabase _realtimeDatabase;
+
   List<MapPosition> listPosition = List<MapPosition>.empty();
   String textSearch = "";
   Rx<bool> isSearching = false.obs;
@@ -45,6 +52,40 @@ class HomeCustomerController extends BaseController {
   Future<void> doSomeAsyncStuff() async {
     _mapController = await mapController.future;
     getMyLocation();
+    listenShipperLocation();
+  }
+
+  AccountModel accountModel = AppConfig.accountInfo;
+
+  void listenShipperLocation() async {
+    if (accountModel.phoneNumber != null) {
+      var result = await _realtimeDatabase.listenShipperLocation();
+      result.listen(
+        (data) {
+          for (var item in data.snapshot.children) {
+            try {
+              var shipperLocation = ShipperLocation.fromJson(item.value as Map<dynamic, dynamic>, item.key);
+
+              setMarker(
+                LatLng(
+                    double.parse(shipperLocation.latitude!),
+                    double.parse(
+                      shipperLocation.longitude!,
+                    )),
+                shipperLocation.phoneNumber!,
+                markerIcon: shipperMakerIcon,
+              );
+            } catch (e) {
+              if (kDebugMode) {
+                print(e.toString());
+              }
+            }
+          }
+        },
+      );
+    } else {
+      N.toWelcomePage();
+    }
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
@@ -65,10 +106,7 @@ class HomeCustomerController extends BaseController {
           fit: BoxFit.cover,
           imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
           placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => const Icon(
-            Icons.error,
-            color: ColorName.primaryColor,
-          ),
+          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
         ),
       ),
     )
@@ -127,16 +165,6 @@ class HomeCustomerController extends BaseController {
     location.changeSettings(interval: 5000);
 
     location.onLocationChanged.listen((event) {
-      setMarker(
-        LatLng(event.latitude! + Random().nextDouble() / 1000, event.longitude! + Random().nextDouble() / -1000),
-        'shipper1',
-        markerIcon: shipperMakerIcon,
-      );
-      setMarker(
-        LatLng(event.latitude! + Random().nextDouble() / -1000, event.longitude! + Random().nextDouble() / 1000),
-        'shipper2',
-        markerIcon: shipperMakerIcon,
-      );
       setMarker(LatLng(event.latitude!, event.longitude!), AppConfig.customerInfo.name ?? "", markerIcon: myMarkerIcon);
       myLocation = event;
     });
@@ -181,11 +209,16 @@ class HomeCustomerController extends BaseController {
       ),
     );
     if (isSetMarker) {
-      setMarker(latLng, textSearch);
+      setMarker(latLng, textSearch, snippet: "Vị trí bạn đã tìm kiếm");
     }
   }
 
-  void setMarker(LatLng latLng, String name, {BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker}) {
+  void setMarker(
+    LatLng latLng,
+    String name, {
+    BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker,
+    String? snippet,
+  }) {
     // test
     setMarkerIcon();
     //
@@ -196,7 +229,7 @@ class HomeCustomerController extends BaseController {
       icon: markerIcon,
       infoWindow: InfoWindow(
         title: name,
-        snippet: 'Vị trí hiện tại của bạn',
+        snippet: snippet ?? 'Vị trí hiện tại của bạn',
       ),
     );
 

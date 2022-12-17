@@ -17,8 +17,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
   ChatDetailPage({Key? key}) : super(key: key);
 
   final inputBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.transparent),
-      borderRadius: BorderRadius.circular(12));
+      borderSide: const BorderSide(color: Colors.transparent), borderRadius: BorderRadius.circular(12));
 
   final focusNode = FocusNode();
 
@@ -47,8 +46,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
           ],
         ),
         body: Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -63,8 +61,7 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                                 alignment: Alignment.topCenter,
                                 child: Padding(
                                   padding: EdgeInsets.all(10),
-                                  child: CupertinoActivityIndicator(
-                                      color: ColorName.black000),
+                                  child: CupertinoActivityIndicator(color: ColorName.black000),
                                 ),
                               )
                             : const SizedBox.shrink(),
@@ -75,158 +72,69 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                           padding: const EdgeInsets.all(20),
                           itemCount: controller.messagesList.length,
                           itemBuilder: ((context, index) {
-                            return controller
-                                        .messagesList[
-                                            controller.messagesList.length -
-                                                1 -
-                                                index]
-                                        .senderPhone ==
-                                    AppConfig.accountModel.phoneNumber
+                            return controller.messagesList[controller.messagesList.length - 1 - index].senderPhone ==
+                                    AppConfig.accountInfo.phoneNumber
                                 ? Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      if (controller
-                                              .messagesList[controller
-                                                      .messagesList.length -
-                                                  1 -
-                                                  index]
-                                              .image !=
+                                      if (controller.messagesList[controller.messagesList.length - 1 - index].image !=
                                           null)
                                         if (controller
-                                            .messagesList[
-                                                controller.messagesList.length -
-                                                    1 -
-                                                    index]
-                                            .image!
-                                            .isNotEmpty)
+                                            .messagesList[controller.messagesList.length - 1 - index].image!.isNotEmpty)
                                           SendImageItems(
                                             width: width * 2 / 3,
                                             urls: controller
-                                                .messagesList[controller
-                                                        .messagesList.length -
-                                                    1 -
-                                                    index]
-                                                .image!
+                                                .messagesList[controller.messagesList.length - 1 - index].image!
                                                 .split('##'),
                                           ),
                                       if (controller
-                                              .messagesList[controller
-                                                      .messagesList.length -
-                                                  1 -
-                                                  index]
-                                              .messages !=
+                                              .messagesList[controller.messagesList.length - 1 - index].messages !=
                                           null)
-                                        if (controller
-                                            .messagesList[
-                                                controller.messagesList.length -
-                                                    1 -
-                                                    index]
-                                            .messages!
-                                            .isNotEmpty)
+                                        if (controller.messagesList[controller.messagesList.length - 1 - index]
+                                            .messages!.isNotEmpty)
                                           SentItem(
                                             width: width,
                                             content: controller
-                                                .messagesList[controller
-                                                        .messagesList.length -
-                                                    1 -
-                                                    index]
-                                                .messages!,
+                                                .messagesList[controller.messagesList.length - 1 - index].messages!,
                                             dateTime: handleTime(controller
-                                                .messagesList[controller
-                                                        .messagesList.length -
-                                                    1 -
-                                                    index]
-                                                .dateTime),
+                                                .messagesList[controller.messagesList.length - 1 - index].dateTime),
                                           ),
                                     ],
                                   )
                                 : Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      if (controller
-                                              .messagesList[controller
-                                                      .messagesList.length -
-                                                  1 -
-                                                  index]
-                                              .image !=
+                                      if (controller.messagesList[controller.messagesList.length - 1 - index].image !=
                                           null)
                                         if (controller
-                                            .messagesList[
-                                                controller.messagesList.length -
-                                                    1 -
-                                                    index]
-                                            .image!
-                                            .isNotEmpty)
+                                            .messagesList[controller.messagesList.length - 1 - index].image!.isNotEmpty)
                                           ReceiveImageItems(
                                             width: width * 2 / 3,
                                             urls: controller
-                                                .messagesList[controller
-                                                        .messagesList.length -
-                                                    1 -
-                                                    index]
-                                                .image!
+                                                .messagesList[controller.messagesList.length - 1 - index].image!
                                                 .split('##'),
                                           ),
                                       if (controller
-                                              .messagesList[controller
-                                                      .messagesList.length -
-                                                  1 -
-                                                  index]
-                                              .messages !=
+                                              .messagesList[controller.messagesList.length - 1 - index].messages !=
                                           null)
-                                        if (controller
-                                            .messagesList[
-                                                controller.messagesList.length -
-                                                    1 -
-                                                    index]
-                                            .messages!
-                                            .isNotEmpty)
+                                        if (controller.messagesList[controller.messagesList.length - 1 - index]
+                                            .messages!.isNotEmpty)
                                           ReceiveItem(
                                             width: width,
                                             content: controller
-                                                .messagesList[controller
-                                                        .messagesList.length -
-                                                    1 -
-                                                    index]
-                                                .messages!,
+                                                .messagesList[controller.messagesList.length - 1 - index].messages!,
                                             dateTime: handleTime(controller
-                                                .messagesList[controller
-                                                        .messagesList.length -
-                                                    1 -
-                                                    index]
-                                                .dateTime),
+                                                .messagesList[controller.messagesList.length - 1 - index].dateTime),
                                           ),
                                     ],
                                   );
                           }),
                           separatorBuilder: (context, index) {
                             if (calculateTime(
-                                controller
-                                    .messagesList[
-                                        controller.messagesList.length -
-                                            1 -
-                                            index -
-                                            1]
-                                    .dateTime,
-                                controller
-                                    .messagesList[
-                                        controller.messagesList.length -
-                                            1 -
-                                            index]
-                                    .dateTime)) {
-                              if (controller
-                                      .messagesList[
-                                          controller.messagesList.length -
-                                              1 -
-                                              index -
-                                              1]
-                                      .senderPhone ==
-                                  controller
-                                      .messagesList[
-                                          controller.messagesList.length -
-                                              1 -
-                                              index]
-                                      .senderPhone) {
+                                controller.messagesList[controller.messagesList.length - 1 - index - 1].dateTime,
+                                controller.messagesList[controller.messagesList.length - 1 - index].dateTime)) {
+                              if (controller.messagesList[controller.messagesList.length - 1 - index - 1].senderPhone ==
+                                  controller.messagesList[controller.messagesList.length - 1 - index].senderPhone) {
                                 return const SizedBox.shrink();
                               }
                             }
@@ -236,14 +144,9 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                               children: [
                                 const SizedBox(height: 50),
                                 Text(
-                                  handleTime(controller
-                                      .messagesList[
-                                          controller.messagesList.length -
-                                              1 -
-                                              index]
-                                      .dateTime),
-                                  style:
-                                      AppTextStyle.w400s12(ColorName.gray838),
+                                  handleTime(
+                                      controller.messagesList[controller.messagesList.length - 1 - index].dateTime),
+                                  style: AppTextStyle.w400s12(ColorName.gray838),
                                   maxLines: null,
                                 ),
                                 const SizedBox(height: 10),
@@ -296,15 +199,13 @@ class ChatDetailPage extends GetView<ChatDetailController> {
                               minLines: 1,
                               maxLines: 5,
                               focusNode: focusNode,
-                              controller:
-                                  controller.messagesTextEditingController,
+                              controller: controller.messagesTextEditingController,
                               cursorColor: ColorName.blue007,
                               decoration: InputDecoration(
                                 fillColor: ColorName.grayD2d,
                                 filled: true,
                                 hintText: "Nhập tin nhắn...",
-                                hintStyle:
-                                    AppTextStyle.w400s15(ColorName.gray838),
+                                hintStyle: AppTextStyle.w400s15(ColorName.gray838),
                                 contentPadding: const EdgeInsets.only(
                                   top: 15,
                                   left: 10,
@@ -378,8 +279,7 @@ void showBottomSheet(BuildContext context, ChatDetailController controller) {
               padding: EdgeInsets.zero,
               onPressed: controller.getPhoto,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -408,8 +308,7 @@ void showBottomSheet(BuildContext context, ChatDetailController controller) {
               padding: EdgeInsets.zero,
               onPressed: controller.getImageList,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -438,8 +337,7 @@ void showBottomSheet(BuildContext context, ChatDetailController controller) {
               padding: EdgeInsets.zero,
               onPressed: controller.getVideo,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

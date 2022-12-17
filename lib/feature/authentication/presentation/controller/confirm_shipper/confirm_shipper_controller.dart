@@ -59,14 +59,12 @@ class ConfirmShipperController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    _storageService.getShipper().then((value) {
-      shipper.value = ShipperModel.fromJson(jsonDecode(value));
-      print(shipper.toJson());
-      shipper.value.shipperId = AppConfig.accountModel.phoneNumber ?? "";
-      phoneTextEditingController.text = shipper.value.shipperId ?? "";
-      nameTextEditingController.text = shipper.value.name ?? "";
-      noteTextEditingController.text = shipper.value.address?.addressNotes ?? "";
-    });
+    shipper.value = AppConfig.shipperInfo;
+    print(shipper.value.toJson());
+    shipper.value.shipperId = AppConfig.accountInfo.phoneNumber ?? "";
+    phoneTextEditingController.text = shipper.value.shipperId ?? "";
+    nameTextEditingController.text = shipper.value.name ?? "";
+    noteTextEditingController.text = shipper.value.address?.addressNotes ?? "";
   }
 
   @override
@@ -255,14 +253,14 @@ class ConfirmShipperController extends BaseController {
                 // print('================${e.response!.data["detail"].toString()}==================');
               }
               if (e.response!.statusCode == 403) {
-                var account = AppConfig.accountModel;
+                var account = AppConfig.accountInfo;
                 await _refreshTokenUsecase.execute(
                   observer: Observer(
                     onSubscribe: () {},
                     onSuccess: (token) {
                       account.accessToken = token.access;
                       _storageService.setToken(account.toJson().toString());
-                      AppConfig.accountModel = account;
+                      AppConfig.accountInfo = account;
                       confirmShipper();
                     },
                     onError: (err) async {
@@ -274,7 +272,7 @@ class ConfirmShipperController extends BaseController {
                             message: "Vui lòng thực hiện đăng nhập lại!",
                           );
                           _storageService.removeToken();
-                          AppConfig.accountModel = AccountModel();
+                          AppConfig.accountInfo = AccountModel();
                           N.toWelcomePage();
                           N.toLoginPage();
                         } else {
@@ -310,7 +308,7 @@ class ConfirmShipperController extends BaseController {
 
   void toLandingPage() {
     StorageServiceImpl().removeToken().then((value) {
-      AppConfig.accountModel = AccountModel();
+      AppConfig.accountInfo = AccountModel();
       N.toWelcomePage();
     });
   }

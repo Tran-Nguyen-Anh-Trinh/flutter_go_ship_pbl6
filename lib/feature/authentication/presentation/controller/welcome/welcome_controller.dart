@@ -9,7 +9,7 @@ class WelcomeController extends BaseController {
   @override
   void onInit() {
     super.onInit();
-    AppConfig.accountModel = AccountModel();
+    AppConfig.accountInfo = AccountModel();
   }
 
   void toRegisterCustomer() {
