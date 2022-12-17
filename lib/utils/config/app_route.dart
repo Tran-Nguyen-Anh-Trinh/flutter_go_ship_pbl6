@@ -152,7 +152,7 @@ class AppRoute {
       name: chatHome,
       page: ChatHomePage.new,
       binding: ChatHomeBindings(),
-      transition: Transition.cupertino,
+      transition: Transition.fade,
     ),
     GetPage(
       name: chatDetail,
