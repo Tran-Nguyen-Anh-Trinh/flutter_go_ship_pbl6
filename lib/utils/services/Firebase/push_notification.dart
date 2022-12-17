@@ -10,6 +10,8 @@ import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
+import '../../config/app_text_style.dart';
+
 class PushNotification {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
@@ -23,7 +25,8 @@ class PushNotification {
     playSound: true,
   );
 
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
 
   Future<String?> get getDeviceToken async => await _fcm.getToken();
 
@@ -40,7 +43,8 @@ class PushNotification {
     );
 
     await _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await _fcm.setForegroundNotificationPresentationOptions(
@@ -63,6 +67,14 @@ class PushNotification {
           Get.snackbar(
             notification.title ?? "",
             notification.body ?? "",
+            titleText: Text(
+              notification.title ?? "",
+              style: AppTextStyle.w600s15(ColorName.black000),
+            ),
+            messageText: Text(
+              notification.body ?? "",
+              style: AppTextStyle.w400s12(ColorName.gray4f4),
+            ),
             margin: const EdgeInsets.symmetric(vertical: 90, horizontal: 25),
             duration: const Duration(seconds: 10),
             animationDuration: const Duration(milliseconds: 600),
@@ -80,10 +92,10 @@ class PushNotification {
             overlayBlur: 0,
             barBlur: 1,
             boxShadows: [
-              const BoxShadow(
-                offset: Offset(8, 8),
-                blurRadius: 10,
-                color: ColorName.gray838,
+              BoxShadow(
+                color: ColorName.black000.withOpacity(0.6),
+                offset: const Offset(8, 8),
+                blurRadius: 24,
               ),
             ],
             snackStyle: SnackStyle.FLOATING,
@@ -92,7 +104,8 @@ class PushNotification {
               Get.closeAllSnackbars();
               switch (type) {
                 case 1:
-                  if (message.data["order_id"] != null && message.data["time"] != null) {
+                  if (message.data["order_id"] != null &&
+                      message.data["time"] != null) {
                     N.toOrderDetailShipper(
                       orderDetailInput: OrderDetailShipperInput(
                         message.data["order_id"].toString(),
@@ -104,16 +117,25 @@ class PushNotification {
                     Get.snackbar(
                       "Đơn hàng không tồn tại",
                       "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
+                      titleText: Text(
+                        "Đơn hàng không tồn tại",
+                        style: AppTextStyle.w600s15(ColorName.black000),
+                      ),
+                      messageText: Text(
+                        "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
+                        style: AppTextStyle.w400s12(ColorName.gray4f4),
+                      ),
                       snackPosition: SnackPosition.BOTTOM,
-                      margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 30, horizontal: 25),
                       duration: const Duration(seconds: 4),
                       backgroundColor: ColorName.whiteFaf,
                       animationDuration: const Duration(milliseconds: 200),
                       boxShadows: [
-                        const BoxShadow(
-                          offset: Offset(-8, -8),
-                          blurRadius: 10,
-                          color: ColorName.gray838,
+                        BoxShadow(
+                          color: ColorName.black000.withOpacity(0.6),
+                          offset: const Offset(8, 8),
+                          blurRadius: 24,
                         ),
                       ],
                     );
@@ -137,7 +159,8 @@ class PushNotification {
           }
           switch (type) {
             case 1:
-              if (message.data["order_id"] != null && message.data["time"] != null) {
+              if (message.data["order_id"] != null &&
+                  message.data["time"] != null) {
                 N.toOrderDetailShipper(
                   orderDetailInput: OrderDetailShipperInput(
                     message.data["order_id"].toString(),
@@ -150,7 +173,8 @@ class PushNotification {
                   "Đơn hàng không tồn tại",
                   "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
                   snackPosition: SnackPosition.BOTTOM,
-                  margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
                   duration: const Duration(seconds: 4),
                   backgroundColor: ColorName.whiteFaf,
                   animationDuration: const Duration(milliseconds: 200),
@@ -179,7 +203,8 @@ class PushNotification {
         }
         switch (type) {
           case 1:
-            if (message.data["order_id"] != null && message.data["time"] != null) {
+            if (message.data["order_id"] != null &&
+                message.data["time"] != null) {
               N.toOrderDetailShipper(
                 orderDetailInput: OrderDetailShipperInput(
                   message.data["order_id"].toString(),
@@ -192,7 +217,8 @@ class PushNotification {
                 "Đơn hàng không tồn tại",
                 "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
                 snackPosition: SnackPosition.BOTTOM,
-                margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
                 duration: const Duration(seconds: 4),
                 backgroundColor: ColorName.whiteFaf,
                 animationDuration: const Duration(milliseconds: 200),

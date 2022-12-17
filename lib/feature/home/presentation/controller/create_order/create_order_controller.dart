@@ -77,7 +77,7 @@ class CreateOrderController extends BaseController {
       if (scrollController.position.pixels > 10) {
         backgroundColor.value = ColorName.backgroundColor;
       } else {
-        backgroundColor.value = ColorName.primaryColor0b3.withOpacity(0.7);
+        backgroundColor.value = ColorName.primaryColor;
       }
     });
   }
@@ -107,7 +107,8 @@ class CreateOrderController extends BaseController {
               },
               onError: (e) async {
                 await showOkDialog(
-                  message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
+                  message:
+                      "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
                   title: "Cảnh báo",
                 );
                 back();
@@ -118,7 +119,8 @@ class CreateOrderController extends BaseController {
         },
         onError: (e) async {
           await showOkDialog(
-            message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
+            message:
+                "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
             title: "Cảnh báo",
           );
           back();
@@ -156,11 +158,14 @@ class CreateOrderController extends BaseController {
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  imageOrder.value = await _picker.pickImage(source: ImageSource.camera, imageQuality: 50) ?? XFile('');
+                  imageOrder.value = await _picker.pickImage(
+                          source: ImageSource.camera, imageQuality: 50) ??
+                      XFile('');
                   back();
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                   child: Text(
                     'Chụp ảnh',
                     style: AppTextStyle.w600s15(ColorName.black000),
@@ -178,12 +183,14 @@ class CreateOrderController extends BaseController {
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  imageOrder.value =
-                      await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50) ?? XFile('');
+                  imageOrder.value = await _picker.pickImage(
+                          source: ImageSource.gallery, imageQuality: 50) ??
+                      XFile('');
                   back();
                 },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                   child: Text(
                     'Chọn ảnh từ thư viện',
                     style: AppTextStyle.w600s15(ColorName.black000),
@@ -224,15 +231,23 @@ class CreateOrderController extends BaseController {
         Get.snackbar(
           "Chọn một vị trí khác để tạo đơn",
           "Không thể tạo đơn hàng với hai vị trí ở quá gần nhau!",
+          titleText: Text(
+            "Chọn một vị trí khác để tạo đơn",
+            style: AppTextStyle.w600s15(ColorName.black000),
+          ),
+          messageText: Text(
+            "Không thể tạo đơn hàng với hai vị trí ở quá gần nhau!",
+            style: AppTextStyle.w400s12(ColorName.gray4f4),
+          ),
           margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
           duration: const Duration(seconds: 4),
           backgroundColor: ColorName.whiteFaf,
           animationDuration: const Duration(milliseconds: 300),
           boxShadows: [
-            const BoxShadow(
-              offset: Offset(-8, -8),
-              blurRadius: 10,
-              color: ColorName.gray838,
+            BoxShadow(
+              color: ColorName.black000.withOpacity(0.6),
+              offset: const Offset(8, 8),
+              blurRadius: 24,
             ),
           ],
         );
@@ -245,7 +260,8 @@ class CreateOrderController extends BaseController {
       }
     } catch (e) {
       await showOkDialog(
-        message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
+        message:
+            "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
         title: "Cảnh báo",
       );
       back();
@@ -265,7 +281,8 @@ class CreateOrderController extends BaseController {
               print(error);
             }
             await showOkDialog(
-              message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
+              message:
+                  "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
               title: "Cảnh báo",
             );
             back();
@@ -279,20 +296,29 @@ class CreateOrderController extends BaseController {
   }
 
   void createOrder() async {
-    if (startAddress.value.addressNotes == null || endAddress.value.addressNotes == null) {
+    if (startAddress.value.addressNotes == null ||
+        endAddress.value.addressNotes == null) {
       Get.closeAllSnackbars();
       Get.snackbar(
         "Tạo mới đơn hàng thất bại",
         "Vui lòng chọn vị trí xuất phát và vị trí đến của đơn hàng!",
+        titleText: Text(
+          'Tạo mới đơn hàng thất bại',
+          style: AppTextStyle.w600s15(ColorName.black000),
+        ),
+        messageText: Text(
+          'Vui lòng chọn vị trí xuất phát và vị trí đến của đơn hàng!',
+          style: AppTextStyle.w400s12(ColorName.gray4f4),
+        ),
         margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
         duration: const Duration(seconds: 4),
         backgroundColor: ColorName.whiteFaf,
         animationDuration: const Duration(milliseconds: 300),
         boxShadows: [
-          const BoxShadow(
-            offset: Offset(-8, -8),
-            blurRadius: 10,
-            color: ColorName.gray838,
+          BoxShadow(
+            color: ColorName.black000.withOpacity(0.6),
+            offset: const Offset(8, 8),
+            blurRadius: 24,
           ),
         ],
       );
@@ -308,15 +334,23 @@ class CreateOrderController extends BaseController {
       Get.snackbar(
         "Tạo mới đơn hàng thất bại",
         "Vui lòng điền thông tin chi tiết đơn hàng!",
+        titleText: Text(
+          'Tạo mới đơn hàng thất bại',
+          style: AppTextStyle.w600s15(ColorName.black000),
+        ),
+        messageText: Text(
+          "Vui lòng điền thông tin chi tiết đơn hàng!",
+          style: AppTextStyle.w400s12(ColorName.gray4f4),
+        ),
         margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
         duration: const Duration(seconds: 4),
         backgroundColor: ColorName.whiteFaf,
         animationDuration: const Duration(milliseconds: 300),
         boxShadows: [
-          const BoxShadow(
-            offset: Offset(-8, -8),
-            blurRadius: 10,
-            color: ColorName.gray838,
+          BoxShadow(
+            color: ColorName.black000.withOpacity(0.6),
+            offset: const Offset(8, 8),
+            blurRadius: 24,
           ),
         ],
       );
@@ -331,15 +365,23 @@ class CreateOrderController extends BaseController {
       Get.snackbar(
         "Chọn một vị trí khác để tạo đơn",
         "Không thể tạo đơn hàng với hai vị trí ở quá gần nhau!",
+        titleText: Text(
+          "Chọn một vị trí khác để tạo đơn",
+          style: AppTextStyle.w600s15(ColorName.black000),
+        ),
+        messageText: Text(
+          "Không thể tạo đơn hàng với hai vị trí ở quá gần nhau!",
+          style: AppTextStyle.w400s12(ColorName.gray4f4),
+        ),
         margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 25),
         duration: const Duration(seconds: 4),
         backgroundColor: ColorName.whiteFaf,
         animationDuration: const Duration(milliseconds: 300),
         boxShadows: [
-          const BoxShadow(
-            offset: Offset(-8, -8),
-            blurRadius: 10,
-            color: ColorName.gray838,
+          BoxShadow(
+            color: ColorName.black000.withOpacity(0.6),
+            offset: const Offset(8, 8),
+            blurRadius: 24,
           ),
         ],
       );
@@ -354,7 +396,9 @@ class CreateOrderController extends BaseController {
     createState.value = true;
     String? url;
     if (imageOrder.value.path.isNotEmpty) {
-      url = (await _cloudStorage.putAllxFile([imageOrder.value], folder: "Order")).first;
+      url =
+          (await _cloudStorage.putAllxFile([imageOrder.value], folder: "Order"))
+              .first;
     }
 
     _createOrderUsecase.execute(
@@ -369,6 +413,14 @@ class CreateOrderController extends BaseController {
           Get.snackbar(
             "Tạo mới đơn hàng thành công",
             "Vui lòng chờ trong giây lát shipper sẽ liên hệ ngay cho bạn!",
+            titleText: Text(
+              "Tạo mới đơn hàng thành công",
+              style: AppTextStyle.w600s15(ColorName.black000),
+            ),
+            messageText: Text(
+              "Vui lòng chờ trong giây lát shipper sẽ liên hệ ngay cho bạn!",
+              style: AppTextStyle.w400s12(ColorName.gray4f4),
+            ),
             margin: const EdgeInsets.symmetric(vertical: 90, horizontal: 25),
             duration: const Duration(seconds: 4),
             animationDuration: const Duration(milliseconds: 600),
@@ -386,10 +438,10 @@ class CreateOrderController extends BaseController {
             overlayBlur: 0,
             barBlur: 1,
             boxShadows: [
-              const BoxShadow(
-                offset: Offset(8, 8),
-                blurRadius: 10,
-                color: ColorName.gray838,
+              BoxShadow(
+                color: ColorName.black000.withOpacity(0.6),
+                offset: const Offset(8, 8),
+                blurRadius: 24,
               ),
             ],
             snackStyle: SnackStyle.FLOATING,
@@ -446,7 +498,9 @@ class CreateOrderController extends BaseController {
         endAddress.value,
         detailOrderTextEditingController.text.trim(),
         distance.value,
-        noteOrderTextEditingController.text.trim().isNotEmpty ? noteOrderTextEditingController.text.trim() : null,
+        noteOrderTextEditingController.text.trim().isNotEmpty
+            ? noteOrderTextEditingController.text.trim()
+            : null,
         url,
         listPayment[indexPayment.value].id,
         listCategory[indexCategory.value].id,
@@ -457,7 +511,9 @@ class CreateOrderController extends BaseController {
   double calculateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
     var c = cos;
-    var a = 0.5 - c((lat2 - lat1) * p) / 2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
   }
 }
