@@ -5,6 +5,7 @@ import 'package:flutter_go_ship_pbl6/base/presentation/base_app_bar.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/feature/activate/presentation/controller/order_detail_shipper/order_detail_shipper_controller.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
@@ -52,7 +53,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                         onMapCreated: (GoogleMapController mapController) {
                           controller.mapController.complete(mapController);
                         },
-                        polylines: Set<Polyline>.of(controller.polylines.values),
+                        polylines:
+                            Set<Polyline>.of(controller.polylines.values),
                       ),
                     ),
                     Positioned(
@@ -78,7 +80,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             ],
                           ),
                           child: Center(
-                            child: Assets.images.myLocationIcon.image(height: 20, width: 20),
+                            child: Assets.images.myLocationIcon
+                                .image(height: 20, width: 20),
                           ),
                         ),
                       ),
@@ -106,7 +109,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             ],
                           ),
                           child: Center(
-                            child: Assets.images.startOrderMarker.image(height: 25, width: 25),
+                            child: Assets.images.startOrderMarker
+                                .image(height: 25, width: 25),
                           ),
                         ),
                       ),
@@ -134,7 +138,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             ],
                           ),
                           child: Center(
-                            child: Assets.images.endOrderMarker.image(height: 20, width: 20),
+                            child: Assets.images.endOrderMarker
+                                .image(height: 20, width: 20),
                           ),
                         ),
                       ),
@@ -162,7 +167,10 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             ],
                           ),
                           child: Center(
-                            child: Assets.images.trackingIcon.image(height: 22, width: 22, color: ColorName.black000),
+                            child: Assets.images.trackingIcon.image(
+                                height: 22,
+                                width: 22,
+                                color: ColorName.black000),
                           ),
                         ),
                       ),
@@ -174,7 +182,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                   child: Container(
                     height: 100,
                     decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(30)),
                         color: ColorName.grayF8f,
                         boxShadow: [
                           BoxShadow(
@@ -209,9 +218,14 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                                   fit: BoxFit.cover,
                                   height: 45,
                                   width: 45,
-                                  imageUrl: controller.orderModel.value.customer?.avatarUrl ?? "",
-                                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                  errorWidget: (context, url, error) => Assets.images.profileIcon.image(width: 45),
+                                  imageUrl: controller.orderModel.value.customer
+                                          ?.avatarUrl ??
+                                      "",
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) => Assets
+                                      .images.profileIcon
+                                      .image(width: 45),
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -222,13 +236,19 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      controller.orderModel.value.customer?.name ?? 'Go Ship',
-                                      style: AppTextStyle.w600s16(ColorName.black222),
+                                      controller.orderModel.value.customer
+                                              ?.name ??
+                                          'Go Ship',
+                                      style: AppTextStyle.w600s16(
+                                          ColorName.black222),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     Text(
-                                      controller.orderModel.value.customer?.account?.phoneNumber ?? '0384933379',
-                                      style: AppTextStyle.w400s14(ColorName.black222),
+                                      controller.orderModel.value.customer
+                                              ?.account?.phoneNumber ??
+                                          '0384933379',
+                                      style: AppTextStyle.w400s14(
+                                          ColorName.black222),
                                     ),
                                   ],
                                 ),
@@ -249,14 +269,20 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                                     borderRadius: BorderRadius.circular(35),
                                   ),
                                   child: Center(
-                                    child: Assets.images.callIcon.image(height: 15, color: ColorName.primaryColor),
+                                    child: Assets.images.callIcon.image(
+                                        height: 15,
+                                        color: ColorName.primaryColor),
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 10),
                               CupertinoButton(
                                 padding: EdgeInsets.zero,
-                                onPressed: () {},
+                                onPressed: () {
+                                  N.toChatDetail(
+                                    input: controller.inforUSer,
+                                  );
+                                },
                                 child: Container(
                                   height: 40,
                                   width: 40,
@@ -265,7 +291,9 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                                     borderRadius: BorderRadius.circular(35),
                                   ),
                                   child: Center(
-                                    child: Assets.images.chatMenuIcon.image(height: 15, color: ColorName.primaryColor),
+                                    child: Assets.images.chatMenuIcon.image(
+                                        height: 15,
+                                        color: ColorName.primaryColor),
                                   ),
                                 ),
                               ),
@@ -300,12 +328,18 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Text(
-                                    (controller.orderModel.value.status?.id ?? 1) == 1
+                                    (controller.orderModel.value.status?.id ??
+                                                1) ==
+                                            1
                                         ? 'Yêu cầu nhận đợn hàng ngay!'
-                                        : (controller.orderModel.value.status?.id ?? 1) == 4
+                                        : (controller.orderModel.value.status
+                                                        ?.id ??
+                                                    1) ==
+                                                4
                                             ? "Đơn hàng đã bị hủy!"
                                             : "Đơn hàng này đã có người nhận!",
-                                    style: AppTextStyle.w500s15(ColorName.black333),
+                                    style: AppTextStyle.w500s15(
+                                        ColorName.black333),
                                     textAlign: TextAlign.center,
                                   ),
                                   const SizedBox(height: 10),
@@ -315,31 +349,38 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                                       Text(
                                         '${(controller.orderModel.value.distance ?? 0.000).toStringAsFixed(3)}',
                                         textAlign: TextAlign.center,
-                                        style: AppTextStyle.w700s17(ColorName.black000),
+                                        style: AppTextStyle.w700s17(
+                                            ColorName.black000),
                                       ),
                                       Text(
                                         ' km',
                                         textAlign: TextAlign.center,
-                                        style: AppTextStyle.w500s17(ColorName.gray4f4),
+                                        style: AppTextStyle.w500s17(
+                                            ColorName.gray4f4),
                                       ),
                                       Text(
                                         ' / ',
                                         textAlign: TextAlign.center,
-                                        style: AppTextStyle.w700s16(ColorName.black333),
+                                        style: AppTextStyle.w700s16(
+                                            ColorName.black333),
                                       ),
                                       Text(
                                         NumberFormat('#,##0')
                                             .format(
-                                              controller.orderModel.value.cost ?? 0,
+                                              controller
+                                                      .orderModel.value.cost ??
+                                                  0,
                                             )
                                             .replaceAll(',', '.'),
                                         textAlign: TextAlign.center,
-                                        style: AppTextStyle.w700s16(ColorName.green459),
+                                        style: AppTextStyle.w700s16(
+                                            ColorName.green459),
                                       ),
                                       Text(
                                         ' đ',
                                         textAlign: TextAlign.center,
-                                        style: AppTextStyle.w600s10(ColorName.redFf0),
+                                        style: AppTextStyle.w600s10(
+                                            ColorName.redFf0),
                                       ),
                                     ],
                                   ),
@@ -349,27 +390,36 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             const SizedBox(width: 5),
                             Column(
                               children: [
-                                if (controller.orderModel.value.category?.isProtected ?? false)
+                                if (controller.orderModel.value.category
+                                        ?.isProtected ??
+                                    false)
                                   Assets.images.shieldIcon.image(width: 25),
                                 CupertinoButton(
-                                  onPressed: (controller.orderModel.value.status?.id ?? 1) != 1
-                                      ? () {}
-                                      : () {
-                                          controller.receiveOrder();
-                                        },
+                                  onPressed:
+                                      (controller.orderModel.value.status?.id ??
+                                                  1) !=
+                                              1
+                                          ? () {}
+                                          : () {
+                                              controller.receiveOrder();
+                                            },
                                   child: Container(
                                     height: 40,
                                     width: 100,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
-                                      color: (controller.orderModel.value.status?.id ?? 1) != 1
+                                      color: (controller.orderModel.value.status
+                                                      ?.id ??
+                                                  1) !=
+                                              1
                                           ? ColorName.grayC7c
                                           : ColorName.primaryColor,
                                     ),
                                     child: Center(
                                       child: Text(
                                         'Nhận đơn',
-                                        style: AppTextStyle.w500s13(ColorName.whiteFff),
+                                        style: AppTextStyle.w500s13(
+                                            ColorName.whiteFff),
                                       ),
                                     ),
                                   ),
@@ -380,7 +430,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                           ],
                         ),
                         const SizedBox(height: 10),
-                        StatusOrderWidget(controller.orderModel.value.status?.id ?? 1),
+                        StatusOrderWidget(
+                            controller.orderModel.value.status?.id ?? 1),
                         const SizedBox(height: 20),
                         Row(
                           children: [
@@ -423,7 +474,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             const SizedBox(width: 20),
                             Expanded(
                               child: Text(
-                                controller.orderModel.value.customerNotes ?? 'Không có lưu ý nào dành cho bạn!',
+                                controller.orderModel.value.customerNotes ??
+                                    'Không có lưu ý nào dành cho bạn!',
                                 textAlign: TextAlign.left,
                                 style: AppTextStyle.w400s14(ColorName.black222),
                               ),
@@ -448,7 +500,8 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             const SizedBox(width: 20),
                             Expanded(
                               child: Text(
-                                controller.orderModel.value.payment?.type ?? 'Thanh toán khi nhận hàng',
+                                controller.orderModel.value.payment?.type ??
+                                    'Thanh toán khi nhận hàng',
                                 textAlign: TextAlign.left,
                                 style: AppTextStyle.w400s14(ColorName.black222),
                               ),
@@ -476,10 +529,13 @@ class OrderDetailShipperPage extends BaseWidget<OrderDetailShipperController> {
                             Expanded(
                               child: CachedNetworkImage(
                                 fit: BoxFit.cover,
-                                imageUrl: controller.orderModel.value.imgOrder ??
+                                imageUrl: controller
+                                        .orderModel.value.imgOrder ??
                                     'https://firebasestorage.googleapis.com/v0/b/pbl6-goship.appspot.com/o/order_no_image.jpg?alt=media&token=41fedf4d-dd07-434c-9c3e-c610dc4d5f76',
-                                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) => const Icon(
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(
                                   Icons.error,
                                   color: ColorName.primaryColor,
                                 ),

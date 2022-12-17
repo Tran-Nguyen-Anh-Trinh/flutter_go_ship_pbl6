@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'dart:async';
@@ -21,12 +22,14 @@ import 'package:flutter_go_ship_pbl6/utils/config/app_route.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Firebase/realtime_database.dart';
+import 'package:flutter_go_ship_pbl6/utils/services/Models/infor_user.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class OrderDetailShipperController extends BaseController<OrderDetailShipperInput> {
+class OrderDetailShipperController
+    extends BaseController<OrderDetailShipperInput> {
   OrderDetailShipperController(
     this._getOrderDetailUsecase,
     this._receiveOrderUsecase,
@@ -38,15 +41,19 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
   final ReceiveOrderUsecase _receiveOrderUsecase;
   final Completer<GoogleMapController> mapController = Completer();
   GoogleMapAPI googleMapAPI = GoogleMapAPI();
+  late InforUser? inforUSer;
 
   GoogleMapController? _mapController;
   LocationData? myLocation;
 
   RxMap<MarkerId, Marker> markers = <MarkerId, Marker>{}.obs;
 
-  BitmapDescriptor myMarkerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-  BitmapDescriptor startMarkerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
-  BitmapDescriptor endMarkerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
+  BitmapDescriptor myMarkerIcon =
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+  BitmapDescriptor startMarkerIcon =
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
+  BitmapDescriptor endMarkerIcon =
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose);
 
   Rx<OrderModel> orderModel = OrderModel().obs;
   var loadState = true.obs;
@@ -60,7 +67,8 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
     } catch (e) {
       await showOkDialog(
         title: "Đơn hàng không tồn tại",
-        message: "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
+        message:
+            "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
       );
       back();
     }
@@ -72,13 +80,16 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
         onSubscribe: () {
           loadState.value = true;
         },
-        onSuccess: ((order) {
+        onSuccess: ((order) async {
           print(order.toJson());
           orderModel.value = order;
           _realtimeDatabase.seemNotification(
             AppConfig.accountInfo.phoneNumber ?? "-1",
             input.notificationID,
           );
+
+          inforUSer = await _realtimeDatabase.getUserByPhone(
+              orderModel.value.customer?.account?.phoneNumber ?? '0343440509');
         }),
         onError: (error) async {
           if (error is DioError) {
@@ -93,7 +104,8 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
           }
           await showOkDialog(
             title: "Đơn hàng không tồn tại",
-            message: "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
+            message:
+                "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
           );
           back();
         },
@@ -147,7 +159,8 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
           polylines.values.first.points.first.longitude,
         ),
         "Điểm xuất phát",
-        snippet: orderModel.value.addressStart?.addressNotes ?? "Vị trí nhận hàng",
+        snippet:
+            orderModel.value.addressStart?.addressNotes ?? "Vị trí nhận hàng",
         markerIcon: startMarkerIcon,
       );
       setMarker(
@@ -156,7 +169,8 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
           polylines.values.first.points.last.longitude,
         ),
         "Điểm đến",
-        snippet: orderModel.value.addressEnd?.addressNotes ?? "Vị trí giao hàng",
+        snippet:
+            orderModel.value.addressEnd?.addressNotes ?? "Vị trí giao hàng",
         markerIcon: endMarkerIcon,
       );
 
@@ -221,7 +235,8 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
           fit: BoxFit.cover,
           imageUrl: AppConfig.shipperInfo.avatarUrl ?? '',
           placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
+          errorWidget: (context, url, error) =>
+              Assets.images.profileIcon.image(height: 35, width: 35),
         ),
       ),
     )
@@ -356,7 +371,8 @@ class OrderDetailShipperController extends BaseController<OrderDetailShipperInpu
               message: "Vui lòng liên hệ khách hàng để xác nhận đơn hàng!",
             );
             await launchUrl(
-              Uri.parse('tel:${orderModel.value.customer?.account?.phoneNumber ?? "0384933379"}'),
+              Uri.parse(
+                  'tel:${orderModel.value.customer?.account?.phoneNumber ?? "0384933379"}'),
             );
             Get.find<HomeShipperController>().mapDirectionsModel(
               orderModel.value.id,
