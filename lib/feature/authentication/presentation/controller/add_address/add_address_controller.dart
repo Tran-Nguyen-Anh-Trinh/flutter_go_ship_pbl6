@@ -18,6 +18,7 @@ import 'package:location/location.dart';
 
 import '../../../../../utils/config/app_config.dart';
 import '../../../../home/data/models/customer_info_model.dart';
+import '../../../../home/data/providers/remote/request/customer_request.dart';
 import '../../../../home/domain/usecases/update_customer_info_usecase.dart';
 
 class AddAddressController extends BaseController {
@@ -37,14 +38,18 @@ class AddAddressController extends BaseController {
   GoogleMapController? _mapController;
   LocationData? myLocation;
   Rx<LatLngBounds?> latLngBounds = LatLngBounds(
-    northeast: const LatLng(16.073885 + 0.0065 * 2 / 2, 108.149829 + 0.0065 * 2 / 2),
-    southwest: const LatLng(16.073885 - 0.0065 * 2 / 2, 108.149829 - 0.0065 * 2 / 2),
+    northeast:
+        const LatLng(16.073885 + 0.0065 * 2 / 2, 108.149829 + 0.0065 * 2 / 2),
+    southwest:
+        const LatLng(16.073885 - 0.0065 * 2 / 2, 108.149829 - 0.0065 * 2 / 2),
   ).obs;
 
   RxMap<MarkerId, Marker> markers = <MarkerId, Marker>{}.obs;
 
-  BitmapDescriptor myMarkerIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
-  BitmapDescriptor defaultMarkerWithHue = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+  BitmapDescriptor myMarkerIcon =
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
+  BitmapDescriptor defaultMarkerWithHue =
+      BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
 
   var initialLatLng = const LatLng(16.073885, 108.149829);
 
@@ -81,7 +86,8 @@ class AddAddressController extends BaseController {
       }
     }
     if (Get.isRegistered<SettingController>()) {
-      noteTextEditingController.text = AppConfig.customerInfo.address?.addressNotes ?? '';
+      noteTextEditingController.text =
+          AppConfig.customerInfo.address?.addressNotes ?? '';
 
       initialLatLng = LatLng(
         double.parse(AppConfig.customerInfo.address?.latitude ?? '0'),
@@ -118,7 +124,8 @@ class AddAddressController extends BaseController {
           fit: BoxFit.cover,
           imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
           placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
+          errorWidget: (context, url, error) =>
+              Assets.images.profileIcon.image(height: 35, width: 35),
         ),
       ),
     )
@@ -136,7 +143,8 @@ class AddAddressController extends BaseController {
       (value) async {
         myLocation = value;
         try {
-          if (_mapController != null && initialLatLng == const LatLng(16.073885, 108.149829)) {
+          if (_mapController != null &&
+              initialLatLng == const LatLng(16.073885, 108.149829)) {
             await _mapController!.animateCamera(
               CameraUpdate.newCameraPosition(
                 CameraPosition(
@@ -150,8 +158,10 @@ class AddAddressController extends BaseController {
         } catch (e) {}
 
         latLngBounds.value = LatLngBounds(
-          northeast: LatLng(value.latitude! + kmDistance * 5 / 2, value.longitude! + kmDistance * 5 / 2),
-          southwest: LatLng(value.latitude! - kmDistance * 5 / 2, value.longitude! - kmDistance * 5 / 2),
+          northeast: LatLng(value.latitude! + kmDistance * 5 / 2,
+              value.longitude! + kmDistance * 5 / 2),
+          southwest: LatLng(value.latitude! - kmDistance * 5 / 2,
+              value.longitude! - kmDistance * 5 / 2),
         );
       },
     );
@@ -174,8 +184,10 @@ class AddAddressController extends BaseController {
     if (myLocation != null) {
       goToPlace(LatLng(myLocation!.latitude!, myLocation!.longitude!));
       latLngBounds.value = LatLngBounds(
-        northeast: LatLng(myLocation!.latitude! + kmDistance * 5 / 2, myLocation!.longitude! + kmDistance * 5 / 2),
-        southwest: LatLng(myLocation!.latitude! - kmDistance * 5 / 2, myLocation!.longitude! - kmDistance * 5 / 2),
+        northeast: LatLng(myLocation!.latitude! + kmDistance * 5 / 2,
+            myLocation!.longitude! + kmDistance * 5 / 2),
+        southwest: LatLng(myLocation!.latitude! - kmDistance * 5 / 2,
+            myLocation!.longitude! - kmDistance * 5 / 2),
       );
     }
   }
@@ -183,8 +195,10 @@ class AddAddressController extends BaseController {
   void goToPlace(LatLng latLng) async {
     isSearching.value = false;
     latLngBounds.value = LatLngBounds(
-      northeast: LatLng(latLng.latitude + kmDistance * 0.5 / 2, latLng.longitude + kmDistance * 0.5 / 2),
-      southwest: LatLng(latLng.latitude - kmDistance * 0.5 / 2, latLng.longitude - kmDistance * 0.5 / 2),
+      northeast: LatLng(latLng.latitude + kmDistance * 0.5 / 2,
+          latLng.longitude + kmDistance * 0.5 / 2),
+      southwest: LatLng(latLng.latitude - kmDistance * 0.5 / 2,
+          latLng.longitude - kmDistance * 0.5 / 2),
     );
 
     try {
@@ -239,14 +253,21 @@ class AddAddressController extends BaseController {
     isLoading.value = true;
     if (saveLocation != null) {
       _updateCustomerInfoUsecase.execute(
-        observer: Observer(onSuccess: (_) {
+        observer: Observer(onSuccess: (account) {
           isLoading.value = false;
-          showOkDialog(message: "Cập nhật thành công");
+          showOkDialog(message: "Cập nhật thành công").then((value) {
+                if (value == OkCancelResult.ok) {
+                  back();
+                }
+              });
+          if (account != null) {
+            AppConfig.customerInfo = account;
+          }
         }, onError: () {
           isLoading.value = false;
           showOkDialog(message: "Opps! Có lỗi xảy ra");
         }),
-        input: CustomerModel(
+        input: CustomerRequest(
           name: AppConfig.customerInfo.name,
           address: AddressModel(
             id: AppConfig.customerInfo.address?.id,
@@ -265,14 +286,21 @@ class AddAddressController extends BaseController {
     } else {
       if (noteTextEditingController.text.trim().isNotEmpty) {
         _updateCustomerInfoUsecase.execute(
-          observer: Observer(onSuccess: (_) {
+          observer: Observer(onSuccess: (account) {
             isLoading.value = false;
-            showOkDialog(message: "Cập nhật thành công");
+            showOkDialog(message: "Cập nhật thành công").then((value) {
+                if (value == OkCancelResult.ok) {
+                  back();
+                }
+              });
+            if (account != null) {
+              AppConfig.customerInfo = account;
+            }
           }, onError: () {
             isLoading.value = false;
             showOkDialog(message: "Opps! Có lỗi xảy ra");
           }),
-          input: CustomerModel(
+          input: CustomerRequest(
             name: AppConfig.customerInfo.name,
             address: AddressModel(
               id: AppConfig.customerInfo.address?.id,
@@ -299,15 +327,18 @@ class AddAddressController extends BaseController {
       showOkCancelDialog(
         cancelText: "Hủy",
         okText: "Xác nhận",
-        message: "Sau khi xác nhận Go Ship sẽ xác định đây là địa chỉ cư trú của bạn?",
+        message:
+            "Sau khi xác nhận Go Ship sẽ xác định đây là địa chỉ cư trú của bạn?",
         title: "Bạn muốn sử dụng vị trí này?",
       ).then((value) {
         if (value == OkCancelResult.ok) {
           if (Get.isRegistered<ConfirmShipperController>()) {
             var confirmShipperController = Get.find<ConfirmShipperController>();
             var select = latLng;
-            confirmShipperController.shipper.value.address!.latitude = '${select.latitude}';
-            confirmShipperController.shipper.value.address!.longitude = '${select.longitude}';
+            confirmShipperController.shipper.value.address!.latitude =
+                '${select.latitude}';
+            confirmShipperController.shipper.value.address!.longitude =
+                '${select.longitude}';
             confirmShipperController.shipper.refresh();
             back();
           }
@@ -321,17 +352,21 @@ class AddAddressController extends BaseController {
       showOkCancelDialog(
         cancelText: "Hủy",
         okText: "Xác nhận",
-        message: "Sau khi xác nhận Go Ship sẽ xác định đây là địa chỉ cư trú của bạn?",
+        message:
+            "Sau khi xác nhận Go Ship sẽ xác định đây là địa chỉ cư trú của bạn?",
         title: "Bạn muốn sử dụng vị trí hiện tại của ban?",
       ).then((value) {
         if (value == OkCancelResult.ok) {
           if (Get.isRegistered<ConfirmShipperController>()) {
             var confirmShipperController = Get.find<ConfirmShipperController>();
             var select = myLocation != null
-                ? LatLng(myLocation!.latitude ?? 16.073885, myLocation!.longitude ?? 108.149829)
+                ? LatLng(myLocation!.latitude ?? 16.073885,
+                    myLocation!.longitude ?? 108.149829)
                 : const LatLng(16.073885, 108.149829);
-            confirmShipperController.shipper.value.address!.latitude = '${select.latitude}';
-            confirmShipperController.shipper.value.address!.longitude = '${select.longitude}';
+            confirmShipperController.shipper.value.address!.latitude =
+                '${select.latitude}';
+            confirmShipperController.shipper.value.address!.longitude =
+                '${select.longitude}';
             confirmShipperController.shipper.refresh();
             back();
           }

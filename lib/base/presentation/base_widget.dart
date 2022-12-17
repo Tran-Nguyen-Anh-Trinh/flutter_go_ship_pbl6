@@ -6,7 +6,8 @@ import 'base_controller.dart';
 export 'package:flutter/material.dart';
 export 'package:get/get_state_manager/get_state_manager.dart';
 
-abstract class BaseWidget<Controller extends BaseController> extends GetWidget<Controller> {
+abstract class BaseWidget<Controller extends BaseController>
+    extends GetWidget<Controller> {
   const BaseWidget({Key? key}) : super(key: key);
   @protected
   Widget onBuild(BuildContext context);
@@ -18,14 +19,15 @@ abstract class BaseWidget<Controller extends BaseController> extends GetWidget<C
   }
 
   void _onInit(BuildContext context) {
-    controller.showOkCancelDialog = ({String? title, String? message, String? okText, String? cancelText}) {
+    controller.showOkCancelDialog =
+        ({String? title, String? message, String? okText, String? cancelText}) {
       return showOkCancelAlertDialog(
-        context: context,
-        title: title,
-        message: message,
-        okLabel: okText ?? 'Xác nhận',
-        cancelLabel: cancelText ?? 'Hủy',
-      );
+          context: context,
+          title: title,
+          message: message,
+          okLabel: okText ?? 'Xác nhận',
+          cancelLabel: cancelText ?? 'Hủy',
+          barrierDismissible: false);
     };
 
     controller.showOkDialog = ({String? title, String? message}) {
@@ -33,6 +35,7 @@ abstract class BaseWidget<Controller extends BaseController> extends GetWidget<C
         context: context,
         title: title,
         message: message,
+        barrierDismissible: false,
       );
     };
   }

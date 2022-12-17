@@ -5,6 +5,8 @@ import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/shipper_api.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/repositoties/shipper_repo.dart';
 
+import '../providers/remote/request/shipper_request.dart';
+
 class ShipperRepoImpl implements ShipperRepo {
   final _shipperAPI = Get.find<ShipperAPI>();
 
@@ -31,5 +33,10 @@ class ShipperRepoImpl implements ShipperRepo {
   @override
   Future<void> confirmDoneOrder(StatusOrderRequest request) {
     return _shipperAPI.confirmDoneOrder(request);
+  }
+  
+  @override
+  Future<ShipperModel?> updateShipperInfo(ShipperRequest request) {
+    return _shipperAPI.updateShipperInfo(request);
   }
 }

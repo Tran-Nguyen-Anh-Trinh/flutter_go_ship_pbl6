@@ -5,7 +5,10 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/update_token_device_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/update_token_device_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/customer_request.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/shipper_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_shipper_info_usecase.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/update_shipper_info_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
@@ -23,11 +26,13 @@ class SettingController extends BaseController {
     this._storageService,
     this._getShipperInfoUsecase,
     this._updateTokenDeviceUsecase,
+    this._updateShipperInfoUsecase,
   );
   final GetCustomeInfoUsecase _getCustomeInfoUsecase;
   final GetShipperInfoUsecase _getShipperInfoUsecase;
   final StorageService _storageService;
   final UpdateCustomerInfoUsecase _updateCustomerInfoUsecase;
+  final UpdateShipperInfoUsecase _updateShipperInfoUsecase;
   final UpdateTokenDeviceUsecase _updateTokenDeviceUsecase;
 
   String dropdownValue = '';
@@ -85,16 +90,41 @@ class SettingController extends BaseController {
   }
 
   void onSaveDistanceView(String value) {
-    _updateCustomerInfoUsecase.execute(
-      input: CustomerModel(
-        name: AppConfig.customerInfo.name,
-        address: AppConfig.customerInfo.address,
-        avatarUrl: AppConfig.customerInfo.avatarUrl,
-        birthDate: AppConfig.customerInfo.birthDate,
-        distanceView: int.parse(value.split(' ').first),
-        gender: AppConfig.customerInfo.gender,
-      ),
-    );
+    if (accountInfo.value.role == 1) {
+      _updateCustomerInfoUsecase.execute(
+        observer: Observer(
+          onSuccess: (account) {
+            if (account != null) {
+              AppConfig.customerInfo = account;
+              customerInfo.value = account;
+            }
+          },
+        ),
+        input: CustomerRequest(
+          name: AppConfig.customerInfo.name,
+          address: AppConfig.customerInfo.address,
+          avatarUrl: AppConfig.customerInfo.avatarUrl,
+          birthDate: AppConfig.customerInfo.birthDate,
+          distanceView: int.parse(value.split(' ').first),
+          gender: AppConfig.customerInfo.gender,
+        ),
+      );
+    } else {
+      _updateShipperInfoUsecase.execute(
+        observer: Observer(
+          onSuccess: (account) {
+            if (account != null) {
+              AppConfig.shipperInfo = account;
+              shipperInfo.value = account;
+            }
+          },
+        ),
+        input: ShipperRequest(
+          avatarUrl: AppConfig.shipperInfo.avatarUrl,
+          distanceReceive: int.parse(value.split(' ').first),
+        ),
+      );
+    }
   }
 
   void logout() {
@@ -111,8 +141,10 @@ class SettingController extends BaseController {
           observer: Observer(
             onSuccess: (_) async {
               await _storageService.removeToken();
-              await CachedNetworkImage.evictFromCache(customerInfo.value.avatarUrl ?? "");
-              await CachedNetworkImage.evictFromCache(shipperInfo.value.avatarUrl ?? "");
+              await CachedNetworkImage.evictFromCache(
+                  customerInfo.value.avatarUrl ?? "");
+              await CachedNetworkImage.evictFromCache(
+                  shipperInfo.value.avatarUrl ?? "");
               AppConfig.accountInfo = AccountModel();
               AppConfig.customerInfo = CustomerModel();
               AppConfig.shipperInfo = ShipperModel();
@@ -122,7 +154,8 @@ class SettingController extends BaseController {
             },
             onError: (e) {
               showOkDialog(
-                message: "Hệ thống gặp một số trục trặc, vui lòng thực hiện lại sau vài giây",
+                message:
+                    "Hệ thống gặp một số trục trặc, vui lòng thực hiện lại sau vài giây",
                 title: "Đăng xuất thất bại",
               );
               refreshController.refreshCompleted();

@@ -8,6 +8,7 @@ import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/
 import 'package:retrofit/http.dart';
 
 import '../../models/customer_info_model.dart';
+import 'request/customer_request.dart';
 
 part 'customer_api.g.dart';
 
@@ -28,7 +29,7 @@ abstract class CustomerAPI {
   Future<CustomerModel> getCustomerInfo();
 
   @PUT('/customer/detail/')
-  Future<void> updateCustomerInfo(@Body() CustomerModel request);
+  Future<CustomerModel?> updateCustomerInfo(@Body() CustomerRequest request);
 
   @POST('/distance/get_price/')
   Future<PriceModel> getPrice(@Body() GetPriceRequest request);
