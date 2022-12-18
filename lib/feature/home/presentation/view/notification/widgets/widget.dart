@@ -18,7 +18,7 @@ Widget notificationWidget({
     padding: EdgeInsets.zero,
     onPressed: onPressed,
     child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       decoration: BoxDecoration(
         color: notification.isSeen ?? false
             ? ColorName.whiteFff
@@ -28,101 +28,121 @@ Widget notificationWidget({
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  if (notification.data?.type == 1)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: ColorName.primaryColor,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: Colors.transparent,
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    if (notification.data?.type == 1)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.primaryColor,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Đơn hàng',
+                            style: AppTextStyle.w400s10(ColorName.whiteFff),
+                          ),
                         ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: Text(
-                          'Đơn hàng',
-                          style: AppTextStyle.w400s10(ColorName.whiteFff),
+                    if (notification.data?.type == 2)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.green459,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
                         ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Nhận đơn',
+                            style: AppTextStyle.w400s10(ColorName.whiteFff),
+                          ),
+                        ),
+                      ),
+                    if (notification.data?.type == 3)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.primaryColor0b3,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Vận chuyển',
+                            style: AppTextStyle.w400s10(ColorName.whiteFff),
+                          ),
+                        ),
+                      ),
+                    if (notification.data?.type == 5)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.orangeFa9,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Xác nhận đơn hàng',
+                            style: AppTextStyle.w400s10(ColorName.whiteFff),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        notification.title ?? "",
+                        style: AppTextStyle.w600s13(ColorName.black000),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                  if (notification.data?.type == 2)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: ColorName.green459,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: Text(
-                          'Nhận đơn',
-                          style: AppTextStyle.w400s10(ColorName.whiteFff),
-                        ),
-                      ),
-                    ),
-                  if (notification.data?.type == 3)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: ColorName.primaryColor0b3,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: Text(
-                          'Vận chuyển',
-                          style: AppTextStyle.w400s10(ColorName.whiteFff),
-                        ),
-                      ),
-                    ),
-                  if (notification.data?.type == 5)
-                    Container(
-                      decoration: BoxDecoration(
-                        color: ColorName.orangeFa9,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                          color: Colors.transparent,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        child: Text(
-                          'Xác nhận đơn hàng',
-                          style: AppTextStyle.w400s10(ColorName.whiteFff),
-                        ),
-                      ),
-                    ),
-                  const SizedBox(width: 10),
-                  Text(
-                    notification.title ?? "",
-                    style: AppTextStyle.w600s13(ColorName.black000),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Text(
-                notification.body ?? "",
-                style: AppTextStyle.w400s13(ColorName.gray828),
-              ),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  notification.body ?? "",
+                  style: AppTextStyle.w400s13(ColorName.gray828),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
           ),
-          const Spacer(),
-          timeNotification(time: notification.data?.time ?? "0"),
+          SizedBox(
+            width: 100,
+            child: Row(
+              children: [
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  height: 45,
+                  width: 1,
+                  color: ColorName.gray828,
+                ),
+                timeNotification(time: notification.data?.time ?? "0"),
+              ],
+            ),
+          )
         ],
       ),
     ),
