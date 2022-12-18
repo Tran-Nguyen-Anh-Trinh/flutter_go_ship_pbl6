@@ -1,10 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_go_ship_pbl6">
-   <application
-        android:label="flutter_go_ship_pbl6"
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <application
+        android:label="Go Ship"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD46blEqiLXMyG-i9A8nznacxW-AkIlfCg"/>
+        <uses-library android:name="com.google.android.maps" android:required="true" />
         <activity
+            android:usesCleartextTraffic="true"
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
@@ -31,4 +37,14 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <queries>
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="sms" />
+    </intent>
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <data android:scheme="tel" />
+    </intent>
+    </queries>
 </manifest>

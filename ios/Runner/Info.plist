@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>Flutter Go Ship Pbl6</string>
+		<string>Go Ship</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -47,7 +47,16 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-		<key>UIStatusBarHidden</key>
-		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Cho phép Go Ship truy cập vào thông tin vị trí của thiết bị này?</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>Cho phép Go Ship truy cập vào thông tin vị trí của thiết bị này?</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Cho phép Go Ship truy cập vào thông tin vị trí của thiết bị này?</string>
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsLocalNetworking</key>
+			<true/>
+		</dict>
 	</dict>
 </plist>

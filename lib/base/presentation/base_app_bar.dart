@@ -8,7 +8,7 @@ class BaseAppBar extends AppBar {
   BaseAppBar({
     ShapeBorder? shape,
     Color? backgroundColor = ColorName.whiteFff,
-    Color? foregroundColor = ColorName.green4c8,
+    Color? foregroundColor = ColorName.primaryColor,
     Color? shadowColor = Colors.black26,
     Widget? title,
     double? titleSpacing,
@@ -25,11 +25,11 @@ class BaseAppBar extends AppBar {
           centerTitle: centerTitle,
           title: title,
           titleSpacing: titleSpacing,
-          titleTextStyle: AppTextStyle.w400s13(ColorName.black333),
+          titleTextStyle: AppTextStyle.w600s13(ColorName.black333),
           elevation: elevation,
           leading: leading,
           actions: actions,
-          leadingWidth: 80,
+          leadingWidth: 100,
           shadowColor: shadowColor,
         );
 }
