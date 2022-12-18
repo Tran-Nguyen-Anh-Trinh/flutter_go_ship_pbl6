@@ -3,7 +3,7 @@ import 'package:dart_json_mapper/dart_json_mapper.dart';
 @jsonSerializable
 @Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false, name: "data")
 class ShipperModel {
-  String? shipperId;
+  dynamic? account;
   String? name;
   int? gender;
   String? avatarUrl;
@@ -15,9 +15,11 @@ class ShipperModel {
   int? confirmed;
   int? distanceReceive;
   AddressModel? address;
+  @JsonProperty(name: 'account/phone_number')
+  String? phoneNumber;
 
   ShipperModel({
-    this.shipperId,
+    this.account,
     this.name,
     this.gender,
     this.avatarUrl,
@@ -29,11 +31,12 @@ class ShipperModel {
     this.confirmed,
     this.distanceReceive,
     this.address,
+    this.phoneNumber,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      '"shipperId"': '"$shipperId"',
+      '"id"': '"$account"',
       '"name"': '"$name"',
       '"gender"': gender,
       '"avatarUrl"': '"${avatarUrl ?? ''}"',
@@ -44,14 +47,13 @@ class ShipperModel {
       '"urlFaceVideo"': '"${urlFaceVideo ?? ''}"',
       '"confirmed"': confirmed,
       '"distanceReceive"': distanceReceive,
-      '"address"':
-          address != null ? address!.toJson() : AddressModel().toJson(),
+      '"address"': address != null ? address!.toJson() : AddressModel().toJson(),
     };
   }
 
   factory ShipperModel.fromJson(Map<String, dynamic> json) {
     return ShipperModel(
-      shipperId: json['shipperId'],
+      account: json['id'],
       name: json['name'],
       gender: json['gender'],
       avatarUrl: json['avatarUrl'],
@@ -102,7 +104,7 @@ class AddressModel {
   factory AddressModel.fromJson(Map<String, dynamic> json) {
     return AddressModel(
       id: json['id'],
-      addressNotes: json['address_notes'],
+      addressNotes: json['addressNotes'],
       latitude: json['latitude'],
       longitude: json['longitude'],
     );

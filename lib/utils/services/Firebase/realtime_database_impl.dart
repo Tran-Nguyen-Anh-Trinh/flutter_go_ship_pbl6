@@ -156,10 +156,16 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
     _reference = _instance.ref();
     await _reference.child("notification").child(phoneNumber).child(notificationID).child('seen').set(true);
   }
-  
+
   @override
   Future<Stream<DatabaseEvent>> listenShipperLocation() async {
-     _reference = _instance.ref();
+    _reference = _instance.ref();
     return _reference.child("location").onValue;
+  }
+
+  @override
+  Future<Stream<DatabaseEvent>> listenShipperLocationWithPhoneNumber(String phoneNumber) async {
+    _reference = _instance.ref();
+    return _reference.child("location").child(phoneNumber).onValue;
   }
 }

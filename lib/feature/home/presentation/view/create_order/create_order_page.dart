@@ -88,14 +88,12 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                         )
                                         .replaceAll(',', '.'),
                                     textAlign: TextAlign.center,
-                                    style: AppTextStyle.w600s20(
-                                        ColorName.primaryColor),
+                                    style: AppTextStyle.w600s20(ColorName.primaryColor),
                                   ),
                                   Text(
                                     ' đ',
                                     textAlign: TextAlign.center,
-                                    style: AppTextStyle.w400s15(
-                                        ColorName.green459),
+                                    style: AppTextStyle.w400s15(ColorName.green459),
                                   ),
                                 ],
                               ),
@@ -103,13 +101,11 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 16),
+                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                             child: CommonButton(
                               height: 44,
                               onPressed: controller.createOrder,
-                              fillColor:
-                                  ColorName.primaryColor.withOpacity(0.9),
+                              fillColor: ColorName.primaryColor.withOpacity(0.9),
                               child: Text(
                                 'Xác nhận',
                                 style: AppTextStyle.w600s15(ColorName.whiteFff),
@@ -135,46 +131,39 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                     color: ColorName.primaryColor,
                                     height: 150,
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         const SizedBox(width: 25),
                                         Expanded(
                                           child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               const SizedBox(height: 30),
                                               Text(
                                                 "GoShip",
                                                 style: AppTextStyle.w800s20(
-                                                  ColorName.redFf0,
+                                                  ColorName.redEb5,
                                                 ),
                                                 textAlign: TextAlign.left,
                                               ),
                                               const SizedBox(height: 5),
                                               Text(
                                                 "Giao nhận hàng mọi lúc, mọi nơi",
-                                                style: AppTextStyle.w400s13(
-                                                    ColorName.whiteFff),
+                                                style: AppTextStyle.w400s13(ColorName.whiteFff),
                                                 textAlign: TextAlign.left,
                                               ),
                                             ],
                                           ),
                                         ),
                                         Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
-                                            Assets.images.createOrderBannerIcon
-                                                .image(width: 80),
+                                            Assets.images.createOrderBannerIcon.image(width: 80),
                                             const SizedBox(height: 25),
                                           ],
                                         ),
@@ -194,8 +183,7 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: ColorName.black000
-                                                .withOpacity(0.2),
+                                            color: ColorName.black000.withOpacity(0.2),
                                             offset: const Offset(0, 8),
                                             blurRadius: 24,
                                           ),
@@ -203,31 +191,24 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                         color: ColorName.whiteFff,
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 25),
+                                        padding: const EdgeInsets.symmetric(horizontal: 25),
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.max,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                               child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
                                                 mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   const SizedBox(height: 3),
                                                   Expanded(
                                                     child: CupertinoButton(
                                                       padding: EdgeInsets.zero,
                                                       onPressed: () {
-                                                        N.toOrderAddress(
-                                                            isStartAddress:
-                                                                true);
+                                                        N.toOrderAddress(isStartAddress: true);
                                                       },
                                                       child: Row(
                                                         children: [
@@ -235,33 +216,17 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                                             Icons.my_location,
                                                             color: Colors.red,
                                                           ),
-                                                          const SizedBox(
-                                                              width: 5),
+                                                          const SizedBox(width: 5),
                                                           Expanded(
                                                             child: Text(
-                                                              controller
-                                                                      .startAddress
-                                                                      .value
-                                                                      .addressNotes ??
+                                                              controller.startAddress.value.addressNotes ??
                                                                   'Địa chỉ nhận hàng',
-                                                              style:
-                                                                  AppTextStyle
-                                                                      .w400s12(
-                                                                controller
-                                                                            .startAddress
-                                                                            .value
-                                                                            .addressNotes !=
-                                                                        null
-                                                                    ? ColorName
-                                                                        .primaryColor0b3
-                                                                        .withOpacity(
-                                                                            0.7)
-                                                                    : ColorName
-                                                                        .gray838,
+                                                              style: AppTextStyle.w400s12(
+                                                                controller.startAddress.value.addressNotes != null
+                                                                    ? ColorName.primaryColor0b3.withOpacity(0.7)
+                                                                    : ColorName.gray838,
                                                               ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              overflow: TextOverflow.ellipsis,
                                                               maxLines: 1,
                                                             ),
                                                           ),
@@ -279,17 +244,14 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                                       dashLength: 8,
                                                       dashBorderRadius: 10,
                                                       dashThickness: 2,
-                                                      dashColor: Color.fromARGB(
-                                                          255, 182, 182, 182),
+                                                      dashColor: Color.fromARGB(255, 182, 182, 182),
                                                     ),
                                                   ),
                                                   Expanded(
                                                     child: CupertinoButton(
                                                       padding: EdgeInsets.zero,
                                                       onPressed: () {
-                                                        N.toOrderAddress(
-                                                            isStartAddress:
-                                                                false);
+                                                        N.toOrderAddress(isStartAddress: false);
                                                       },
                                                       child: Row(
                                                         children: [
@@ -302,27 +264,14 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                                           ),
                                                           Expanded(
                                                             child: Text(
-                                                              controller
-                                                                      .endAddress
-                                                                      .value
-                                                                      .addressNotes ??
+                                                              controller.endAddress.value.addressNotes ??
                                                                   'Địa chỉ giao hàng',
-                                                              style:
-                                                                  AppTextStyle
-                                                                      .w400s12(
-                                                                controller
-                                                                            .endAddress
-                                                                            .value
-                                                                            .addressNotes !=
-                                                                        null
-                                                                    ? ColorName
-                                                                        .black000
-                                                                    : ColorName
-                                                                        .gray838,
+                                                              style: AppTextStyle.w400s12(
+                                                                controller.endAddress.value.addressNotes != null
+                                                                    ? ColorName.black000
+                                                                    : ColorName.gray838,
                                                               ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              overflow: TextOverflow.ellipsis,
                                                               maxLines: 1,
                                                             ),
                                                           ),
@@ -335,89 +284,55 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                               ),
                                             ),
                                             if (controller.isShowPrice.value)
-                                              if (!controller
-                                                  .isGetedPrice.value)
+                                              if (!controller.isGetedPrice.value)
                                                 LoadingWidget(
-                                                  color: ColorName
-                                                      .primaryColor0b3
-                                                      .withOpacity(0.7),
+                                                  color: ColorName.primaryColor0b3.withOpacity(0.7),
                                                 )
                                               else
                                                 Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
                                                   children: [
                                                     Expanded(
                                                       child: Row(
                                                         children: [
                                                           Text(
-                                                            (controller.distance
-                                                                    .value)
-                                                                .toStringAsFixed(
-                                                                    1),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: AppTextStyle
-                                                                .w700s17(ColorName
-                                                                    .black000),
+                                                            (controller.distance.value).toStringAsFixed(1),
+                                                            textAlign: TextAlign.center,
+                                                            style: AppTextStyle.w700s17(ColorName.black000),
                                                           ),
                                                           Text(
                                                             ' km',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: AppTextStyle
-                                                                .w500s17(ColorName
-                                                                    .gray4f4),
+                                                            textAlign: TextAlign.center,
+                                                            style: AppTextStyle.w500s17(ColorName.gray4f4),
                                                           ),
                                                         ],
                                                       ),
                                                     ),
                                                     Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 10),
+                                                      padding: const EdgeInsets.only(left: 10),
                                                       child: Text(
                                                         '.\n.\n.',
-                                                        style: AppTextStyle
-                                                            .w400s16(
-                                                                ColorName
-                                                                    .black000,
-                                                                height: 0.4),
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        overflow:
-                                                            TextOverflow.clip,
+                                                        style: AppTextStyle.w400s16(ColorName.black000, height: 0.4),
+                                                        textAlign: TextAlign.start,
+                                                        overflow: TextOverflow.clip,
                                                       ),
                                                     ),
                                                     Expanded(
                                                       child: Row(
                                                         children: [
                                                           Text(
-                                                            NumberFormat(
-                                                                    '#,##0')
+                                                            NumberFormat('#,##0')
                                                                 .format(
-                                                                  controller
-                                                                          .price
-                                                                          .value
-                                                                          .money ??
-                                                                      0,
+                                                                  controller.price.value.money ?? 0,
                                                                 )
-                                                                .replaceAll(
-                                                                    ',', '.'),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: AppTextStyle
-                                                                .w700s16(ColorName
-                                                                    .green459),
+                                                                .replaceAll(',', '.'),
+                                                            textAlign: TextAlign.center,
+                                                            style: AppTextStyle.w700s16(ColorName.green459),
                                                           ),
                                                           Text(
                                                             ' đ',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: AppTextStyle
-                                                                .w600s10(
-                                                                    ColorName
-                                                                        .redFf0),
+                                                            textAlign: TextAlign.center,
+                                                            style: AppTextStyle.w600s10(ColorName.redFf0),
                                                           ),
                                                         ],
                                                       ),
@@ -434,8 +349,7 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                             ),
                             const SizedBox(height: 15),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Row(
                                 children: [
                                   const SizedBox(width: 5),
@@ -443,15 +357,13 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                   const SizedBox(width: 10),
                                   Text(
                                     'Chi tiết đơn hàng*',
-                                    style: AppTextStyle.w400s15(
-                                        ColorName.black000),
+                                    style: AppTextStyle.w400s15(ColorName.black000),
                                   ),
                                 ],
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 10),
+                              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
@@ -463,8 +375,7 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                 ],
                               ),
                               child: CommonTextField(
-                                controller:
-                                    controller.detailOrderTextEditingController,
+                                controller: controller.detailOrderTextEditingController,
                                 height: 108,
                                 maxLines: 10,
                                 type: FormFieldType.detailOrder,
@@ -474,8 +385,7 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                             ),
                             const SizedBox(height: 15),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Row(
                                 children: [
                                   const SizedBox(width: 5),
@@ -483,15 +393,13 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                   const SizedBox(width: 10),
                                   Text(
                                     'Lưu ý đến Shipper',
-                                    style:
-                                        AppTextStyle.w400s15(ColorName.redEb5),
+                                    style: AppTextStyle.w400s15(ColorName.redEb5),
                                   ),
                                 ],
                               ),
                             ),
                             Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 10),
+                              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 boxShadow: [
@@ -503,8 +411,7 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                 ],
                               ),
                               child: CommonTextField(
-                                controller:
-                                    controller.noteOrderTextEditingController,
+                                controller: controller.noteOrderTextEditingController,
                                 height: 108,
                                 maxLines: 10,
                                 type: FormFieldType.noteOrder,
@@ -514,8 +421,7 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                             ),
                             const SizedBox(height: 15),
                             Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               child: Row(
                                 children: [
                                   const SizedBox(width: 5),
@@ -523,8 +429,7 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                   const SizedBox(width: 10),
                                   Text(
                                     'Hình ảnh mô tả',
-                                    style: AppTextStyle.w400s15(
-                                        ColorName.black000),
+                                    style: AppTextStyle.w400s15(ColorName.black000),
                                   ),
                                 ],
                               ),
@@ -534,17 +439,13 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                               pressedOpacity: 0.7,
                               onPressed: () => controller.pickImage(context),
                               child: Container(
-                                height: controller.imageOrder.value.path.isEmpty
-                                    ? 200
-                                    : null,
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 5),
+                                height: controller.imageOrder.value.path.isEmpty ? 200 : null,
+                                margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
-                                      color:
-                                          ColorName.black000.withOpacity(0.2),
+                                      color: ColorName.black000.withOpacity(0.2),
                                       offset: const Offset(0, 8),
                                       blurRadius: 24,
                                     ),
@@ -552,16 +453,14 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                   color: ColorName.whiteFff,
                                 ),
                                 child: Center(
-                                  child: controller
-                                          .imageOrder.value.path.isEmpty
+                                  child: controller.imageOrder.value.path.isEmpty
                                       ? const Icon(
                                           Icons.library_add,
                                           color: ColorName.primaryColor,
                                           size: 70,
                                         )
                                       : Image.file(
-                                          File(
-                                              controller.imageOrder.value.path),
+                                          File(controller.imageOrder.value.path),
                                           fit: BoxFit.fitWidth,
                                         ),
                                 ),
@@ -569,17 +468,13 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                             ),
                             if (controller.listCategory.isNotEmpty)
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
                                 child: RadioButonGroup(
-                                  controller.listCategory
-                                      .map((element) => element.name ?? "")
-                                      .toList(),
+                                  controller.listCategory.map((element) => element.name ?? "").toList(),
                                   icon: Assets.images.box.image(width: 20),
                                   title: "Loại hàng hóa",
                                   money: controller.price.value.extraPrice,
-                                  isLoading: (!controller.isGetedPrice.value &&
-                                      controller.isShowPrice.value),
+                                  isLoading: (!controller.isGetedPrice.value && controller.isShowPrice.value),
                                   curentIndex: controller.indexCategory.value,
                                   callBack: (index) {
                                     controller.chooseCategory(index);
@@ -593,11 +488,8 @@ class CreateOrderPage extends BaseWidget<CreateOrderController> {
                                   horizontal: 16,
                                 ),
                                 child: RadioButonGroup(
-                                  controller.listPayment
-                                      .map((element) => element.type ?? "")
-                                      .toList(),
-                                  icon: Assets.images.paymentIcon
-                                      .image(width: 20),
+                                  controller.listPayment.map((element) => element.type ?? "").toList(),
+                                  icon: Assets.images.paymentIcon.image(width: 20),
                                   title: "Phương thức thanh toán",
                                   curentIndex: controller.indexPayment.value,
                                   callBack: (index) {

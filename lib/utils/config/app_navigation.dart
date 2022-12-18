@@ -1,7 +1,9 @@
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/camera_widget.dart';
-import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail_shipper/order_detail_shipper_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail/order_detail_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/rating_shipper/rating_shipper_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/search/search_controller.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/Models/infor_user.dart';
 
@@ -101,11 +103,15 @@ class N {
     type.navigate(name: AppRoute.settingSystem);
   }
 
-  static void toOrderDetailShipper({RouteType type = RouteType.to, required OrderDetailShipperInput orderDetailInput}) {
+  static void toOrderDetail({RouteType type = RouteType.to, required OrderDetailInput orderDetailInput}) {
     type.navigate(name: AppRoute.orderDetailShipper, arguments: orderDetailInput);
   }
 
   static void toNotification({RouteType type = RouteType.to}) {
     type.navigate(name: AppRoute.notification);
+  }
+
+  static void toRatingShipper({RouteType type = RouteType.offAndTo, required RateInput rateInput}) {
+    type.navigate(name: AppRoute.ratingShipper, arguments: rateInput);
   }
 }

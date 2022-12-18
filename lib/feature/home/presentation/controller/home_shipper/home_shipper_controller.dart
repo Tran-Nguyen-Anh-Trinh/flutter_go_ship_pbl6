@@ -301,6 +301,7 @@ class HomeShipperController extends BaseController {
       startLatLng.longitude,
     );
     Get.find<TabBarController>().mapDirectionsModel(
+      isGoEndPoint: false,
       km: distance.toStringAsFixed(2),
       time: (distance / 25 * 60).ceilToDouble().toStringAsFixed(0),
       onClose: () {
@@ -451,6 +452,7 @@ class HomeShipperController extends BaseController {
       endLatLng.longitude,
     );
     Get.find<TabBarController>().mapDirectionsModel(
+      isGoEndPoint: true,
       km: distance.toStringAsFixed(2),
       time: (distance / 25 * 60).ceilToDouble().toStringAsFixed(0),
       onClose: () {

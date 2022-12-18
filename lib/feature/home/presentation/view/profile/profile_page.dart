@@ -101,14 +101,10 @@ class ProfilePage extends BaseWidget<ProfileController> {
                                     height: 70,
                                     width: 70,
                                     fit: BoxFit.cover,
-                                    imageUrl: controller.accountInfo.role == 1
-                                        ? AppConfig.customerInfo.avatarUrl ?? ''
-                                        : AppConfig.shipperInfo.avatarUrl ?? '',
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) => Assets
-                                        .images.profileIcon
-                                        .image(height: 70, width: 70),
+                                    imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
+                                    placeholder: (context, url) => const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Assets.images.profileIcon.image(height: 70, width: 70),
                                   ),
                                 ),
                         ),
@@ -124,8 +120,7 @@ class ProfilePage extends BaseWidget<ProfileController> {
                 child: Column(
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.only(top: 4, left: 16, right: 16),
+                      padding: const EdgeInsets.only(top: 4, left: 16, right: 16),
                       child: FormBuilder(
                         key: controller.formKey,
                         child: Column(
@@ -138,7 +133,6 @@ class ProfilePage extends BaseWidget<ProfileController> {
                               type: FormFieldType.name,
                               maxLength: 35,
                               controller: controller.nameTextEditingController,
-                              isEnable: controller.accountInfo.role != 2,
                               // onTap: controller.hideErrorMessage,
                               onChanged: (_) {
                                 // controller.updateLoginButtonState();
@@ -159,7 +153,6 @@ class ProfilePage extends BaseWidget<ProfileController> {
                               color: ColorName.whiteFff,
                               child: DropdownButtonFormField2(
                                 value: controller.dropdownValue,
-                                isExpanded: false,
                                 decoration: InputDecoration(
                                   fillColor: ColorName.whiteFff,
                                   contentPadding: EdgeInsets.zero,
@@ -208,12 +201,9 @@ class ProfilePage extends BaseWidget<ProfileController> {
                                           ),
                                         ))
                                     .toList(),
-                                onChanged: controller.accountInfo.role == 1
-                                    ? (value) {
-                                        controller.dropdownValue =
-                                            value.toString();
-                                      }
-                                    : null,
+                                onChanged: (value) {
+                                  controller.dropdownValue = value.toString();
+                                },
                               ),
                             ),
                             const SizedBox(height: 5),
@@ -224,8 +214,7 @@ class ProfilePage extends BaseWidget<ProfileController> {
                     if (controller.accountInfo.role == 1)
                       Container(
                         color: const Color.fromARGB(255, 236, 236, 236),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.start,

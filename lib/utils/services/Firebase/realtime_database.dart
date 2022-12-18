@@ -20,5 +20,6 @@ abstract class RealtimeDatabase {
   Future<void> updateLoaction(String phoneNumber, LatLng latLng);
   Future<Stream<DatabaseEvent>> listenNotification(String phoneNumber);
   Future<Stream<DatabaseEvent>> listenShipperLocation();
+  Future<Stream<DatabaseEvent>> listenShipperLocationWithPhoneNumber(String phoneNumber);
   Future<void> seemNotification(String phoneNumber, String notificationID);
 }

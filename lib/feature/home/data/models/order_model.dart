@@ -20,6 +20,10 @@ class OrderModel {
   PaymentModel? payment;
   CategoryModel? category;
   StatusModel? status;
+  int? paymentID;
+  int? categoryID;
+  int? statusID;
+  bool? isRating;
 
   OrderModel({
     this.id,
@@ -36,6 +40,10 @@ class OrderModel {
     this.payment,
     this.category,
     this.status,
+    this.paymentID,
+    this.categoryID,
+    this.statusID,
+    this.isRating,
   });
 
   Map<String, dynamic> toJson() {
@@ -54,23 +62,20 @@ class OrderModel {
     };
   }
 
-  // factory OrderModel.fromJson(Map<String, dynamic> json) {
-  //   return OrderModel(
-  //     shipperId: json['shipperId'],
-  //     name: json['name'],
-  //     gender: json['gender'],
-  //     avatarUrl: json['avatarUrl'],
-  //     birthDate: DateTime.parse(json['birthDate']),
-  //     urlIdentificationTop: json['urlIdentificationTop'],
-  //     urlIdentificationBack: json['urlIdentificationBack'],
-  //     identificationInfo: json['identificationInfo'],
-  //     urlFaceVideo: json['urlFaceVideo'],
-  //     confirmed: json['confirmed'],
-  //     distanceReceive: json['distanceReceive'],
-  //     address: AddressModel.fromJson(json['address']),
-  //   );
-  // }
-
+  factory OrderModel.fromJson(Map<String, dynamic> json) {
+    return OrderModel(
+      id: json['id'],
+      description: json['description'],
+      cost: json['cost'],
+      distance: json['distance'],
+      createdAt: DateTime.parse(json['created_at']),
+      customerNotes: json['customer_notes'],
+      imgOrder: json['img_order'],
+      shipper: json['shipper'],
+      addressStart: AddressModel.fromJson(json['address_start']),
+      addressEnd: AddressModel.fromJson(json['address_end']),
+    );
+  }
 }
 
 @jsonSerializable

@@ -20,9 +20,7 @@ Widget notificationWidget({
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
       decoration: BoxDecoration(
-        color: notification.isSeen ?? false
-            ? ColorName.whiteFff
-            : ColorName.grayC7c.withOpacity(0.8),
+        color: notification.isSeen ?? false ? ColorName.whiteFff : ColorName.grayC7c.withOpacity(0.8),
         border: const Border(
           bottom: BorderSide(width: 0.5, color: ColorName.gray828),
         ),
@@ -47,8 +45,7 @@ Widget notificationWidget({
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Text(
                             'Đơn hàng',
                             style: AppTextStyle.w400s10(ColorName.whiteFff),
@@ -65,8 +62,7 @@ Widget notificationWidget({
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Text(
                             'Nhận đơn',
                             style: AppTextStyle.w400s10(ColorName.whiteFff),
@@ -83,10 +79,9 @@ Widget notificationWidget({
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Text(
-                            'Vận chuyển',
+                            'Giao hàng',
                             style: AppTextStyle.w400s10(ColorName.whiteFff),
                           ),
                         ),
@@ -101,11 +96,25 @@ Widget notificationWidget({
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Text(
                             'Xác nhận đơn hàng',
                             style: AppTextStyle.w400s10(ColorName.whiteFff),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    if (notification.data?.type == 6)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.green459,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Xác nhận đơn hàng',
+                            style: AppTextStyle.w500s12(ColorName.whiteFff),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

@@ -1,7 +1,10 @@
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_bindings.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_page.dart';
-import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail_shipper/order_detail_shipper_bindings.dart';
-import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail_shipper/order_detail_shipper_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/controller/rating_shipper/rating_shipper_controller.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail/order_detail_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail/order_detail_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/rating_shipper/rating_shipper_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/rating_shipper/rating_shipper_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/add_address/add_address_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/add_address/add_address_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/confirm_shipper/confirm_camera/confirm_camera_bindings.dart';
@@ -81,6 +84,7 @@ class AppRoute {
   static String settingSystem = '/settingSystem';
   static String orderDetailShipper = '/orderDetailShipper';
   static String notification = '/notification';
+  static String ratingShipper = '/ratingShipper';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -152,7 +156,7 @@ class AppRoute {
       name: chatHome,
       page: ChatHomePage.new,
       binding: ChatHomeBindings(),
-      transition: Transition.fade,
+      transition: Transition.cupertino,
     ),
     GetPage(
       name: chatDetail,
@@ -229,14 +233,20 @@ class AppRoute {
     ),
     GetPage(
       name: orderDetailShipper,
-      page: OrderDetailShipperPage.new,
-      binding: OrderDetailShipperBindings(),
+      page: OrderDetailPage.new,
+      binding: OrderDetailBindings(),
       transition: Transition.cupertino,
     ),
     GetPage(
       name: notification,
       page: NotificationPage.new,
       binding: NotificationBindings(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: ratingShipper,
+      page: RatingShipperPage.new,
+      binding: RatingShipperBindings(),
       transition: Transition.cupertino,
     ),
   ];

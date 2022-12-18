@@ -9,6 +9,6 @@ class ConfirmDonerOrderUsecase extends UseCaseIO<StatusOrderRequest, void> {
 
   @override
   Future<void> build(StatusOrderRequest input) {
-    return _shipperRepo.confirmDoneOrder(input);
+    return _shipperRepo.requestConfirmDoneOrder(input);
   }
 }

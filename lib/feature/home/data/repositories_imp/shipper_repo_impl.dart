@@ -31,8 +31,8 @@ class ShipperRepoImpl implements ShipperRepo {
   }
 
   @override
-  Future<void> confirmDoneOrder(StatusOrderRequest request) {
-    return _shipperAPI.confirmDoneOrder(request);
+  Future<void> requestConfirmDoneOrder(StatusOrderRequest request) {
+    return _shipperAPI.confirmDoneOrder(request.orderId);
   }
   
   @override

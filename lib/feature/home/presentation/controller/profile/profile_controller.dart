@@ -21,8 +21,7 @@ import '../../../data/providers/remote/request/customer_request.dart';
 import '../../../domain/usecases/update_shipper_info_usecase.dart';
 
 class ProfileController extends BaseController {
-  ProfileController(this._cloudStorage, this._updateCustomerInfoUsecase,
-      this._updateShipperInfoUsecase);
+  ProfileController(this._cloudStorage, this._updateCustomerInfoUsecase, this._updateShipperInfoUsecase);
 
   final UpdateCustomerInfoUsecase _updateCustomerInfoUsecase;
   final UpdateShipperInfoUsecase _updateShipperInfoUsecase;
@@ -80,8 +79,7 @@ class ProfileController extends BaseController {
           observer: Observer(
             onSuccess: (account) {
               isLoading.value = false;
-              showOkDialog(message: "Cập nhật thông tin thành công")
-                  .then((value) {
+              showOkDialog(message: "Cập nhật thông tin thành công").then((value) {
                 if (value == OkCancelResult.ok) {
                   back();
                 }
@@ -94,7 +92,7 @@ class ProfileController extends BaseController {
             onError: (e) async {
               if (e is DioError) {
                 if (e.response != null) {
-                  print(e.response);
+                  // print(e.response?.data['detail'].toString());
                 } else {
                   print(e.message);
                 }
@@ -107,8 +105,7 @@ class ProfileController extends BaseController {
           input: CustomerRequest(
             name: nameTextEditingController.text.trim(),
             address: customerInfo.address,
-            avatarUrl:
-                imageLink.isNotEmpty ? imageLink.first : customerInfo.avatarUrl,
+            avatarUrl: imageLink.isNotEmpty ? imageLink.first : customerInfo.avatarUrl,
             birthDate: customerInfo.birthDate,
             distanceView: customerInfo.distanceView,
             gender: items.indexOf(dropdownValue),
@@ -119,8 +116,7 @@ class ProfileController extends BaseController {
           observer: Observer(
             onSuccess: (account) {
               isLoading.value = false;
-              showOkDialog(message: "Cập nhật thông tin thành công")
-                  .then((value) {
+              showOkDialog(message: "Cập nhật thông tin thành công").then((value) {
                 if (value == OkCancelResult.ok) {
                   back();
                 }
@@ -144,8 +140,7 @@ class ProfileController extends BaseController {
             },
           ),
           input: ShipperRequest(
-            avatarUrl:
-                imageLink.isNotEmpty ? imageLink.first : shipperInfo.avatarUrl,
+            avatarUrl: imageLink.isNotEmpty ? imageLink.first : shipperInfo.avatarUrl,
             distanceReceive: shipperInfo.distanceReceive,
           ),
         );

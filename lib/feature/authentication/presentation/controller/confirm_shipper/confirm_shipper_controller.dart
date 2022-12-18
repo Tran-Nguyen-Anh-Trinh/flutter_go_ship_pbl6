@@ -61,8 +61,7 @@ class ConfirmShipperController extends BaseController {
     super.onInit();
     shipper.value = AppConfig.shipperInfo;
     print(shipper.value.toJson());
-    shipper.value.shipperId = AppConfig.accountInfo.phoneNumber ?? "";
-    phoneTextEditingController.text = shipper.value.shipperId ?? "";
+    phoneTextEditingController.text = AppConfig.accountInfo.phoneNumber ?? "";
     nameTextEditingController.text = shipper.value.name ?? "";
     noteTextEditingController.text = shipper.value.address?.addressNotes ?? "";
   }
@@ -104,7 +103,7 @@ class ConfirmShipperController extends BaseController {
       shipper.value.name = _name;
       shipper.value.address?.addressNotes = _note;
 
-      if ((shipper.value.shipperId ?? "").isEmpty ||
+      if ((AppConfig.accountInfo.phoneNumber ?? "").isEmpty ||
           (shipper.value.name ?? "").isEmpty ||
           shipper.value.gender == 0 ||
           (shipper.value.address?.addressNotes ?? "").isEmpty) {

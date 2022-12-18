@@ -68,12 +68,12 @@ class HomeCustomerController extends BaseController {
 
               setMarker(
                 LatLng(
-                    double.parse(shipperLocation.latitude!),
-                    double.parse(
-                      shipperLocation.longitude!,
-                    )),
+                  shipperLocation.latitude!,
+                  shipperLocation.longitude!,
+                ),
                 shipperLocation.phoneNumber!,
                 markerIcon: shipperMakerIcon,
+                snippet: "Tài xế Go Ship",
               );
             } catch (e) {
               if (kDebugMode) {

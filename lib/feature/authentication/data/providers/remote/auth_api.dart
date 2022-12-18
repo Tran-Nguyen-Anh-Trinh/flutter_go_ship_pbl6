@@ -27,7 +27,7 @@ abstract class AuthAPI {
   @PATCH('/shipper/confirm-shipper/')
   Future<void> confirmShipper(@Body() ConfirmShipperRequest request);
 
-  @POST('/user/change-password/')
+  @PATCH('/user/change-password/')
   Future<void> changePassword(@Body() ChangePasswordRequest request);
   
   @PATCH('/user/update-device-token/')

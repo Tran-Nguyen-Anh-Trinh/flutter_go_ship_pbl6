@@ -4,8 +4,8 @@ import 'package:dart_json_mapper/dart_json_mapper.dart';
 @Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false)
 class ShipperLocation {
   String? phoneNumber;
-  String? latitude;
-  String? longitude;
+  double? latitude;
+  double? longitude;
 
   ShipperLocation({
     this.phoneNumber,

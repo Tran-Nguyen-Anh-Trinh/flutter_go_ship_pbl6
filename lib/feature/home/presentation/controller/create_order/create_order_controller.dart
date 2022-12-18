@@ -107,8 +107,7 @@ class CreateOrderController extends BaseController {
               },
               onError: (e) async {
                 await showOkDialog(
-                  message:
-                      "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
+                  message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
                   title: "Cảnh báo",
                 );
                 back();
@@ -119,8 +118,7 @@ class CreateOrderController extends BaseController {
         },
         onError: (e) async {
           await showOkDialog(
-            message:
-                "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
+            message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây",
             title: "Cảnh báo",
           );
           back();
@@ -158,14 +156,11 @@ class CreateOrderController extends BaseController {
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  imageOrder.value = await _picker.pickImage(
-                          source: ImageSource.camera, imageQuality: 50) ??
-                      XFile('');
+                  imageOrder.value = await _picker.pickImage(source: ImageSource.camera, imageQuality: 50) ?? XFile('');
                   back();
                 },
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                   child: Text(
                     'Chụp ảnh',
                     style: AppTextStyle.w600s15(ColorName.black000),
@@ -183,14 +178,12 @@ class CreateOrderController extends BaseController {
               CupertinoButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  imageOrder.value = await _picker.pickImage(
-                          source: ImageSource.gallery, imageQuality: 50) ??
-                      XFile('');
+                  imageOrder.value =
+                      await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50) ?? XFile('');
                   back();
                 },
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
                   child: Text(
                     'Chọn ảnh từ thư viện',
                     style: AppTextStyle.w600s15(ColorName.black000),
@@ -260,8 +253,7 @@ class CreateOrderController extends BaseController {
       }
     } catch (e) {
       await showOkDialog(
-        message:
-            "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
+        message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
         title: "Cảnh báo",
       );
       back();
@@ -281,8 +273,7 @@ class CreateOrderController extends BaseController {
               print(error);
             }
             await showOkDialog(
-              message:
-                  "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
+              message: "Hệ thống đang gặp một số trục trặc, quý khác vui lòng thử lại sau vài giây!",
               title: "Cảnh báo",
             );
             back();
@@ -290,14 +281,13 @@ class CreateOrderController extends BaseController {
           }),
       input: GetPriceRequest(
         distance.value,
-        listCategory[indexCategory.value].isProtected ?? false ? 1 : 0,
+        listCategory[indexCategory.value].isProtected ?? false ? 2 : 1,
       ),
     );
   }
 
   void createOrder() async {
-    if (startAddress.value.addressNotes == null ||
-        endAddress.value.addressNotes == null) {
+    if (startAddress.value.addressNotes == null || endAddress.value.addressNotes == null) {
       Get.closeAllSnackbars();
       Get.snackbar(
         "Tạo mới đơn hàng thất bại",
@@ -396,9 +386,7 @@ class CreateOrderController extends BaseController {
     createState.value = true;
     String? url;
     if (imageOrder.value.path.isNotEmpty) {
-      url =
-          (await _cloudStorage.putAllxFile([imageOrder.value], folder: "Order"))
-              .first;
+      url = (await _cloudStorage.putAllxFile([imageOrder.value], folder: "Order")).first;
     }
 
     _createOrderUsecase.execute(
@@ -412,13 +400,13 @@ class CreateOrderController extends BaseController {
           await player.play(AssetSource(audioasset), volume: 1);
           Get.snackbar(
             "Tạo mới đơn hàng thành công",
-            "Vui lòng chờ trong giây lát shipper sẽ liên hệ ngay cho bạn!",
+            "Vui lòng chờ trong giây lát tài xế sẽ liên hệ ngay cho bạn!",
             titleText: Text(
               "Tạo mới đơn hàng thành công",
               style: AppTextStyle.w600s15(ColorName.black000),
             ),
             messageText: Text(
-              "Vui lòng chờ trong giây lát shipper sẽ liên hệ ngay cho bạn!",
+              "Vui lòng chờ trong giây lát tài xế sẽ liên hệ ngay cho bạn!",
               style: AppTextStyle.w400s12(ColorName.gray4f4),
             ),
             margin: const EdgeInsets.symmetric(vertical: 90, horizontal: 25),
@@ -498,9 +486,7 @@ class CreateOrderController extends BaseController {
         endAddress.value,
         detailOrderTextEditingController.text.trim(),
         distance.value,
-        noteOrderTextEditingController.text.trim().isNotEmpty
-            ? noteOrderTextEditingController.text.trim()
-            : null,
+        noteOrderTextEditingController.text.trim().isNotEmpty ? noteOrderTextEditingController.text.trim() : null,
         url,
         listPayment[indexPayment.value].id,
         listCategory[indexCategory.value].id,
@@ -511,9 +497,7 @@ class CreateOrderController extends BaseController {
   double calculateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
     var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    var a = 0.5 - c((lat2 - lat1) * p) / 2 + c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
   }
 }
