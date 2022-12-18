@@ -36,7 +36,7 @@ class TabBarController extends BaseController {
         onError: (e) {
           if (e is DioError) {
             if (e.response != null) {
-              print(e.response!.data['detail'].toString());
+              print(e.response?.data['detail'].toString());
             } else {
               print(e.message);
             }
@@ -92,6 +92,7 @@ class TabBarController extends BaseController {
     Function()? onDelivery,
     required String? km,
     required String? time,
+    required bool isGoEndPoint,
   }) {
     showModalBottomSheet(
       context: Get.context!,
@@ -117,6 +118,7 @@ class TabBarController extends BaseController {
           },
           km: km,
           time: time,
+          isGoEndPoint: isGoEndPoint,
         );
       },
     ).whenComplete(() {

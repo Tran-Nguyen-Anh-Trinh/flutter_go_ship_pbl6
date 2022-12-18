@@ -18,6 +18,7 @@ Widget trackingWidget({
   Function()? onDelivery,
   String? km,
   String? time,
+  required bool isGoEndPoint,
 }) {
   var isTrackingModel = false.obs;
   var isViewFullModelModel = false.obs;
@@ -211,7 +212,7 @@ Widget trackingWidget({
                               ),
                               const SizedBox(width: 5),
                               Text(
-                                'Nhận hàng',
+                                isGoEndPoint ? 'Giao hàng' : 'Nhận hàng',
                                 style: AppTextStyle.w500s13(ColorName.primaryColor),
                               ),
                             ],
@@ -220,6 +221,7 @@ Widget trackingWidget({
                       ),
                     ),
                     CupertinoButton(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       onPressed: () {
                         isTrackingModel.value = true;
                         onTracking?.call();

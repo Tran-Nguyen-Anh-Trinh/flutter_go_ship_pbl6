@@ -1,6 +1,6 @@
+import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail/order_detail_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/order_model.dart';
@@ -9,8 +9,8 @@ import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_orders_wit
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class ActivateCustomerController extends BaseController {
-  ActivateCustomerController(this._getOrdersUsecase, this._getOrderWithStatusUsecase);
+class ActivateShipperController extends BaseController {
+  ActivateShipperController(this._getOrdersUsecase, this._getOrderWithStatusUsecase);
 
   final GetOrdersUsecase _getOrdersUsecase;
   final GetOrderWithStatusUsecase _getOrderWithStatusUsecase;
@@ -41,11 +41,10 @@ class ActivateCustomerController extends BaseController {
 
   List<MenuItem> menu = [
     MenuItem("Tất cả", 0),
-    MenuItem("Đang tìm tài xế", 1),
-    MenuItem("Đã nhận đơn", 2),
-    MenuItem("Đang giao hàng", 3),
-    MenuItem("Đã giao hàng", 5),
-    MenuItem("Đã hủy", 4),
+    MenuItem("Đơn hàng vừa nhận", 2),
+    MenuItem("Đơn hàng đang giao", 3),
+    MenuItem("Đã giao hàng thành công", 5),
+    MenuItem("Đã bị hủy", 4),
   ];
 
   @override
@@ -142,7 +141,6 @@ class ActivateCustomerController extends BaseController {
       onRefresh();
       return;
     }
-
     pageController.jumpToPage(
       index,
     );
@@ -239,7 +237,7 @@ class ActivateCustomerController extends BaseController {
         "${orderModel.id}",
         "${0}",
         isRealtimeNotification: false,
-        typeOrderDetail: TypeOrderDetail.customerView,
+        typeOrderDetail: TypeOrderDetail.shipper,
       ),
     );
   }

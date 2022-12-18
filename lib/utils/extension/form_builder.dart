@@ -15,6 +15,7 @@ enum FormFieldType {
   detailOrder,
   noteOrder,
   messagesDefault,
+  noteRate,
 }
 
 extension FormFieldTypeExtension on FormFieldType {
@@ -40,6 +41,8 @@ extension FormFieldTypeExtension on FormFieldType {
         return 'Lưu ý đến Shipper';
       case FormFieldType.messagesDefault:
         return 'Nhập tin nhắn';
+      case FormFieldType.noteRate:
+        return 'Đánh giá';
       default:
         return '';
     }
@@ -63,6 +66,8 @@ extension FormFieldTypeExtension on FormFieldType {
       case FormFieldType.detailOrder:
         return TextInputType.multiline;
       case FormFieldType.noteOrder:
+        return TextInputType.multiline;
+      case FormFieldType.noteRate:
         return TextInputType.multiline;
       case FormFieldType.messagesDefault:
         return TextInputType.multiline;

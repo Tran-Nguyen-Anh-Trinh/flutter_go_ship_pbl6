@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
-import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail_shipper/order_detail_shipper_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail/order_detail_bindings.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
@@ -25,8 +25,7 @@ class PushNotification {
     playSound: true,
   );
 
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<String?> get getDeviceToken async => await _fcm.getToken();
 
@@ -43,8 +42,7 @@ class PushNotification {
     );
 
     await _flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await _fcm.setForegroundNotificationPresentationOptions(
@@ -102,47 +100,8 @@ class PushNotification {
             dismissDirection: DismissDirection.up,
             onTap: (snack) {
               Get.closeAllSnackbars();
-              switch (type) {
-                case 1:
-                  if (message.data["order_id"] != null &&
-                      message.data["time"] != null) {
-                    N.toOrderDetailShipper(
-                      orderDetailInput: OrderDetailShipperInput(
-                        message.data["order_id"].toString(),
-                        message.data["time"].toString(),
-                        isRealtimeNotification: true,
-                      ),
-                    );
-                  } else {
-                    Get.snackbar(
-                      "Đơn hàng không tồn tại",
-                      "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
-                      titleText: Text(
-                        "Đơn hàng không tồn tại",
-                        style: AppTextStyle.w600s15(ColorName.black000),
-                      ),
-                      messageText: Text(
-                        "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
-                        style: AppTextStyle.w400s12(ColorName.gray4f4),
-                      ),
-                      snackPosition: SnackPosition.BOTTOM,
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 30, horizontal: 25),
-                      duration: const Duration(seconds: 4),
-                      backgroundColor: ColorName.whiteFaf,
-                      animationDuration: const Duration(milliseconds: 200),
-                      boxShadows: [
-                        BoxShadow(
-                          color: ColorName.black000.withOpacity(0.6),
-                          offset: const Offset(8, 8),
-                          blurRadius: 24,
-                        ),
-                      ],
-                    );
-                  }
-                  break;
-                default:
-              }
+
+              notificationNavigate(message, type);
             },
           );
         }
@@ -157,39 +116,7 @@ class PushNotification {
           if (message.data["type"] != null) {
             type = int.parse(message.data["type"]);
           }
-          switch (type) {
-            case 1:
-              if (message.data["order_id"] != null &&
-                  message.data["time"] != null) {
-                N.toOrderDetailShipper(
-                  orderDetailInput: OrderDetailShipperInput(
-                    message.data["order_id"].toString(),
-                    message.data["time"].toString(),
-                    isRealtimeNotification: true,
-                  ),
-                );
-              } else {
-                Get.snackbar(
-                  "Đơn hàng không tồn tại",
-                  "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
-                  snackPosition: SnackPosition.BOTTOM,
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
-                  duration: const Duration(seconds: 4),
-                  backgroundColor: ColorName.whiteFaf,
-                  animationDuration: const Duration(milliseconds: 200),
-                  boxShadows: [
-                    const BoxShadow(
-                      offset: Offset(-8, -8),
-                      blurRadius: 10,
-                      color: ColorName.gray838,
-                    ),
-                  ],
-                );
-              }
-              break;
-            default:
-          }
+          notificationNavigate(message, type);
         }
       }
     });
@@ -201,40 +128,79 @@ class PushNotification {
         if (message.data["type"] != null) {
           type = int.parse(message.data["type"]);
         }
-        switch (type) {
-          case 1:
-            if (message.data["order_id"] != null &&
-                message.data["time"] != null) {
-              N.toOrderDetailShipper(
-                orderDetailInput: OrderDetailShipperInput(
-                  message.data["order_id"].toString(),
-                  message.data["time"].toString(),
-                  isRealtimeNotification: true,
-                ),
-              );
-            } else {
-              Get.snackbar(
-                "Đơn hàng không tồn tại",
-                "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
-                snackPosition: SnackPosition.BOTTOM,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
-                duration: const Duration(seconds: 4),
-                backgroundColor: ColorName.whiteFaf,
-                animationDuration: const Duration(milliseconds: 200),
-                boxShadows: [
-                  const BoxShadow(
-                    offset: Offset(-8, -8),
-                    blurRadius: 10,
-                    color: ColorName.gray838,
-                  ),
-                ],
-              );
-            }
-            break;
-          default:
-        }
+        notificationNavigate(message, type);
       }
     });
+  }
+
+  void notificationNavigate(RemoteMessage message, int type) {
+    if (message.data["order_id"] != null && message.data["time"] != null) {
+      switch (type) {
+        case 1:
+          N.toOrderDetail(
+            orderDetailInput: OrderDetailInput(
+              message.data["order_id"].toString(),
+              message.data["time"].toString(),
+              isRealtimeNotification: true,
+              typeOrderDetail: TypeOrderDetail.shipper,
+            ),
+          );
+          break;
+        case 6:
+          N.toOrderDetail(
+            orderDetailInput: OrderDetailInput(
+              message.data["order_id"].toString(),
+              message.data["time"].toString(),
+              isRealtimeNotification: false,
+              typeOrderDetail: TypeOrderDetail.shipper,
+            ),
+          );
+          break;
+        case 5:
+          N.toOrderDetail(
+            orderDetailInput: OrderDetailInput(
+              message.data["order_id"].toString(),
+              message.data["time"].toString(),
+              isRealtimeNotification: false,
+              typeOrderDetail: TypeOrderDetail.customerRating,
+            ),
+          );
+          break;
+        default:
+          N.toOrderDetail(
+            orderDetailInput: OrderDetailInput(
+              message.data["order_id"].toString(),
+              message.data["time"].toString(),
+              isRealtimeNotification: false,
+              typeOrderDetail: TypeOrderDetail.customer,
+            ),
+          );
+      }
+    } else {
+      Get.snackbar(
+        "Đơn hàng không tồn tại",
+        "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
+        titleText: Text(
+          "Đơn hàng không tồn tại",
+          style: AppTextStyle.w600s15(ColorName.black000),
+        ),
+        messageText: Text(
+          "Đơn hàng này có thể đã bị xóa hoặc có vấn đề bạn không thể nhận đơn hàng!",
+          style: AppTextStyle.w400s12(ColorName.gray4f4),
+        ),
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
+        duration: const Duration(seconds: 4),
+        backgroundColor: ColorName.whiteFaf,
+        animationDuration: const Duration(milliseconds: 200),
+        boxShadows: [
+          BoxShadow(
+            color: ColorName.black000.withOpacity(0.6),
+            offset: const Offset(8, 8),
+            blurRadius: 24,
+          ),
+        ],
+      );
+    }
   }
 }

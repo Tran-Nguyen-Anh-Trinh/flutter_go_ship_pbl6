@@ -9,6 +9,7 @@ abstract class ShipperRepo {
   Future<OrderModel> getOrderById(int id);
   Future<void> receiveOrder(StatusOrderRequest request);
   Future<void> deliveryOrder(StatusOrderRequest request);
-  Future<void> confirmDoneOrder(StatusOrderRequest request);
+  // Future<void> confirmDoneOrder(StatusOrderRequest request);
   Future<ShipperModel?> updateShipperInfo(ShipperRequest request);
+  Future<void> requestConfirmDoneOrder(StatusOrderRequest request);
 }

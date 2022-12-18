@@ -15,3 +15,25 @@ class StatusOrderRequest {
     };
   }
 }
+
+@jsonSerializable
+@Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false)
+class RateOrderRequest {
+  int? orderId;
+  String? feedback;
+  int? rate;
+
+  RateOrderRequest(
+    this.orderId,
+    this.feedback,
+    this.rate,
+  );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'order': orderId,
+      'rate': rate,
+      'feedback': feedback,
+    };
+  }
+}

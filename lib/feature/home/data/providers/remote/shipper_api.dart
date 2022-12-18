@@ -18,15 +18,15 @@ abstract class ShipperAPI {
   @GET('/order/order-detail/{id}')
   Future<OrderModel> getOrderById(@Path("id") int id);
 
-  @POST('/order/order-receive/')
+  @PATCH('/order/order-receive/')
   Future<void> receiveOrder(@Body() StatusOrderRequest request);
 
-  @POST('/order/order-delivery/')
+  @PATCH('/order/order-delivery/')
   Future<void> deliveryOrder(@Body() StatusOrderRequest request);
-
-  @POST('/order/request-confirm-done/')
-  Future<void> confirmDoneOrder(@Body() StatusOrderRequest request);
 
   @PUT('/shipper/update/')
   Future<ShipperModel?> updateShipperInfo(@Body() ShipperRequest request);
+  
+  @GET('/order/request-confirm-done/')
+  Future<void> confirmDoneOrder(@Query("order_id") int? request);
 }

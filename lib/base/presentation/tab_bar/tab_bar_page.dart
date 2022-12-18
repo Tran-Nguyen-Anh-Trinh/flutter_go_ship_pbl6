@@ -75,11 +75,32 @@ class TabBarPage extends BaseWidget<TabBarController> {
           padding: const EdgeInsets.only(bottom: 15),
           child: controller.accountModel!.role == 1
               ? Assets.images.addIcon.image(width: 75, height: 75)
-              : Assets.images.directIcon.image(width: 85, height: 85),
+              : Container(
+                  width: 55,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(65),
+                    gradient: const LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      stops: [0.01, 0.35],
+                      colors: [ColorName.black222, ColorName.primaryColor],
+                    ),
+                  ),
+                  child: Center(
+                    child: Assets.images.settingIcon.image(
+                      width: 35,
+                      height: 35,
+                      color: ColorName.whiteFff,
+                    ),
+                  ),
+                ),
           onPressed: () {
             if (controller.accountModel!.role == 1) {
               N.toCreateOrder();
-            } else {}
+            } else {
+              N.toSetting();
+            }
           },
         ),
         bottomNavigationBar: BottomAppBar(

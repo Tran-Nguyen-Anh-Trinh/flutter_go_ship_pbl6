@@ -144,37 +144,30 @@ Widget commonTextField(
                 hintText: type.hintText,
                 hintStyle: AppTextStyle.w400s13(ColorName.grayC7c),
                 errorStyle: AppTextStyle.w400s13(ColorName.redFf3, height: 0.7),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 13, vertical: 16),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 13, vertical: 16),
                 enabledBorder: hasBorder
                     ? OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: ColorName.gray838, width: 0.5),
+                        borderSide: const BorderSide(color: ColorName.gray838, width: 0.5),
                         borderRadius: BorderRadius.circular(4.0),
                       )
                     : OutlineInputBorder(
-                        borderSide: const BorderSide(
-                            color: Colors.transparent, width: 0),
+                        borderSide: const BorderSide(color: Colors.transparent, width: 0),
                         borderRadius: BorderRadius.circular(4.0),
                       ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: ColorName.blue007, width: 1),
+                  borderSide: const BorderSide(color: ColorName.blue007, width: 1),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 focusedErrorBorder: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: ColorName.redFf3, width: 1),
+                  borderSide: const BorderSide(color: ColorName.redFf3, width: 1),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 errorBorder: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: ColorName.redFf3, width: 1),
+                  borderSide: const BorderSide(color: ColorName.redFf3, width: 1),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 border: OutlineInputBorder(
-                  borderSide:
-                      const BorderSide(color: ColorName.gray838, width: 0.5),
+                  borderSide: const BorderSide(color: ColorName.gray838, width: 0.5),
                   borderRadius: BorderRadius.circular(4.0),
                 ),
                 suffixIcon: suffixIcon == null
@@ -187,40 +180,36 @@ Widget commonTextField(
                       ),
               ),
               validator: type.validator(),
-              onTap:
-                  formKey?.formBuilderState == null || type.validator() == null
-                      ? null
-                      : () {
-                          final text = ctl.text;
-                          final field = type.field(formKey!.formBuilderState!);
-                          if (type.validator() != null) {
-                            field.validate();
-                            field.reset();
-                            ctl.value = ctl.value.copyWith(
-                              text: text,
-                              selection:
-                                  TextSelection.collapsed(offset: text.length),
-                            );
-                          }
-                          onTap?.call();
-                        },
-              onChanged:
-                  formKey?.formBuilderState == null || type.validator() == null
-                      ? null
-                      : (v) {
-                          final text = ctl.text;
-                          final field = type.field(formKey!.formBuilderState!);
-                          if (type.validator() != null && field.hasError) {
-                            field.validate();
-                            field.reset();
-                            ctl.value = ctl.value.copyWith(
-                              text: text,
-                              selection:
-                                  TextSelection.collapsed(offset: text.length),
-                            );
-                          }
-                          onChanged?.call(v);
-                        },
+              onTap: formKey?.formBuilderState == null || type.validator() == null
+                  ? null
+                  : () {
+                      final text = ctl.text;
+                      final field = type.field(formKey!.formBuilderState!);
+                      if (type.validator() != null) {
+                        field.validate();
+                        field.reset();
+                        ctl.value = ctl.value.copyWith(
+                          text: text,
+                          selection: TextSelection.collapsed(offset: text.length),
+                        );
+                      }
+                      onTap?.call();
+                    },
+              onChanged: formKey?.formBuilderState == null || type.validator() == null
+                  ? null
+                  : (v) {
+                      final text = ctl.text;
+                      final field = type.field(formKey!.formBuilderState!);
+                      if (type.validator() != null && field.hasError) {
+                        field.validate();
+                        field.reset();
+                        ctl.value = ctl.value.copyWith(
+                          text: text,
+                          selection: TextSelection.collapsed(offset: text.length),
+                        );
+                      }
+                      onChanged?.call(v);
+                    },
               onSubmitted: onSubmitted ??
                   (_) {
                     FocusScope.of(context).nextFocus();
@@ -258,8 +247,7 @@ Widget commonDropDown({
           const SizedBox(width: 13),
           Text(
             value ?? title,
-            style: AppTextStyle.w400s11(
-                value != null ? ColorName.black000 : ColorName.gray838),
+            style: AppTextStyle.w400s11(value != null ? ColorName.black000 : ColorName.gray838),
           ),
           const Spacer(),
           const Icon(Icons.keyboard_arrow_down, color: ColorName.black000),
@@ -407,9 +395,7 @@ Widget commonMenu(
               children: [
                 AnimatedPositioned(
                   duration: Duration(milliseconds: duration),
-                  top: startAnimation.value
-                      ? ((space + height) * (index + 1) + top)
-                      : top,
+                  top: startAnimation.value ? ((space + height) * (index + 1) + top) : top,
                   left: left,
                   bottom: bottom,
                   right: right,
@@ -436,9 +422,7 @@ Widget commonMenu(
                 if (items[index].keys.first > 0)
                   AnimatedPositioned(
                     duration: Duration(milliseconds: duration),
-                    top: startAnimation.value
-                        ? ((space + height) * (index + 1) + top)
-                        : top,
+                    top: startAnimation.value ? ((space + height) * (index + 1) + top) : top,
                     left: left,
                     bottom: bottom,
                     right: right,
@@ -490,8 +474,7 @@ Widget commonMenu(
                 ),
                 child: Center(
                   child: startAnimation.value
-                      ? Assets.images.menuIsOpenIcon
-                          .image(height: 18, width: 18)
+                      ? Assets.images.menuIsOpenIcon.image(height: 18, width: 18)
                       : Assets.images.menuIcon.image(height: 18, width: 18),
                 ),
               ),
@@ -585,12 +568,7 @@ Widget commonSearchBar({
 
 @swidget
 Widget radioButonGroup(List<String> data,
-    {String? title,
-    Widget? icon,
-    Function(int)? callBack,
-    int? curentIndex,
-    dynamic money = 0,
-    bool? isLoading}) {
+    {String? title, Widget? icon, Function(int)? callBack, int? curentIndex, dynamic money = 0, bool? isLoading}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -611,6 +589,7 @@ Widget radioButonGroup(List<String> data,
             ],
           ),
           SizedBox(
+            height: 35,
             child: (isLoading ?? false)
                 ? const LoadingWidget(
                     color: ColorName.primaryColor,
@@ -632,7 +611,7 @@ Widget radioButonGroup(List<String> data,
                                 )
                                 .replaceAll(',', '.'),
                             textAlign: TextAlign.center,
-                            style: AppTextStyle.w600s20(ColorName.primaryColor),
+                            style: AppTextStyle.w600s17(ColorName.primaryColor),
                           ),
                           Text(
                             ' đ',
@@ -680,10 +659,8 @@ Widget radioButonGroup(List<String> data,
                 child: Row(
                   children: [
                     curentIndex == index
-                        ? Assets.images.radioButtonChecked
-                            .image(width: 20, color: ColorName.primaryColor)
-                        : Assets.images.radioButtonUncheck
-                            .image(width: 20, color: ColorName.primaryColor),
+                        ? Assets.images.radioButtonChecked.image(width: 20, color: ColorName.primaryColor)
+                        : Assets.images.radioButtonUncheck.image(width: 20, color: ColorName.primaryColor),
                     const SizedBox(width: 5),
                     Expanded(
                       child: Text(
