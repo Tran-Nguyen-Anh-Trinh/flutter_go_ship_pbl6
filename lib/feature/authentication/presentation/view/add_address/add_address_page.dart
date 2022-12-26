@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_go_ship_pbl6/base/presentation/base_app_bar.dart';
-import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/controller/add_address/add_address_controller.dart';
-import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/controller/confirm_shipper/confirm_shipper_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/search/search_page.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
@@ -29,7 +26,7 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
         elevation: 3,
         leading: const CommonBackButton(),
         actions: [
-          if (!controller.isconfirmShipperFlow)
+          if (controller.isSetting)
             CupertinoButton(
               onPressed: () {
                 controller.onTapSave();
@@ -48,7 +45,7 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
           children: [
             Column(
               children: [
-                if (!controller.isconfirmShipperFlow)
+                if (controller.isSetting)
                   Padding(
                       padding: const EdgeInsets.all(16),
                       child: CommonTextField(
@@ -75,8 +72,7 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                         rotateGesturesEnabled: false,
                         mapToolbarEnabled: false,
                         zoomGesturesEnabled: false,
-                        cameraTargetBounds:
-                            CameraTargetBounds(controller.latLngBounds.value),
+                        cameraTargetBounds: CameraTargetBounds(controller.latLngBounds.value),
                         onMapCreated: (GoogleMapController mapController) {
                           controller.mapController.complete(mapController);
                         },
@@ -114,8 +110,7 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                               ],
                             ),
                             child: Center(
-                              child: Assets.images.myLocationIcon
-                                  .image(height: 20, width: 20),
+                              child: Assets.images.myLocationIcon.image(height: 20, width: 20),
                             ),
                           ),
                         ),
@@ -142,8 +137,7 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                               ],
                             ),
                             child: Center(
-                              child: Assets.images.streetViewBlueIcon
-                                  .image(height: 20, width: 20),
+                              child: Assets.images.streetViewBlueIcon.image(height: 20, width: 20),
                             ),
                           ),
                         ),
@@ -158,13 +152,11 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(right: 25),
-                              child:
-                                  Assets.images.upArrowIcon.image(height: 50),
+                              child: Assets.images.upArrowIcon.image(height: 50),
                             ),
                             Container(
                               margin: const EdgeInsets.only(right: 55),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
+                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                               decoration: BoxDecoration(
                                 color: ColorName.primaryColor,
                                 borderRadius: const BorderRadius.all(
@@ -181,8 +173,7 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                               child: Center(
                                 child: Text(
                                   "Sử dụng vị trí hiện tại của bạn",
-                                  style:
-                                      AppTextStyle.w400s11(ColorName.whiteFaf),
+                                  style: AppTextStyle.w400s11(ColorName.whiteFaf),
                                 ),
                               ),
                             ),
@@ -190,16 +181,12 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                         ),
                       ),
                       Padding(
-                        padding:
-                            const EdgeInsets.only(top: 15, left: 45, right: 45),
+                        padding: const EdgeInsets.only(top: 15, left: 45, right: 45),
                         child: CommonSearchBar(
                           onPressed: controller.toSearch,
-                          leading: Assets.images.logoIcon
-                              .image(height: 30, width: 35),
-                          trailing: Assets.images.streetViewRedIcon
-                              .image(height: 25, width: 25),
-                          title: Text("Tìm kiếm ở đây",
-                              style: AppTextStyle.w400s14(ColorName.gray828)),
+                          leading: Assets.images.logoIcon.image(height: 30, width: 35),
+                          trailing: Assets.images.streetViewRedIcon.image(height: 25, width: 25),
+                          title: Text("Tìm kiếm ở đây", style: AppTextStyle.w400s14(ColorName.gray828)),
                         ),
                       ),
                       if (controller.isSearching.value)
@@ -216,8 +203,7 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 15, left: 45, right: 45),
+                                    padding: const EdgeInsets.only(top: 15, left: 45, right: 45),
                                     child: CommonSearchBar(
                                       leftPadding: 10,
                                       rightPadding: 5,
@@ -226,26 +212,21 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                                       },
                                       leading: Container(
                                         padding: const EdgeInsets.all(10),
-                                        child: Assets.images.backIcon.image(
-                                            width: 10,
-                                            color: ColorName.primaryColor),
+                                        child: Assets.images.backIcon.image(width: 10, color: ColorName.primaryColor),
                                       ),
                                       trailingPressed: controller.searchPlace,
                                       trailing: Container(
                                         padding: const EdgeInsets.all(10),
-                                        child: Assets.images.searchIcon
-                                            .image(height: 25, width: 25),
+                                        child: Assets.images.searchIcon.image(height: 25, width: 25),
                                       ),
                                       title: SizedBox(
                                         child: TextField(
                                           onSubmitted: (value) {
                                             controller.searchPlace();
                                           },
-                                          controller: controller
-                                              .searchTextEditingController,
+                                          controller: controller.searchTextEditingController,
                                           autofocus: true,
-                                          style: AppTextStyle.w400s14(
-                                              ColorName.black000),
+                                          style: AppTextStyle.w400s14(ColorName.black000),
                                           showCursor: true,
                                           cursorColor: ColorName.primaryColor,
                                           decoration: const InputDecoration(
@@ -259,69 +240,44 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                                   ),
                                   if (!controller.searchState.value)
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, left: 10, bottom: 15),
+                                      padding: const EdgeInsets.only(top: 15, left: 10, bottom: 15),
                                       child: Text(
-                                        controller.listPosition.isEmpty
-                                            ? 'Không có dữ liệu'
-                                            : 'Kết quả tìm kiếm',
+                                        controller.listPosition.isEmpty ? 'Không có dữ liệu' : 'Kết quả tìm kiếm',
                                         textAlign: TextAlign.left,
-                                        style: AppTextStyle.w600s16(
-                                            ColorName.black000),
+                                        style: AppTextStyle.w600s16(ColorName.black000),
                                       ),
                                     ),
                                   if (!controller.searchState.value)
                                     Expanded(
                                       child: ListView.builder(
                                           padding: EdgeInsets.zero,
-                                          keyboardDismissBehavior:
-                                              ScrollViewKeyboardDismissBehavior
-                                                  .onDrag,
+                                          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                                           itemBuilder: (context, index) {
                                             return GestureDetector(
                                               onTap: () {
                                                 controller.setMarker(
-                                                  controller.listPosition[index]
-                                                      .latLng,
+                                                  controller.listPosition[index].latLng,
                                                   "Go Ship",
                                                   "Selecting",
-                                                  snippet:
-                                                      "Vị trí đã được lựa chọn",
-                                                  onTap: () =>
-                                                      controller.setLocation(
-                                                          latLng: controller
-                                                              .listPosition[
-                                                                  index]
-                                                              .latLng),
+                                                  snippet: "Vị trí đã được lựa chọn",
+                                                  onTap: () => controller.setLocation(
+                                                      latLng: controller.listPosition[index].latLng),
                                                 );
-                                                controller.goToPlace(controller
-                                                    .listPosition[index]
-                                                    .latLng);
+                                                controller.goToPlace(controller.listPosition[index].latLng);
                                               },
                                               child: Container(
-                                                  decoration:
-                                                      const BoxDecoration(
+                                                  decoration: const BoxDecoration(
                                                     border: Border(
-                                                      bottom: BorderSide(
-                                                          width: 0.5,
-                                                          color: ColorName
-                                                              .gray828),
+                                                      bottom: BorderSide(width: 0.5, color: ColorName.gray828),
                                                     ),
                                                   ),
                                                   child: commonSearchItem(
-                                                    controller
-                                                        .listPosition[index]
-                                                        .name,
-                                                    Assets
-                                                        .images.searchPlaceIcon
-                                                        .image(
-                                                            height: 24,
-                                                            width: 24),
+                                                    controller.listPosition[index].name,
+                                                    Assets.images.searchPlaceIcon.image(height: 24, width: 24),
                                                   )),
                                             );
                                           },
-                                          itemCount:
-                                              controller.listPosition.length),
+                                          itemCount: controller.listPosition.length),
                                     ),
                                   if (controller.searchState.value)
                                     const Expanded(
@@ -339,16 +295,16 @@ class AddAddressPage extends BaseWidget<AddAddressController> {
                 ),
               ],
             ),
-             Obx(() => (controller.isLoading.value)
-                  ? Positioned.fill(
-                      child: Container(
-                        color: ColorName.black000.withOpacity(0.6),
-                        child: const LoadingWidget(
-                          color: ColorName.whiteFff,
-                        ),
+            Obx(() => (controller.isLoading.value)
+                ? Positioned.fill(
+                    child: Container(
+                      color: ColorName.black000.withOpacity(0.6),
+                      child: const LoadingWidget(
+                        color: ColorName.whiteFff,
                       ),
-                    )
-                  : const SizedBox.shrink()),
+                    ),
+                  )
+                : const SizedBox.shrink()),
           ],
         ),
       ),

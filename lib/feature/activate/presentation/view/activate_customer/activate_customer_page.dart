@@ -71,15 +71,29 @@ class ActivateCustomerPage extends BaseWidget<ActivateCustomerController> {
                           if (controller.isLoading.value)
                             const Center(
                               child: Padding(
-                                padding: EdgeInsets.only(bottom: 40),
+                                padding: EdgeInsets.only(bottom: 60),
                                 child: LoadingWidget(),
                               ),
                             ),
                           if (!controller.isLoading.value && controller.listOrder.isEmpty)
-                            const Center(
+                            Center(
                               child: Padding(
-                                padding: EdgeInsets.only(bottom: 40),
-                                child: LoadingWidget(),
+                                padding: const EdgeInsets.symmetric(vertical: 100),
+                                child: Column(
+                                  children: [
+                                    Assets.images.emptyHistory.image(width: 150),
+                                    const SizedBox(height: 15),
+                                    Text(
+                                      'Danh sách đang trống',
+                                      style: AppTextStyle.w600s20(ColorName.black222),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      'Bạn có thể tạo mới đơn hàng ngay lúc này!',
+                                      style: AppTextStyle.w400s16(ColorName.black222),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                         ],
@@ -110,7 +124,7 @@ class ActivateCustomerPage extends BaseWidget<ActivateCustomerController> {
                             if (controller.isLoadingOrderWithStatus.value)
                               const Center(
                                 child: Padding(
-                                  padding: EdgeInsets.only(bottom: 40),
+                                  padding: EdgeInsets.only(bottom: 60),
                                   child: LoadingWidget(),
                                 ),
                               ),

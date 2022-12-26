@@ -67,8 +67,8 @@ class N {
     type.navigate(name: AppRoute.confirmShipper);
   }
 
-  static void toAddAddress({RouteType type = RouteType.to}) {
-    type.navigate(name: AppRoute.addAddress);
+  static void toAddAddress({RouteType type = RouteType.to, required bool isSetting}) {
+    type.navigate(name: AppRoute.addAddress, arguments: isSetting);
   }
 
   static void toConfirmShipperCamera({RouteType type = RouteType.to, required TypeCamera typeCamera}) {

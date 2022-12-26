@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
@@ -50,6 +52,7 @@ class TabBarController extends BaseController {
     );
   }
 
+  int count = -1;
   void onListenNotification() async {
     if (accountModel?.phoneNumber != null) {
       var result = await _realtimeDatabase.listenNotification(accountModel?.phoneNumber ?? "");
@@ -71,12 +74,32 @@ class TabBarController extends BaseController {
             }
           }
           AppConfig.listNotification.value = listNotification;
+          if (count != -1 && count < listNotification.length && Platform.isIOS) {
+            Get.closeAllSnackbars();
+            NotificationModel notificationModel = listNotification.first;
+            if (notificationModel.data != null) {
+              PushNotification().showNotification(
+                RemoteNotification(title: notificationModel.title, body: notificationModel.body),
+                RemoteMessage(data: toRemoteMessage(notificationModel.data!)),
+              );
+            }
+          }
+          count = listNotification.length;
+
           AppConfig.badge.value = bagde;
         },
       );
     } else {
       N.toWelcomePage();
     }
+  }
+
+  Map<String, dynamic> toRemoteMessage(OrderDataNotificationModel data) {
+    return {
+      '"type"': data.type ?? -1,
+      '"order_id"': data.orderID,
+      '"time"': data.time,
+    };
   }
 
   void onTabSelected(int index) {

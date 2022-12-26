@@ -31,7 +31,7 @@ class RateOrderRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      'order': orderId,
+      'order_id': orderId,
       'rate': rate,
       'feedback': feedback,
     };

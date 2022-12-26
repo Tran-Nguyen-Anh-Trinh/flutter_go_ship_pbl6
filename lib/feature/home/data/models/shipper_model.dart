@@ -1,4 +1,5 @@
 import 'package:dart_json_mapper/dart_json_mapper.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_model.dart';
 
 @jsonSerializable
 @Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false, name: "data")

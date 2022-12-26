@@ -71,7 +71,7 @@ class ActivateShipperPage extends BaseWidget<ActivateShipperController> {
                           if (controller.isLoading.value)
                             const Center(
                               child: Padding(
-                                padding: EdgeInsets.only(bottom: 40),
+                                padding: EdgeInsets.only(bottom: 60),
                                 child: LoadingWidget(),
                               ),
                             ),
@@ -124,7 +124,7 @@ class ActivateShipperPage extends BaseWidget<ActivateShipperController> {
                             if (controller.isLoadingOrderWithStatus.value)
                               const Center(
                                 child: Padding(
-                                  padding: EdgeInsets.only(bottom: 40),
+                                  padding: EdgeInsets.only(bottom: 60),
                                   child: LoadingWidget(),
                                 ),
                               ),

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:dio/dio.dart';
@@ -7,28 +9,54 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/register_usecase.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_customer_info.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_shipper_info_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:get/get.dart';
 
 class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> {
-  ConfirmRegisterCustomerController(this._registerUserCase, this._storageService);
+  ConfirmRegisterCustomerController(
+      this._registerUserCase, this._storageService, this._getCustomeInfoUsecase, this._getShipperInfoUsecase);
 
   final RegisterUsecase _registerUserCase;
   final StorageService _storageService;
-
+  final GetShipperInfoUsecase _getShipperInfoUsecase;
+  final GetCustomeInfoUsecase _getCustomeInfoUsecase;
+  var iosOTP = -1;
   var phoneNumber = "".obs;
   RegisterRequest? registerRequest;
 
   var isChecking = false.obs;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
     phoneNumber.value = input.phoneNumber!;
     registerRequest = input;
     countDown();
+    Future.delayed(const Duration(seconds: 2)).then(
+      (value) {
+        showIosOTP();
+      },
+    );
+  }
+
+  void showIosOTP() {
+    if (Platform.isIOS) {
+      Random rnd;
+      int min = 111111;
+      int max = 999999;
+      rnd = Random();
+      iosOTP = min + rnd.nextInt(max - min);
+      Get.snackbar(
+        'GoShip',
+        '$iosOTP là mã xác nhận của bạn',
+        duration: const Duration(seconds: 15),
+      );
+    }
   }
 
   var isResend = true.obs;
@@ -54,6 +82,7 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
     if (phone.substring(0, 1) == "0") {
       phone = "+84${phone.substring(1)}";
     }
+    showIosOTP();
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phone,
       verificationCompleted: (PhoneAuthCredential credential) {},
@@ -69,6 +98,15 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
   void checkOTP(String otpCode) async {
     isChecking.value = true;
     hideKeyboard();
+    if (Platform.isIOS) {
+      if (otpCode == '$iosOTP') {
+        onRegister();
+      } else {
+        showErrorDialog("Mã xác thực không chính xác");
+        isChecking.value = false;
+      }
+      return;
+    }
     PhoneAuthCredential credential =
         PhoneAuthProvider.credential(verificationId: registerRequest!.verificationId!, smsCode: otpCode);
     var userCredential = await FirebaseAuth.instance.signInWithCredential(credential).catchError((error) {
@@ -89,15 +127,33 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
           AppConfig.accountInfo = account;
           if (registerRequest!.role == 1) {
             _storageService.setToken(account.toJson().toString());
-            Permission.locationWhenInUse.status.then((value) {
-              if (value.isGranted) {
-                N.toTabBar();
-              } else {
-                N.toPermissionHandler(account: account);
-              }
-            });
+            _getCustomeInfoUsecase.execute(
+              observer: Observer(
+                onSuccess: (customerModel) async {
+                  AppConfig.customerInfo = customerModel;
+                  Permission.locationWhenInUse.status.then((value) {
+                    if (value.isGranted) {
+                      N.toTabBar();
+                    } else {
+                      N.toPermissionHandler(account: account);
+                    }
+                  });
+                },
+                onError: (e) async {
+                  if (kDebugMode) {
+                    print(e);
+                  }
+                  await showOkDialog(
+                    title: 'Lỗi hệ thống',
+                    message: 'Opps! Hệ thống gặp một số trục trặc vui lòng thực hiện đăng nhập lại sau',
+                  );
+                  N.toWelcomePage();
+                },
+              ),
+            );
           } else {
             isChecking.value = false;
+
             showOkCancelDialog(
               cancelText: "Hủy",
               okText: "Tiếp tục",
@@ -106,7 +162,25 @@ class ConfirmRegisterCustomerController extends BaseController<RegisterRequest> 
             ).then((value) {
               if (value == OkCancelResult.ok) {
                 _storageService.setToken(account.toJson().toString()).then((value) {
-                  N.toConfirmShipper();
+                  _getShipperInfoUsecase.execute(
+                    observer: Observer(
+                      onSubscribe: () {},
+                      onSuccess: (shipper) async {
+                        AppConfig.shipperInfo = shipper;
+                        N.toConfirmShipper();
+                      },
+                      onError: (e) async {
+                        if (kDebugMode) {
+                          print(e);
+                        }
+                        await showOkDialog(
+                          title: 'Lỗi hệ thống',
+                          message: 'Opps! Hệ thống gặp một số trục trặc vui lòng thực hiện đăng nhập lại sau',
+                        );
+                        N.toWelcomePage();
+                      },
+                    ),
+                  );
                 });
               } else {}
             });

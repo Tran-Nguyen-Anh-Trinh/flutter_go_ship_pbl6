@@ -64,7 +64,11 @@ class _CameraWidgetState extends State<CameraWidget> with WidgetsBindingObserver
     if (widget.style == TypeCamera.frontCCCD || widget.style == TypeCamera.backsideCCCD) {
       onNewCameraSelected(widget.cameras.first);
     } else if (widget.style == TypeCamera.face) {
-      onNewCameraSelected(widget.cameras.last);
+      try {
+        onNewCameraSelected(widget.cameras[1]);
+      } catch (_) {
+        onNewCameraSelected(widget.cameras.last);
+      }
     }
     WidgetsBinding.instance.addObserver(this);
   }
