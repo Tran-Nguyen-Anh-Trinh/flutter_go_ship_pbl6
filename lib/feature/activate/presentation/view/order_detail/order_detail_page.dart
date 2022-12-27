@@ -236,17 +236,27 @@ class OrderDetailPage extends BaseWidget<OrderDetailController> {
                             child: Row(
                               children: [
                                 const SizedBox(width: 25),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    height: 45,
-                                    width: 45,
-                                    imageUrl: controller.typeOrder.value == TypeOrderDetail.shipper
-                                        ? controller.orderModel.value.customer?.avatarUrl ?? ""
-                                        : controller.shipperInfo.value.avatarUrl ?? "",
-                                    placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) => Assets.images.profileIcon.image(width: 45),
+                                CupertinoButton(
+                                  onPressed: () {
+                                    if (controller.typeOrder.value != TypeOrderDetail.shipper) {
+                                      if (controller.orderModel.value.shipper != null) {
+                                        N.toShipperDetail(shipperID: '${controller.orderModel.value.shipper}');
+                                      }
+                                    }
+                                  },
+                                  padding: EdgeInsets.zero,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.cover,
+                                      height: 45,
+                                      width: 45,
+                                      imageUrl: controller.typeOrder.value == TypeOrderDetail.shipper
+                                          ? controller.orderModel.value.customer?.avatarUrl ?? ""
+                                          : controller.shipperInfo.value.avatarUrl ?? "",
+                                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) => Assets.images.profileIcon.image(width: 45),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),

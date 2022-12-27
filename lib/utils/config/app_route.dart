@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_bindings.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/tab_bar/tab_bar_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/activate/presentation/controller/rating_shipper/rating_shipper_controller.dart';
@@ -27,6 +28,8 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/presentation/view/we
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_detail/chat_detail_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/view_media/view_media_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/view_media/view_media_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/become_shipper/become_shipper_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/become_shipper/become_shipper_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/change_password/change_password_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/change_password/change_password_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/create_order/create_order_bindings.dart';
@@ -45,11 +48,14 @@ import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting/sett
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting/setting_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting_system/setting_system_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/setting_system/setting_system_page.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/shipper_detail/shipper_detail_bindings.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/presentation/view/shipper_detail/shipper_detail_page.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_detail/chat_detail_page.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_home/chat_home_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/chat/presentation/view/chat_home/chat_home_page.dart';
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:get/route_manager.dart';
 
 import '../../../feature/authentication/presentation/view/demo/demo_bindings.dart';
@@ -85,6 +91,8 @@ class AppRoute {
   static String orderDetailShipper = '/orderDetailShipper';
   static String notification = '/notification';
   static String ratingShipper = '/ratingShipper';
+  static String shipperDetail = '/shipperDetail';
+  static String becomeShipper = '/becomeShipper';
 
   static List<GetPage> generateGetPages = [
     GetPage(
@@ -249,5 +257,51 @@ class AppRoute {
       binding: RatingShipperBindings(),
       transition: Transition.cupertino,
     ),
+    GetPage(
+      name: shipperDetail,
+      page: ShipperDetailPage.new,
+      binding: ShipperDetailBindings(),
+      customTransition: CustomAppTransition(),
+    ),
+    GetPage(
+      name: becomeShipper,
+      page: BecomeShipperPage.new,
+      binding: BecomeShipperBindings(),
+      transition: Transition.cupertino,
+    ),
   ];
+}
+
+class CustomAppTransition extends CustomTransition {
+  @override
+  Widget buildTransition(
+    BuildContext context,
+    Curve? curve,
+    Alignment? alignment,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    //In flow PF80 -> SB10 -> TB10: use fade in when go to TB10
+    final isFromUpgradeProfileFlow = Get.arguments == true;
+
+    if (Get.currentRoute == AppRoute.createOrder || Get.previousRoute == AppRoute.shipperDetail) {
+      return SlideDownTransition().buildTransitions(
+        context,
+        curve,
+        alignment,
+        animation,
+        secondaryAnimation,
+        child,
+      );
+    }
+
+    //use Cupertino for other case
+    return CupertinoPageTransition(
+      primaryRouteAnimation: animation,
+      secondaryRouteAnimation: secondaryAnimation,
+      linearTransition: false,
+      child: child,
+    );
+  }
 }

@@ -12,6 +12,7 @@ class CreateOrderRequest {
   String? imgOrder;
   int? payment;
   int? category;
+  String? shipper;
 
   CreateOrderRequest(
     this.addressStart,
@@ -21,20 +22,34 @@ class CreateOrderRequest {
     this.customerNotes,
     this.imgOrder,
     this.payment,
-    this.category,
-  );
+    this.category, {
+    this.shipper,
+  });
 
   Map<String, dynamic> toJson() {
-    return {
-      'address_start': addressStart?.toJsonNonID(),
-      'address_end': addressEnd?.toJsonNonID(),
-      'description': description,
-      'distance': distance,
-      'customer_notes': customerNotes,
-      'img_order': imgOrder,
-      'payment': payment,
-      'category': category,
-      "status": 1,
-    };
+    if (shipper != null) {
+      return {
+        'address_start': addressStart?.toJsonNonID(),
+        'address_end': addressEnd?.toJsonNonID(),
+        'description': description,
+        'distance': distance,
+        'customer_notes': customerNotes,
+        'img_order': imgOrder,
+        'payment': payment,
+        'category': category,
+        'shipper': shipper,
+      };
+    } else {
+      return {
+        'address_start': addressStart?.toJsonNonID(),
+        'address_end': addressEnd?.toJsonNonID(),
+        'description': description,
+        'distance': distance,
+        'customer_notes': customerNotes,
+        'img_order': imgOrder,
+        'payment': payment,
+        'category': category,
+      };
+    }
   }
 }

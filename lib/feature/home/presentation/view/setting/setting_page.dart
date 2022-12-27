@@ -212,7 +212,9 @@ class SettingPage extends BaseWidget<SettingController> {
                         settingItem(
                           title: "Lái xe cùng Go Ship",
                           leading: Assets.images.bikeIcon.image(scale: 3),
-                          onPressed: () {},
+                          onPressed: () {
+                            N.toBecomeShipper();
+                          },
                         ),
                       ],
                     ),

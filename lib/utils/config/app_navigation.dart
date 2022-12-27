@@ -79,8 +79,8 @@ class N {
     type.navigate(name: AppRoute.statusConfirm, arguments: isDeny);
   }
 
-  static void toCreateOrder({RouteType type = RouteType.to}) {
-    type.navigate(name: AppRoute.createOrder);
+  static void toCreateOrder({RouteType type = RouteType.to, String? shipperID}) {
+    type.navigate(name: AppRoute.createOrder, arguments: shipperID);
   }
 
   static void toOrderAddress({RouteType type = RouteType.to, required isStartAddress}) {
@@ -113,5 +113,13 @@ class N {
 
   static void toRatingShipper({RouteType type = RouteType.offAndTo, required RateInput rateInput}) {
     type.navigate(name: AppRoute.ratingShipper, arguments: rateInput);
+  }
+
+  static void toShipperDetail({RouteType type = RouteType.to, required String shipperID}) {
+    type.navigate(name: AppRoute.shipperDetail, arguments: shipperID);
+  }
+
+  static void toBecomeShipper({RouteType type = RouteType.to}) {
+    type.navigate(name: AppRoute.becomeShipper);
   }
 }

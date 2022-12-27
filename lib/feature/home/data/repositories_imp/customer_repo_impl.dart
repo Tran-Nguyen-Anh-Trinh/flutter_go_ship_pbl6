@@ -2,6 +2,7 @@ import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/category_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/customer_info_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_order_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_rate_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/payment_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/price_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/rate_model.dart';
@@ -78,5 +79,10 @@ class CustomerRepoImpl implements CustomerRepo {
   @override
   Future<RateModel> getRateOrderDetail(int orderID) {
     return _customerAPI.getRateOrderDetail(orderID);
+  }
+
+  @override
+  Future<ListRateModel> getShipperRatesWithID(int shipperID) {
+    return _customerAPI.getShipperRatesWithID(shipperID);
   }
 }

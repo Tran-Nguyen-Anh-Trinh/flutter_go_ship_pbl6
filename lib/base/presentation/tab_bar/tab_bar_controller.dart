@@ -96,9 +96,9 @@ class TabBarController extends BaseController {
 
   Map<String, dynamic> toRemoteMessage(OrderDataNotificationModel data) {
     return {
-      '"type"': data.type ?? -1,
-      '"order_id"': data.orderID,
-      '"time"': data.time,
+      'type': '${data.type ?? -1}',
+      'order_id': data.orderID,
+      'time': data.time,
     };
   }
 

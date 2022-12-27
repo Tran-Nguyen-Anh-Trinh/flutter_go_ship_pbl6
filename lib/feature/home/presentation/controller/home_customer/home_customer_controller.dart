@@ -74,6 +74,7 @@ class HomeCustomerController extends BaseController {
                 shipperLocation.phoneNumber!,
                 markerIcon: shipperMakerIcon,
                 snippet: "Tài xế Go Ship",
+                id: '${shipperLocation.id}',
               );
             } catch (e) {
               if (kDebugMode) {
@@ -218,22 +219,28 @@ class HomeCustomerController extends BaseController {
     String name, {
     BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker,
     String? snippet,
+    String? id,
   }) {
     // test
     setMarkerIcon();
     //
     final marker = Marker(
       consumeTapEvents: false,
-      markerId: MarkerId(name),
+      markerId: MarkerId(id ?? name),
       position: latLng,
       icon: markerIcon,
       infoWindow: InfoWindow(
         title: name,
         snippet: snippet ?? 'Vị trí hiện tại của bạn',
+        onTap: () {
+          if (id != null) {
+            N.toShipperDetail(shipperID: id);
+          }
+        },
       ),
     );
 
-    markers[MarkerId(name)] = marker;
+    markers[MarkerId(id ?? name)] = marker;
     markers.refresh();
   }
 
