@@ -57,13 +57,13 @@ class ActivateCustomerController extends BaseController {
 
   void onRefresh() async {
     currentPage.value = 1;
+    listOrder.clear();
     isLoading.value = true;
     _getOrdersUsecase.execute(
       observer: Observer(
         onSuccess: (result) async {
           var orders = result.orders?.map((order) => OrderModel.fromJson(order)).toList() ?? [];
           totalPage = result.numPages ?? 1;
-          listOrder.clear();
           listOrder.addAll(orders);
           refreshController.refreshCompleted();
           isLoading.value = false;

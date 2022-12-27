@@ -15,6 +15,8 @@ import '../../config/app_text_style.dart';
 class PushNotification {
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 
+  AudioPlayer player = AudioPlayer();
+
   final AndroidNotificationChannel channel = const AndroidNotificationChannel(
     'high_importance_channel',
     'High Importance Notifications',
@@ -50,60 +52,12 @@ class PushNotification {
       badge: true,
       sound: true,
     );
-    AudioPlayer player = AudioPlayer();
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) async {
         RemoteNotification? notification = message.notification;
 
         if (notification != null) {
-          String audioasset = "sound/notification.mp3";
-          await player.play(AssetSource(audioasset), volume: 1);
-          var type = 0;
-          if (message.data["type"] != null) {
-            type = int.parse(message.data["type"]);
-          }
-          Get.snackbar(
-            notification.title ?? "",
-            notification.body ?? "",
-            titleText: Text(
-              notification.title ?? "",
-              style: AppTextStyle.w600s15(ColorName.black000),
-            ),
-            messageText: Text(
-              notification.body ?? "",
-              style: AppTextStyle.w400s12(ColorName.gray4f4),
-            ),
-            margin: const EdgeInsets.symmetric(vertical: 90, horizontal: 25),
-            duration: const Duration(seconds: 10),
-            animationDuration: const Duration(milliseconds: 600),
-            icon: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Assets.images.goShipMoto.image(width: 25),
-            ),
-            backgroundGradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.1, 0.9],
-              colors: [ColorName.whiteFff, ColorName.primaryColor],
-            ),
-            backgroundColor: ColorName.whiteFff,
-            overlayBlur: 0,
-            barBlur: 1,
-            boxShadows: [
-              BoxShadow(
-                color: ColorName.black000.withOpacity(0.6),
-                offset: const Offset(8, 8),
-                blurRadius: 24,
-              ),
-            ],
-            snackStyle: SnackStyle.FLOATING,
-            dismissDirection: DismissDirection.up,
-            onTap: (snack) {
-              Get.closeAllSnackbars();
-
-              notificationNavigate(message, type);
-            },
-          );
+          showNotification(notification, message);
         }
       },
     );
@@ -133,7 +87,60 @@ class PushNotification {
     });
   }
 
+  void showNotification(RemoteNotification notification, RemoteMessage message) async {
+    String audioasset = "sound/notification.mp3";
+    await player.play(AssetSource(audioasset), volume: 1);
+    var type = -1;
+    if (message.data["type"] != null) {
+      type = int.parse(message.data["type"]);
+    }
+    Get.snackbar(
+      notification.title ?? "",
+      notification.body ?? "",
+      titleText: Text(
+        notification.title ?? "",
+        style: AppTextStyle.w600s15(ColorName.black000),
+      ),
+      messageText: Text(
+        notification.body ?? "",
+        style: AppTextStyle.w400s12(ColorName.gray4f4),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 90, horizontal: 25),
+      duration: const Duration(seconds: 10),
+      animationDuration: const Duration(milliseconds: 600),
+      icon: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Assets.images.goShipMoto.image(width: 25),
+      ),
+      backgroundGradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [0.1, 0.9],
+        colors: [ColorName.whiteFff, ColorName.primaryColor],
+      ),
+      backgroundColor: ColorName.whiteFff,
+      overlayBlur: 0,
+      barBlur: 1,
+      boxShadows: [
+        BoxShadow(
+          color: ColorName.black000.withOpacity(0.6),
+          offset: const Offset(8, 8),
+          blurRadius: 24,
+        ),
+      ],
+      snackStyle: SnackStyle.FLOATING,
+      dismissDirection: DismissDirection.up,
+      onTap: (snack) {
+        Get.closeAllSnackbars();
+        notificationNavigate(message, type);
+      },
+    );
+  }
+
   void notificationNavigate(RemoteMessage message, int type) {
+    if (type == -1) {
+      return;
+    }
     if (message.data["order_id"] != null && message.data["time"] != null) {
       switch (type) {
         case 1:

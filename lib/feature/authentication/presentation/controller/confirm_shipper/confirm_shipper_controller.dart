@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,9 +42,6 @@ class ConfirmShipperController extends BaseController {
   String get _note => noteTextEditingController.text;
   String get _name => nameTextEditingController.text;
 
-  String get latitude => shipper.value.address!.latitude ?? "";
-  String get longitude => shipper.value.address!.longitude ?? "";
-
   final isDisableButton = true.obs;
   final ignoringPointer = false.obs;
   final errorMessage = ''.obs;
@@ -87,7 +82,7 @@ class ConfirmShipperController extends BaseController {
   void onNextPage1(BuildContext context) {
     hideErrorMessage();
     try {
-      if (latitude.isEmpty || longitude.isEmpty) {
+      if ((shipper.value.address?.latitude ?? "").isEmpty || (shipper.value.address?.longitude ?? "").isEmpty) {
         addressNull.value = true;
         isDisableButton.value = true;
       }
@@ -111,7 +106,7 @@ class ConfirmShipperController extends BaseController {
         return;
       }
 
-      if (latitude.isEmpty || longitude.isEmpty) {
+      if ((shipper.value.address?.latitude ?? "").isEmpty || (shipper.value.address?.longitude ?? "").isEmpty) {
         return;
       }
       if (confirmState.isLoading) return;
@@ -156,7 +151,7 @@ class ConfirmShipperController extends BaseController {
     Permission.locationWhenInUse.status.then(
       (status) {
         if (status == PermissionStatus.granted) {
-          N.toAddAddress();
+          N.toAddAddress(isSetting: false);
         }
       },
     );

@@ -115,13 +115,14 @@ class SettingPage extends BaseWidget<SettingController> {
                       ],
                     ),
                   ),
-                  settingItem(
-                    title: "Địa chỉ đã lưu",
-                    leading: Assets.images.addressIcon.image(scale: 3),
-                    onPressed: () {
-                      N.toAddAddress();
-                    },
-                  ),
+                  if (controller.accountInfo.value.role == 1)
+                    settingItem(
+                      title: "Địa chỉ đã lưu",
+                      leading: Assets.images.addressIcon.image(scale: 3),
+                      onPressed: () {
+                        N.toAddAddress(isSetting: true);
+                      },
+                    ),
                   settingItem(
                     title: "Khoảng cách hiển thị",
                     leading: Assets.images.distanceIcon.image(scale: 3),

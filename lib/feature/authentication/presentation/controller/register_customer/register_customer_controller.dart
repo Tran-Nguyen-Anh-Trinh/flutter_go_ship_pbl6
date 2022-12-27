@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,6 +103,19 @@ class RegisterCustomerController extends BaseController<int> {
               phone = "+84${phone.substring(1)}";
             }
             print(phone);
+            if (Platform.isIOS) {
+              N.toConfirmRegisterCustomer(
+                registerRequest: RegisterRequest(
+                  _phone.trim(),
+                  _password.trim(),
+                  input,
+                  verificationId: 'testIOS',
+                ),
+              );
+              ignoringPointer.value = false;
+              registerState.onSuccess();
+              return;
+            }
             await FirebaseAuth.instance.verifyPhoneNumber(
               phoneNumber: phone,
               verificationCompleted: (PhoneAuthCredential credential) {},

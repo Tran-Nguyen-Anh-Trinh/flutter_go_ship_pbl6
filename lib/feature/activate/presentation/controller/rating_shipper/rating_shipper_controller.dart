@@ -43,9 +43,13 @@ class RatingShipperController extends BaseController<RateInput> {
     _getRateOrderUsecase.execute(
       observer: Observer(
         onSuccess: (rateDetail) {
-          isViewOnly.value = true;
-          rate.value = rateDetail.rate ?? 5;
-          noteTextEditingController.text = rateDetail.feedback ?? "";
+          try {
+            rate.value = rateDetail.rate!;
+            noteTextEditingController.text = rateDetail.feedback!;
+            isViewOnly.value = true;
+          } catch (e) {
+            rate.value = 5;
+          }
           isLoading.value = false;
         },
         onError: (_) {
