@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_category_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_order_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_payment_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_rate_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/price_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/rate_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
@@ -55,4 +56,7 @@ abstract class CustomerAPI {
 
   @GET('shipper/{shipper_id}/info/')
   Future<ShipperModel> getShipperInfoWithID(@Path("shipper_id") id);
+
+   @GET('shipper/{shipper_id}/list-rate-detail/')
+  Future<ListRateModel> getShipperRatesWithID(@Path("shipper_id") id);
 }

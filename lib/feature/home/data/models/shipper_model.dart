@@ -4,7 +4,7 @@ import 'package:flutter_go_ship_pbl6/feature/authentication/data/models/account_
 @jsonSerializable
 @Json(caseStyle: CaseStyle.snake, ignoreNullMembers: false, name: "data")
 class ShipperModel {
-  dynamic? account;
+  dynamic account;
   String? name;
   int? gender;
   String? avatarUrl;

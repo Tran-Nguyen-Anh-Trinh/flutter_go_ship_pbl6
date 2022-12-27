@@ -29,7 +29,7 @@ import 'package:flutter_go_ship_pbl6/utils/services/storage_service.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateOrderController extends BaseController {
+class CreateOrderController extends BaseController<String?> {
   CreateOrderController(
     this._categoryUsecase,
     this._getPaymentUsecase,
@@ -52,6 +52,7 @@ class CreateOrderController extends BaseController {
 
   var startAddress = AddressModel().obs;
   var endAddress = AddressModel().obs;
+  String? shipperID;
 
   RxList<CategoryModel> listCategory = RxList<CategoryModel>.empty();
   RxList<PaymentModel> listPayment = RxList<PaymentModel>.empty();
@@ -73,6 +74,7 @@ class CreateOrderController extends BaseController {
   void onInit() {
     super.onInit();
     loadData();
+    shipperID = input;
     scrollController.addListener(() {
       if (scrollController.position.pixels > 10) {
         backgroundColor.value = ColorName.backgroundColor;
@@ -287,6 +289,7 @@ class CreateOrderController extends BaseController {
   }
 
   void createOrder() async {
+    hideKeyboard();
     if (startAddress.value.addressNotes == null || endAddress.value.addressNotes == null) {
       Get.closeAllSnackbars();
       Get.snackbar(
@@ -437,6 +440,17 @@ class CreateOrderController extends BaseController {
           );
         },
         onError: (e) async {
+          print(CreateOrderRequest(
+            startAddress.value,
+            endAddress.value,
+            detailOrderTextEditingController.text.trim(),
+            distance.value,
+            noteOrderTextEditingController.text.trim().isNotEmpty ? noteOrderTextEditingController.text.trim() : null,
+            url,
+            listPayment[indexPayment.value].id,
+            listCategory[indexCategory.value].id,
+            shipper: shipperID,
+          ).toJson());
           if (e is DioError) {
             if (kDebugMode) {
               print(e);
@@ -490,6 +504,7 @@ class CreateOrderController extends BaseController {
         url,
         listPayment[indexPayment.value].id,
         listCategory[indexCategory.value].id,
+        shipper: shipperID,
       ),
     );
   }

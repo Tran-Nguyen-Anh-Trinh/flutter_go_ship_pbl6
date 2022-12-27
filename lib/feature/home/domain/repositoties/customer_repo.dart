@@ -1,6 +1,7 @@
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/category_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/customer_info_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_order_model.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/data/models/list_rate_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/payment_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/price_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/rate_model.dart';
@@ -23,4 +24,6 @@ abstract class CustomerRepo {
   Future<void> confirmOrder(StatusOrderRequest request);
   Future<void> rateOrder(RateOrderRequest request);
   Future<RateModel> getRateOrderDetail(int orderID);
+  Future<ListRateModel> getShipperRatesWithID(int shipperID);
+
 }

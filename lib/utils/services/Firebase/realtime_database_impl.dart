@@ -139,8 +139,9 @@ class RealtimeDatabaseImpl implements RealtimeDatabase {
   }
 
   @override
-  Future<void> updateLoaction(String phoneNumber, LatLng latLng) async {
+  Future<void> updateLoaction(String phoneNumber, LatLng latLng, int id) async {
     _reference = _instance.ref();
+    await _reference.child("location").child(phoneNumber).child("id").set(id);
     await _reference.child("location").child(phoneNumber).child("latitude").set(latLng.latitude);
     await _reference.child("location").child(phoneNumber).child("longitude").set(latLng.longitude);
   }
