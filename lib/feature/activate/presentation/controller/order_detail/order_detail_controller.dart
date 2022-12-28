@@ -15,6 +15,7 @@ import 'package:flutter_go_ship_pbl6/feature/home/data/models/order_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/shipper_model.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/providers/remote/request/receive_order_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/customer_confirm_done_order_usecase.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/delete_order_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_order_detail_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_shipper_with_id_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/receive_order_usecase.dart';
@@ -40,12 +41,15 @@ class OrderDetailController extends BaseController<OrderDetailInput> {
     this._realtimeDatabase,
     this._getShipperInfoWithIdUsecase,
     this._confirmDonerOrderUsecase,
+    this._deleteOrderUsecase,
   );
 
   final GetOrderDetailUsecase _getOrderDetailUsecase;
   final RealtimeDatabase _realtimeDatabase;
   final ReceiveOrderUsecase _receiveOrderUsecase;
   final GetShipperInfoWithIdUsecase _getShipperInfoWithIdUsecase;
+  final DeleteOrderUsecase _deleteOrderUsecase;
+
   final Completer<GoogleMapController> mapController = Completer();
   GoogleMapAPI googleMapAPI = GoogleMapAPI();
   late InforUser? inforUSer;
@@ -100,8 +104,8 @@ class OrderDetailController extends BaseController<OrderDetailInput> {
             input.notificationID,
           );
 
-          inforUSer = await _realtimeDatabase.getUserByPhone(
-              orderModel.value.customer?.account?.phoneNumber ?? '0343440509');
+          inforUSer =
+              await _realtimeDatabase.getUserByPhone(orderModel.value.customer?.account?.phoneNumber ?? '0343440509');
         }),
         onError: (error) async {
           if (error is DioError) {
@@ -218,8 +222,7 @@ class OrderDetailController extends BaseController<OrderDetailInput> {
           polylines.values.first.points.first.longitude,
         ),
         "Điểm xuất phát",
-        snippet:
-            orderModel.value.addressStart?.addressNotes ?? "Vị trí nhận hàng",
+        snippet: orderModel.value.addressStart?.addressNotes ?? "Vị trí nhận hàng",
         markerIcon: startMarkerIcon,
       );
       setMarker(
@@ -228,8 +231,7 @@ class OrderDetailController extends BaseController<OrderDetailInput> {
           polylines.values.first.points.last.longitude,
         ),
         "Điểm đến",
-        snippet:
-            orderModel.value.addressEnd?.addressNotes ?? "Vị trí giao hàng",
+        snippet: orderModel.value.addressEnd?.addressNotes ?? "Vị trí giao hàng",
         markerIcon: endMarkerIcon,
       );
 
@@ -294,8 +296,7 @@ class OrderDetailController extends BaseController<OrderDetailInput> {
           fit: BoxFit.cover,
           imageUrl: AppConfig.shipperInfo.avatarUrl ?? '',
           placeholder: (context, url) => const CircularProgressIndicator(),
-          errorWidget: (context, url, error) =>
-              Assets.images.profileIcon.image(height: 35, width: 35),
+          errorWidget: (context, url, error) => Assets.images.profileIcon.image(height: 35, width: 35),
         ),
       ),
     )
@@ -445,8 +446,7 @@ class OrderDetailController extends BaseController<OrderDetailInput> {
               message: "Vui lòng liên hệ khách hàng để xác nhận đơn hàng!",
             );
             await launchUrl(
-              Uri.parse(
-                  'tel:${orderModel.value.customer?.account?.phoneNumber ?? "0384933379"}'),
+              Uri.parse('tel:${orderModel.value.customer?.account?.phoneNumber ?? "0384933379"}'),
             );
             Get.find<HomeShipperController>().mapDirectionsModel(
               orderModel.value.id,
@@ -653,6 +653,40 @@ class OrderDetailController extends BaseController<OrderDetailInput> {
             }
           }
         },
+      );
+    }
+  }
+
+  void onDeleteOrder() {
+    loadState.value = true;
+    if (orderModel.value.id != null) {
+      _deleteOrderUsecase.execute(
+        observer: Observer(
+          onSuccess: (_) async {
+            await showOkDialog(
+              title: 'Huỷ đơn thành công',
+              message: 'Đơn hàng đã được huỷ thành công',
+            );
+            back();
+          },
+          onError: (e) {
+            if (kDebugMode) {
+              print(e);
+            }
+            loadState.value = false;
+            showOkDialog(
+              title: 'Yêu cầu huỷ đơn thất bại',
+              message: 'Hiện tại không thể thực hiện huỷ đơn vui lòng thử lại sau',
+            );
+          },
+        ),
+        input: orderModel.value.id!,
+      );
+    } else {
+      loadState.value = false;
+      showOkDialog(
+        title: 'Yêu cầu huỷ đơn thất bại',
+        message: 'Hiện tại không thể thực hiện huỷ đơn vui lòng thử lại sau',
       );
     }
   }

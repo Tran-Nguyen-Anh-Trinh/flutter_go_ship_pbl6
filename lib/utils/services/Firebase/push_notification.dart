@@ -153,12 +153,32 @@ class PushNotification {
             ),
           );
           break;
+        case 7:
+          N.toOrderDetail(
+            orderDetailInput: OrderDetailInput(
+              message.data["order_id"].toString(),
+              message.data["time"].toString(),
+              isRealtimeNotification: true,
+              typeOrderDetail: TypeOrderDetail.shipper,
+            ),
+          );
+          break;
+        case 8:
+          N.toOrderDetail(
+            orderDetailInput: OrderDetailInput(
+              message.data["order_id"].toString(),
+              message.data["time"].toString(),
+              isRealtimeNotification: true,
+              typeOrderDetail: TypeOrderDetail.shipper,
+            ),
+          );
+          break;
         case 6:
           N.toOrderDetail(
             orderDetailInput: OrderDetailInput(
               message.data["order_id"].toString(),
               message.data["time"].toString(),
-              isRealtimeNotification: false,
+              isRealtimeNotification: true,
               typeOrderDetail: TypeOrderDetail.shipper,
             ),
           );
@@ -168,7 +188,7 @@ class PushNotification {
             orderDetailInput: OrderDetailInput(
               message.data["order_id"].toString(),
               message.data["time"].toString(),
-              isRealtimeNotification: false,
+              isRealtimeNotification: true,
               typeOrderDetail: TypeOrderDetail.customerRating,
             ),
           );
@@ -178,7 +198,7 @@ class PushNotification {
             orderDetailInput: OrderDetailInput(
               message.data["order_id"].toString(),
               message.data["time"].toString(),
-              isRealtimeNotification: false,
+              isRealtimeNotification: true,
               typeOrderDetail: TypeOrderDetail.customer,
             ),
           );

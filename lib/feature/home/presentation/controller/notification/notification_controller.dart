@@ -1,11 +1,16 @@
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/activate/presentation/view/order_detail/order_detail_bindings.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/data/models/notification_model.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 
 class NotificationController extends BaseController {
   void toDetail(NotificationModel notification) {
-    if (notification.data?.type == 1 || notification.data?.type == 6) {
+    if (notification.data?.type == 1 ||
+        notification.data?.type == 6 ||
+        notification.data?.type == 7 ||
+        notification.data?.type == 8 ||
+        AppConfig.accountInfo.role == 2) {
       N.toOrderDetail(
         orderDetailInput: OrderDetailInput(
           "${notification.data?.orderID}",

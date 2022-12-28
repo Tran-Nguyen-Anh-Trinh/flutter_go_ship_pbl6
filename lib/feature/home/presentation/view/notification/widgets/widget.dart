@@ -86,6 +86,23 @@ Widget notificationWidget({
                           ),
                         ),
                       ),
+                    if (notification.data?.type == 4)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.redEb5,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Huỷ đơn',
+                            style: AppTextStyle.w400s10(ColorName.whiteFff),
+                          ),
+                        ),
+                      ),
                     if (notification.data?.type == 5)
                       Container(
                         decoration: BoxDecoration(
@@ -98,7 +115,7 @@ Widget notificationWidget({
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Text(
-                            'Xác nhận đơn hàng',
+                            'Yêu cầu xác nhận',
                             style: AppTextStyle.w400s10(ColorName.whiteFff),
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -116,6 +133,38 @@ Widget notificationWidget({
                             'Xác nhận đơn hàng',
                             style: AppTextStyle.w500s12(ColorName.whiteFff),
                             overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    if (notification.data?.type == 7)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.successColor,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Đánh giá',
+                            style: AppTextStyle.w500s12(ColorName.whiteFff),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    if (notification.data?.type == 8)
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorName.redEb5,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Text(
+                            'Huỷ đơn',
+                            style: AppTextStyle.w400s10(ColorName.whiteFff),
                           ),
                         ),
                       ),

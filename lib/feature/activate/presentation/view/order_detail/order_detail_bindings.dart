@@ -1,5 +1,6 @@
 import 'package:flutter_go_ship_pbl6/feature/activate/presentation/controller/order_detail/order_detail_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/customer_confirm_done_order_usecase.dart';
+import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/delete_order_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_order_detail_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/get_shipper_with_id_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/domain/usecases/receive_order_usecase.dart';
@@ -12,7 +13,9 @@ class OrderDetailBindings implements Bindings {
     Get.lazyPut(() => ReceiveOrderUsecase(Get.find()));
     Get.lazyPut(() => GetShipperInfoWithIdUsecase(Get.find()));
     Get.lazyPut(() => CustomerConfirmDonerOrderUsecase(Get.find()));
+    Get.lazyPut(() => DeleteOrderUsecase(Get.find()));
     Get.put(OrderDetailController(
+      Get.find(),
       Get.find(),
       Get.find(),
       Get.find(),

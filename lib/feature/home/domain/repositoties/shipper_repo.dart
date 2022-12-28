@@ -12,4 +12,5 @@ abstract class ShipperRepo {
   // Future<void> confirmDoneOrder(StatusOrderRequest request);
   Future<ShipperModel?> updateShipperInfo(ShipperRequest request);
   Future<void> requestConfirmDoneOrder(StatusOrderRequest request);
+  Future<void> deleteOrder(int request);
 }
