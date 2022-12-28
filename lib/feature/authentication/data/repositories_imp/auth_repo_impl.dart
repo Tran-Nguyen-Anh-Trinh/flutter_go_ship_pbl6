@@ -41,4 +41,9 @@ class AuthRepoImpl implements AuthRepo {
   Future<void> updateTokenDevice(UpdateTokenDeviceRequest request) {
     return _authAPI.updateTokenDevice(request);
   }
+
+  @override
+  Future<void> checkUser(String request) {
+    return _authAPI.checkUser(request);
+  }
 }

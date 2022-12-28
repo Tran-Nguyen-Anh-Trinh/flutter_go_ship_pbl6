@@ -101,7 +101,9 @@ class ProfilePage extends BaseWidget<ProfileController> {
                                     height: 70,
                                     width: 70,
                                     fit: BoxFit.cover,
-                                    imageUrl: AppConfig.customerInfo.avatarUrl ?? '',
+                                    imageUrl: controller.accountInfo.role == 1
+                                        ? controller.customerInfo.avatarUrl ?? ''
+                                        : controller.shipperInfo.avatarUrl ?? '',
                                     placeholder: (context, url) => const CircularProgressIndicator(),
                                     errorWidget: (context, url, error) =>
                                         Assets.images.profileIcon.image(height: 70, width: 70),
@@ -129,6 +131,7 @@ class ProfilePage extends BaseWidget<ProfileController> {
                           children: [
                             const SizedBox(height: 20),
                             CommonTextField(
+                              isEnable: controller.accountInfo.role == 1 ? true : false,
                               formKey: controller.formKey,
                               type: FormFieldType.name,
                               maxLength: 35,

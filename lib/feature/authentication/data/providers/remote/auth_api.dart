@@ -32,4 +32,7 @@ abstract class AuthAPI {
   
   @PATCH('/user/update-device-token/')
   Future<void> updateTokenDevice(@Body() UpdateTokenDeviceRequest request);
+
+  @GET('/user/check/')
+  Future<void> checkUser(@Query('phone_number') String request);
 }

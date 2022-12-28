@@ -123,6 +123,14 @@ class SettingPage extends BaseWidget<SettingController> {
                         N.toAddAddress(isSetting: true);
                       },
                     ),
+                  if (controller.accountInfo.value.role == 2 && controller.shipperInfo.value.account != null)
+                    settingItem(
+                      title: "Đánh giá từ người dùng",
+                      leading: Assets.images.phoneIcon.image(width: 22, color: ColorName.gray828),
+                      onPressed: () {
+                        N.toShipperDetail(shipperID: '${controller.shipperInfo.value.account!}');
+                      },
+                    ),
                   settingItem(
                     title: "Khoảng cách hiển thị",
                     leading: Assets.images.distanceIcon.image(scale: 3),
@@ -131,7 +139,8 @@ class SettingPage extends BaseWidget<SettingController> {
                         context: context,
                         builder: (context) => Obx(
                           () => SelectDistance(
-                            value: '${controller.customerInfo.value.distanceView ?? 10} km',
+                            value:
+                                '${controller.accountInfo.value.role == 1 ? controller.customerInfo.value.distanceView ?? 10 : controller.shipperInfo.value.distanceReceive ?? 10} km',
                             callBack: (value) {
                               controller.onSaveDistanceView(value);
                             },

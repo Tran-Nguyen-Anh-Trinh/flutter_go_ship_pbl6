@@ -234,41 +234,10 @@ class AddAddressController extends BaseController<bool> {
   }
 
   void onTapSave() {
-    isLoading.value = true;
-    if (saveLocation != null) {
-      _updateCustomerInfoUsecase.execute(
-        observer: Observer(onSuccess: (account) {
-          isLoading.value = false;
-          showOkDialog(message: "Cập nhật thành công").then((value) {
-            if (value == OkCancelResult.ok) {
-              back();
-            }
-          });
-          if (account != null) {
-            AppConfig.customerInfo = account;
-          }
-        }, onError: () {
-          isLoading.value = false;
-          showOkDialog(message: "Opps! Có lỗi xảy ra");
-        }),
-        input: CustomerRequest(
-          name: AppConfig.customerInfo.name,
-          address: AddressModel(
-            id: AppConfig.customerInfo.address?.id,
-            addressNotes: noteTextEditingController.text.trim() != ''
-                ? noteTextEditingController.text.trim()
-                : AppConfig.customerInfo.address?.addressNotes,
-            latitude: saveLocation?.latitude.toString(),
-            longitude: saveLocation?.longitude.toString(),
-          ),
-          avatarUrl: AppConfig.customerInfo.avatarUrl,
-          birthDate: AppConfig.customerInfo.birthDate,
-          distanceView: AppConfig.customerInfo.distanceView,
-          gender: AppConfig.customerInfo.gender,
-        ),
-      );
-    } else {
-      if (noteTextEditingController.text.trim().isNotEmpty) {
+    hideKeyboard();
+    if (noteTextEditingController.text.trim().isNotEmpty) {
+      isLoading.value = true;
+      if (saveLocation != null) {
         _updateCustomerInfoUsecase.execute(
           observer: Observer(onSuccess: (account) {
             isLoading.value = false;
@@ -288,11 +257,9 @@ class AddAddressController extends BaseController<bool> {
             name: AppConfig.customerInfo.name,
             address: AddressModel(
               id: AppConfig.customerInfo.address?.id,
-              addressNotes: noteTextEditingController.text.trim() != ''
-                  ? noteTextEditingController.text.trim()
-                  : AppConfig.customerInfo.address?.addressNotes,
-              latitude: AppConfig.customerInfo.address?.latitude,
-              longitude: AppConfig.customerInfo.address?.longitude,
+              addressNotes: noteTextEditingController.text.trim(),
+              latitude: saveLocation?.latitude.toString(),
+              longitude: saveLocation?.longitude.toString(),
             ),
             avatarUrl: AppConfig.customerInfo.avatarUrl,
             birthDate: AppConfig.customerInfo.birthDate,
@@ -301,8 +268,45 @@ class AddAddressController extends BaseController<bool> {
           ),
         );
       } else {
-        showOkDialog(message: 'Vui lòng chọn vị trí của bạn');
+        if (noteTextEditingController.text.trim().isNotEmpty) {
+          _updateCustomerInfoUsecase.execute(
+            observer: Observer(onSuccess: (account) {
+              isLoading.value = false;
+              showOkDialog(message: "Cập nhật thành công").then((value) {
+                if (value == OkCancelResult.ok) {
+                  back();
+                }
+              });
+              if (account != null) {
+                AppConfig.customerInfo = account;
+              }
+            }, onError: () {
+              isLoading.value = false;
+              showOkDialog(message: "Opps! Có lỗi xảy ra");
+            }),
+            input: CustomerRequest(
+              name: AppConfig.customerInfo.name,
+              address: AddressModel(
+                id: AppConfig.customerInfo.address?.id,
+                addressNotes: noteTextEditingController.text.trim(),
+                latitude: AppConfig.customerInfo.address?.latitude,
+                longitude: AppConfig.customerInfo.address?.longitude,
+              ),
+              avatarUrl: AppConfig.customerInfo.avatarUrl,
+              birthDate: AppConfig.customerInfo.birthDate,
+              distanceView: AppConfig.customerInfo.distanceView,
+              gender: AppConfig.customerInfo.gender,
+            ),
+          );
+        } else {
+          showOkDialog(message: 'Vui lòng chọn vị trí của bạn');
+        }
       }
+    } else {
+      showOkDialog(
+        title: 'Cập nhật vị trí thất bại',
+        message: 'Vui lòng điền mô tả địa chỉ của bạn',
+      );
     }
   }
 

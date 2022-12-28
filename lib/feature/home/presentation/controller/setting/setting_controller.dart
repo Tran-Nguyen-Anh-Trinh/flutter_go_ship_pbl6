@@ -49,6 +49,7 @@ class SettingController extends BaseController {
       _getCustomeInfoUsecase.execute(
         observer: Observer(
           onSuccess: (customerModel) {
+            print(customerModel.toJson());
             AppConfig.customerInfo = customerModel;
             customerInfo.value = customerModel;
             refreshController.refreshCompleted();
@@ -62,6 +63,7 @@ class SettingController extends BaseController {
       _getShipperInfoUsecase.execute(
         observer: Observer(
           onSuccess: (shipper) {
+            print(shipperInfo.toJson());
             AppConfig.shipperInfo = shipper;
             shipperInfo.value = shipper;
             refreshController.refreshCompleted();
@@ -93,10 +95,11 @@ class SettingController extends BaseController {
     if (accountInfo.value.role == 1) {
       _updateCustomerInfoUsecase.execute(
         observer: Observer(
-          onSuccess: (account) {
-            if (account != null) {
-              AppConfig.customerInfo = account;
-              customerInfo.value = account;
+          onSuccess: (customer) {
+            if (customer != null) {
+              AppConfig.customerInfo = customer;
+              customerInfo.value = customer;
+              print(customer.toJson());
             }
           },
         ),
@@ -112,10 +115,11 @@ class SettingController extends BaseController {
     } else {
       _updateShipperInfoUsecase.execute(
         observer: Observer(
-          onSuccess: (account) {
-            if (account != null) {
-              AppConfig.shipperInfo = account;
-              shipperInfo.value = account;
+          onSuccess: (shipper) {
+            if (shipper != null) {
+              AppConfig.shipperInfo = shipper;
+              shipperInfo.value = shipper;
+              print(shipper.toJson());
             }
           },
         ),
@@ -141,10 +145,8 @@ class SettingController extends BaseController {
           observer: Observer(
             onSuccess: (_) async {
               await _storageService.removeToken();
-              await CachedNetworkImage.evictFromCache(
-                  customerInfo.value.avatarUrl ?? "");
-              await CachedNetworkImage.evictFromCache(
-                  shipperInfo.value.avatarUrl ?? "");
+              await CachedNetworkImage.evictFromCache(customerInfo.value.avatarUrl ?? "");
+              await CachedNetworkImage.evictFromCache(shipperInfo.value.avatarUrl ?? "");
               AppConfig.accountInfo = AccountModel();
               AppConfig.customerInfo = CustomerModel();
               AppConfig.shipperInfo = ShipperModel();
@@ -154,8 +156,7 @@ class SettingController extends BaseController {
             },
             onError: (e) {
               showOkDialog(
-                message:
-                    "Hệ thống gặp một số trục trặc, vui lòng thực hiện lại sau vài giây",
+                message: "Hệ thống gặp một số trục trặc, vui lòng thực hiện lại sau vài giây",
                 title: "Đăng xuất thất bại",
               );
               refreshController.refreshCompleted();

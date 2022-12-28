@@ -4,6 +4,7 @@ import 'package:flutter_go_ship_pbl6/base/presentation/base_app_bar.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_widget.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/widgets/common.dart';
 import 'package:flutter_go_ship_pbl6/feature/home/presentation/controller/shipper_detail/shipper_detail_controller.dart';
+import 'package:flutter_go_ship_pbl6/utils/config/app_config.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_text_style.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/assets.gen.dart';
 import 'package:flutter_go_ship_pbl6/utils/gen/colors.gen.dart';
@@ -30,7 +31,7 @@ class ShipperDetailPage extends BaseWidget<ShipperDetailController> {
         children: [
           Scaffold(
             appBar: BaseAppBar(
-              title: const Text('Thông tin tài xế'),
+              title: Text(AppConfig.accountInfo.role == 1 ? 'Thông tin tài xế' : 'Đánh giá từ người dùng'),
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -86,18 +87,19 @@ class ShipperDetailPage extends BaseWidget<ShipperDetailController> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: CommonButton(
-                      onPressed: () {
-                        controller.createOrder();
-                      },
-                      child: Text(
-                        'Tạo đơn với tài xế này',
-                        style: AppTextStyle.w500s15(ColorName.whiteFff),
+                  if (AppConfig.accountInfo.role == 1)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      child: CommonButton(
+                        onPressed: () {
+                          controller.createOrder();
+                        },
+                        child: Text(
+                          'Tạo đơn với tài xế này',
+                          style: AppTextStyle.w500s15(ColorName.whiteFff),
+                        ),
                       ),
                     ),
-                  ),
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
@@ -141,7 +143,7 @@ class ShipperDetailPage extends BaseWidget<ShipperDetailController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Icon(
                           Icons.sentiment_very_satisfied,
@@ -150,8 +152,12 @@ class ShipperDetailPage extends BaseWidget<ShipperDetailController> {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          'Tất cả đánh giá',
-                          style: AppTextStyle.w600s17(ColorName.black000),
+                          'Tất cả đánh giá: ',
+                          style: AppTextStyle.w400s17(ColorName.black000),
+                        ),
+                        Text(
+                          '${controller.rateMean.value.toString()} ${controller.rateMean.value >= 4 ? '🤩' : controller.rateMean.value >= 3 ? '😍' : '😡'} ',
+                          style: AppTextStyle.w600s17(ColorName.black222),
                         ),
                       ],
                     ),
@@ -159,7 +165,7 @@ class ShipperDetailPage extends BaseWidget<ShipperDetailController> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: RatingBar.builder(
-                      initialRating: controller.rateMean.value.toDouble(),
+                      initialRating: controller.rateMean.value.floorToDouble(),
                       itemCount: 5,
                       minRating: 1,
                       ignoreGestures: true,

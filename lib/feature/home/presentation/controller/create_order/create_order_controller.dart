@@ -454,7 +454,7 @@ class CreateOrderController extends BaseController<String?> {
           if (e is DioError) {
             if (kDebugMode) {
               print(e);
-              print('===${e.response!.data["detail"].toString()}====');
+              print('===${e.response?.data["detail"].toString()}====');
             }
             if (e.response!.statusCode == 403) {
               var account = AppConfig.accountInfo;
@@ -490,6 +490,12 @@ class CreateOrderController extends BaseController<String?> {
                 input: TokenRequest(account.refreshToken, account.accessToken),
               );
             } else {
+              createState.value = false;
+              await showOkDialog(
+                title: 'Tạo đơn hàng thất bại',
+                message: 'Không thể tạo mới đơn hàng ngay lúc này vui lòng thực hiện lại sau',
+              );
+              back();
               return;
             }
           }

@@ -24,7 +24,7 @@ abstract class ShipperAPI {
   @PATCH('/order/order-delivery/')
   Future<void> deliveryOrder(@Body() StatusOrderRequest request);
 
-  @PUT('/shipper/update/')
+  @PATCH('/shipper/update/')
   Future<ShipperModel?> updateShipperInfo(@Body() ShipperRequest request);
   
   @GET('/order/request-confirm-done/')

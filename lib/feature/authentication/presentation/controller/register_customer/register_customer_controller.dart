@@ -8,14 +8,15 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_go_ship_pbl6/base/presentation/base_controller.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/phone_password_request.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/data/providers/remote/request/register_request%20.dart';
+import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/check_user_usecase.dart';
 import 'package:flutter_go_ship_pbl6/feature/authentication/domain/usecases/login_usecase.dart';
 import 'package:flutter_go_ship_pbl6/utils/config/app_navigation.dart';
 import 'package:flutter_go_ship_pbl6/utils/extension/form_builder.dart';
 
 class RegisterCustomerController extends BaseController<int> {
-  RegisterCustomerController(this._loginUsecase);
+  RegisterCustomerController(this._checkUserUsecase);
 
-  final LoginUsecase _loginUsecase;
+  final CheckUserUsecase _checkUserUsecase;
 
   final phoneTextEditingController = TextEditingController();
   final passwordTextEditingController = TextEditingController();
@@ -84,8 +85,8 @@ class RegisterCustomerController extends BaseController<int> {
       }
 
       if (registerState.isLoading) return;
-
-      _loginUsecase.execute(
+      print(_phone.trim());
+      _checkUserUsecase.execute(
         observer: Observer(
           onSubscribe: () {
             registerState.onLoading();
@@ -98,6 +99,10 @@ class RegisterCustomerController extends BaseController<int> {
             _showToastMessage("Số điện thoại này đã tồn tại.");
           },
           onError: (e) async {
+            if (kDebugMode) {
+              print(e.response?.data['detail'].toString());
+              print(e);
+            }
             String phone = _phone.trim();
             if (phone.substring(0, 1) == "0") {
               phone = "+84${phone.substring(1)}";
@@ -141,7 +146,7 @@ class RegisterCustomerController extends BaseController<int> {
             );
           },
         ),
-        input: PhonePasswordRequest(_phone.trim(), _password.trim()),
+        input: _phone.trim(),
       );
     } on Exception catch (e) {
       isDisableButton.value = true;
