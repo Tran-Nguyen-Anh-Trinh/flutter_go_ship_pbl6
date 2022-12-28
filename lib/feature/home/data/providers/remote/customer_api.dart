@@ -48,7 +48,7 @@ abstract class CustomerAPI {
   @GET('/customer/detail/')
   Future<CustomerModel> getCustomerInfo();
 
-  @PUT('/customer/detail/')
+  @PATCH('/customer/detail/')
   Future<CustomerModel?> updateCustomerInfo(@Body() CustomerRequest request);
 
   @GET('/distance/get_price/')

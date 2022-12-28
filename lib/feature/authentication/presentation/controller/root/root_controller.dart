@@ -117,7 +117,7 @@ class RootController extends BaseController {
               },
               onError: (e) async {
                 if (kDebugMode) {
-                  print(e.response!.data['detail'].toString());
+                  print(e.response?.data['detail'].toString());
                   print(e);
                 }
                 if (e is DioError) {

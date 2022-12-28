@@ -33,7 +33,7 @@ class ShipperDetailController extends BaseController<String> {
             observer: Observer(
               onSuccess: (listRate) {
                 loadingState.value = false;
-                rateMean.value = listRate.mean ?? 1;
+                rateMean.value = listRate.mean ?? 5;
                 for (var rate in listRate.rates ?? []) {
                   rates.add(RateModel.fromJson(rate));
                 }
