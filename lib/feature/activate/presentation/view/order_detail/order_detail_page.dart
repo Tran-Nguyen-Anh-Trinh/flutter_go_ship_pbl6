@@ -714,6 +714,25 @@ class OrderDetailPage extends BaseWidget<OrderDetailController> {
                                     const SizedBox(width: 20),
                                   ],
                                 ),
+                                const SizedBox(height: 15),
+                                if ((controller.typeOrder.value == TypeOrderDetail.shipper &&
+                                        (controller.orderModel.value.status?.id ?? 1) == 2) ||
+                                    ((controller.typeOrder.value != TypeOrderDetail.shipper &&
+                                        ((controller.orderModel.value.status?.id ?? 1) == 2 ||
+                                            (controller.orderModel.value.status?.id ?? 1) == 1))))
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    child: CommonButton(
+                                      onPressed: () {
+                                        controller.onDeleteOrder();
+                                      },
+                                      fillColor: ColorName.redEb5,
+                                      child: Text(
+                                        'Huỷ đơn',
+                                        style: AppTextStyle.w500s17(ColorName.whiteFff),
+                                      ),
+                                    ),
+                                  ),
                                 const SizedBox(height: 25),
                               ],
                             ),

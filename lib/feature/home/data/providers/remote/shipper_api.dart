@@ -29,4 +29,7 @@ abstract class ShipperAPI {
   
   @GET('/order/request-confirm-done/')
   Future<void> confirmDoneOrder(@Query("order_id") int? request);
+
+  @DELETE('/order/')
+  Future<void> deleteOrder(@Query("order_id") int? request);
 }
